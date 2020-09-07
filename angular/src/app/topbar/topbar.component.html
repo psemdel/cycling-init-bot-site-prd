@@ -1,0 +1,28 @@
+<header>
+  <mat-toolbar color="primary">
+          <div>
+              <app-menu></app-menu>
+          </div>
+          <div class="middle">
+               <a mat-button routerLink="home" role="button" routerLinkActive="active"><h1>Cycling Init Bot</h1></a>
+          </div>
+          
+         <div *ngIf="!currentUser">
+              <a mat-raised-button color="primary" routerLink="login" role="button" routerLinkActive="active">
+                  login</a>
+              <a mat-raised-button color="primary" routerLink="register" role="button" routerLinkActive="active">
+                  register</a>
+         </div>
+        
+         <div *ngIf="currentUser">
+             <ul>
+                 <li *ngIf="nb_started_routines!=0" class="rq">
+                 <p><small>Requests:  </small><span class="rq"> {{nb_completed_routines}}/{{nb_started_routines}}</span></p>  
+                 </li>       
+                 <li>
+                 <app-menu-pers></app-menu-pers>
+                 </li>
+             </ul>
+         </div>
+  </mat-toolbar>
+</header>

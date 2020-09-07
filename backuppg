@@ -1,0 +1,2278 @@
+--
+-- PostgreSQL database cluster dump
+--
+
+SET default_transaction_read_only = off;
+
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+
+--
+-- Roles
+--
+
+CREATE ROLE postgres;
+ALTER ROLE postgres WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION BYPASSRLS;
+CREATE ROLE psemdel;
+ALTER ROLE psemdel WITH SUPERUSER INHERIT NOCREATEROLE CREATEDB LOGIN NOREPLICATION NOBYPASSRLS PASSWORD 'md5b452f4e7a757f25923a83e8bda46344f';
+ALTER ROLE psemdel SET client_encoding TO 'utf8';
+ALTER ROLE psemdel SET default_transaction_isolation TO 'read committed';
+ALTER ROLE psemdel SET "TimeZone" TO 'UTC';
+
+
+
+
+
+
+--
+-- Database creation
+--
+
+CREATE DATABASE pgcyclingdb WITH TEMPLATE = template0 OWNER = postgres;
+GRANT ALL ON DATABASE pgcyclingdb TO psemdel;
+REVOKE CONNECT,TEMPORARY ON DATABASE template1 FROM PUBLIC;
+GRANT CONNECT ON DATABASE template1 TO PUBLIC;
+
+
+\connect pgcyclingdb
+
+SET default_transaction_read_only = off;
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.12 (Ubuntu 10.12-0ubuntu0.18.04.1)
+-- Dumped by pg_dump version 10.12 (Ubuntu 10.12-0ubuntu0.18.04.1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: psemdel
+--
+
+CREATE TABLE public.auth_group (
+    id integer NOT NULL,
+    name character varying(150) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO psemdel;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: psemdel
+--
+
+CREATE SEQUENCE public.auth_group_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO psemdel;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: psemdel
+--
+
+ALTER SEQUENCE public.auth_group_id_seq OWNED BY public.auth_group.id;
+
+
+--
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: psemdel
+--
+
+CREATE TABLE public.auth_group_permissions (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO psemdel;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: psemdel
+--
+
+CREATE SEQUENCE public.auth_group_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO psemdel;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: psemdel
+--
+
+ALTER SEQUENCE public.auth_group_permissions_id_seq OWNED BY public.auth_group_permissions.id;
+
+
+--
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: psemdel
+--
+
+CREATE TABLE public.auth_permission (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO psemdel;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: psemdel
+--
+
+CREATE SEQUENCE public.auth_permission_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO psemdel;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: psemdel
+--
+
+ALTER SEQUENCE public.auth_permission_id_seq OWNED BY public.auth_permission.id;
+
+
+--
+-- Name: auth_user; Type: TABLE; Schema: public; Owner: psemdel
+--
+
+CREATE TABLE public.auth_user (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone,
+    is_superuser boolean NOT NULL,
+    username character varying(150) NOT NULL,
+    first_name character varying(30) NOT NULL,
+    last_name character varying(150) NOT NULL,
+    email character varying(254) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    date_joined timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.auth_user OWNER TO psemdel;
+
+--
+-- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: psemdel
+--
+
+CREATE TABLE public.auth_user_groups (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_groups OWNER TO psemdel;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: psemdel
+--
+
+CREATE SEQUENCE public.auth_user_groups_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_groups_id_seq OWNER TO psemdel;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: psemdel
+--
+
+ALTER SEQUENCE public.auth_user_groups_id_seq OWNED BY public.auth_user_groups.id;
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: psemdel
+--
+
+CREATE SEQUENCE public.auth_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_id_seq OWNER TO psemdel;
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: psemdel
+--
+
+ALTER SEQUENCE public.auth_user_id_seq OWNED BY public.auth_user.id;
+
+
+--
+-- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: psemdel
+--
+
+CREATE TABLE public.auth_user_user_permissions (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_user_permissions OWNER TO psemdel;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: psemdel
+--
+
+CREATE SEQUENCE public.auth_user_user_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_user_permissions_id_seq OWNER TO psemdel;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: psemdel
+--
+
+ALTER SEQUENCE public.auth_user_user_permissions_id_seq OWNED BY public.auth_user_user_permissions.id;
+
+
+--
+-- Name: authtoken_token; Type: TABLE; Schema: public; Owner: psemdel
+--
+
+CREATE TABLE public.authtoken_token (
+    key character varying(40) NOT NULL,
+    created timestamp with time zone NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public.authtoken_token OWNER TO psemdel;
+
+--
+-- Name: bot_requests_createriderrequest; Type: TABLE; Schema: public; Owner: psemdel
+--
+
+CREATE TABLE public.bot_requests_createriderrequest (
+    id integer NOT NULL,
+    entry_time timestamp with time zone NOT NULL,
+    process_start_time timestamp with time zone,
+    process_end_time timestamp with time zone,
+    status character varying(70) NOT NULL,
+    routine character varying(100) NOT NULL,
+    item_id character varying(70) NOT NULL,
+    nationality character varying(3) NOT NULL,
+    name character varying(70) NOT NULL,
+    gender character varying(5) NOT NULL,
+    author_id integer NOT NULL
+);
+
+
+ALTER TABLE public.bot_requests_createriderrequest OWNER TO psemdel;
+
+--
+-- Name: bot_requests_createriderrequest_id_seq; Type: SEQUENCE; Schema: public; Owner: psemdel
+--
+
+CREATE SEQUENCE public.bot_requests_createriderrequest_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.bot_requests_createriderrequest_id_seq OWNER TO psemdel;
+
+--
+-- Name: bot_requests_createriderrequest_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: psemdel
+--
+
+ALTER SEQUENCE public.bot_requests_createriderrequest_id_seq OWNED BY public.bot_requests_createriderrequest.id;
+
+
+--
+-- Name: bot_requests_importclassificationrequest; Type: TABLE; Schema: public; Owner: psemdel
+--
+
+CREATE TABLE public.bot_requests_importclassificationrequest (
+    id integer NOT NULL,
+    entry_time timestamp with time zone NOT NULL,
+    process_start_time timestamp with time zone,
+    process_end_time timestamp with time zone,
+    status character varying(70) NOT NULL,
+    routine character varying(100) NOT NULL,
+    item_id character varying(70) NOT NULL,
+    classification_type integer NOT NULL,
+    result_file_name character varying(100) NOT NULL,
+    author_id integer NOT NULL
+);
+
+
+ALTER TABLE public.bot_requests_importclassificationrequest OWNER TO psemdel;
+
+--
+-- Name: bot_requests_importclassificationrequest_id_seq; Type: SEQUENCE; Schema: public; Owner: psemdel
+--
+
+CREATE SEQUENCE public.bot_requests_importclassificationrequest_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.bot_requests_importclassificationrequest_id_seq OWNER TO psemdel;
+
+--
+-- Name: bot_requests_importclassificationrequest_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: psemdel
+--
+
+ALTER SEQUENCE public.bot_requests_importclassificationrequest_id_seq OWNED BY public.bot_requests_importclassificationrequest.id;
+
+
+--
+-- Name: bot_requests_nationalallchampsrequest; Type: TABLE; Schema: public; Owner: psemdel
+--
+
+CREATE TABLE public.bot_requests_nationalallchampsrequest (
+    id integer NOT NULL,
+    entry_time timestamp with time zone NOT NULL,
+    process_start_time timestamp with time zone,
+    process_end_time timestamp with time zone,
+    status character varying(70) NOT NULL,
+    routine character varying(100) NOT NULL,
+    item_id character varying(70) NOT NULL,
+    year integer NOT NULL,
+    author_id integer NOT NULL
+);
+
+
+ALTER TABLE public.bot_requests_nationalallchampsrequest OWNER TO psemdel;
+
+--
+-- Name: bot_requests_nationalallchampsrequest_id_seq; Type: SEQUENCE; Schema: public; Owner: psemdel
+--
+
+CREATE SEQUENCE public.bot_requests_nationalallchampsrequest_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.bot_requests_nationalallchampsrequest_id_seq OWNER TO psemdel;
+
+--
+-- Name: bot_requests_nationalallchampsrequest_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: psemdel
+--
+
+ALTER SEQUENCE public.bot_requests_nationalallchampsrequest_id_seq OWNED BY public.bot_requests_nationalallchampsrequest.id;
+
+
+--
+-- Name: bot_requests_nationalonechamprequest; Type: TABLE; Schema: public; Owner: psemdel
+--
+
+CREATE TABLE public.bot_requests_nationalonechamprequest (
+    id integer NOT NULL,
+    entry_time timestamp with time zone NOT NULL,
+    process_start_time timestamp with time zone,
+    process_end_time timestamp with time zone,
+    status character varying(70) NOT NULL,
+    routine character varying(100) NOT NULL,
+    item_id character varying(70) NOT NULL,
+    nationality character varying(3) NOT NULL,
+    year_begin integer NOT NULL,
+    year_end integer NOT NULL,
+    author_id integer NOT NULL,
+    category character varying(10) NOT NULL
+);
+
+
+ALTER TABLE public.bot_requests_nationalonechamprequest OWNER TO psemdel;
+
+--
+-- Name: bot_requests_nationalonechamprequest_id_seq; Type: SEQUENCE; Schema: public; Owner: psemdel
+--
+
+CREATE SEQUENCE public.bot_requests_nationalonechamprequest_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.bot_requests_nationalonechamprequest_id_seq OWNER TO psemdel;
+
+--
+-- Name: bot_requests_nationalonechamprequest_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: psemdel
+--
+
+ALTER SEQUENCE public.bot_requests_nationalonechamprequest_id_seq OWNED BY public.bot_requests_nationalonechamprequest.id;
+
+
+--
+-- Name: bot_requests_racerequest; Type: TABLE; Schema: public; Owner: psemdel
+--
+
+CREATE TABLE public.bot_requests_racerequest (
+    id integer NOT NULL,
+    entry_time timestamp with time zone NOT NULL,
+    process_start_time timestamp with time zone,
+    process_end_time timestamp with time zone,
+    status character varying(70) NOT NULL,
+    routine character varying(100) NOT NULL,
+    item_id character varying(70) NOT NULL,
+    time_of_race timestamp with time zone NOT NULL,
+    end_of_race timestamp with time zone,
+    nationality character varying(3) NOT NULL,
+    race_type boolean NOT NULL,
+    race_class character varying(20) NOT NULL,
+    create_stages boolean NOT NULL,
+    prologue boolean NOT NULL,
+    last_stage integer NOT NULL,
+    edition_nr integer NOT NULL,
+    author_id integer NOT NULL,
+    name character varying(20) NOT NULL
+);
+
+
+ALTER TABLE public.bot_requests_racerequest OWNER TO psemdel;
+
+--
+-- Name: bot_requests_racerequest_id_seq; Type: SEQUENCE; Schema: public; Owner: psemdel
+--
+
+CREATE SEQUENCE public.bot_requests_racerequest_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.bot_requests_racerequest_id_seq OWNER TO psemdel;
+
+--
+-- Name: bot_requests_racerequest_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: psemdel
+--
+
+ALTER SEQUENCE public.bot_requests_racerequest_id_seq OWNED BY public.bot_requests_racerequest.id;
+
+
+--
+-- Name: bot_requests_sortdaterequest; Type: TABLE; Schema: public; Owner: psemdel
+--
+
+CREATE TABLE public.bot_requests_sortdaterequest (
+    id integer NOT NULL,
+    entry_time timestamp with time zone NOT NULL,
+    process_start_time timestamp with time zone,
+    process_end_time timestamp with time zone,
+    status character varying(70) NOT NULL,
+    routine character varying(100) NOT NULL,
+    item_id character varying(70) NOT NULL,
+    prop integer NOT NULL,
+    author_id integer NOT NULL
+);
+
+
+ALTER TABLE public.bot_requests_sortdaterequest OWNER TO psemdel;
+
+--
+-- Name: bot_requests_sortdaterequest_id_seq; Type: SEQUENCE; Schema: public; Owner: psemdel
+--
+
+CREATE SEQUENCE public.bot_requests_sortdaterequest_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.bot_requests_sortdaterequest_id_seq OWNER TO psemdel;
+
+--
+-- Name: bot_requests_sortdaterequest_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: psemdel
+--
+
+ALTER SEQUENCE public.bot_requests_sortdaterequest_id_seq OWNED BY public.bot_requests_sortdaterequest.id;
+
+
+--
+-- Name: bot_requests_sortnamerequest; Type: TABLE; Schema: public; Owner: psemdel
+--
+
+CREATE TABLE public.bot_requests_sortnamerequest (
+    id integer NOT NULL,
+    entry_time timestamp with time zone NOT NULL,
+    process_start_time timestamp with time zone,
+    process_end_time timestamp with time zone,
+    status character varying(70) NOT NULL,
+    routine character varying(100) NOT NULL,
+    item_id character varying(70) NOT NULL,
+    prop integer NOT NULL,
+    author_id integer NOT NULL
+);
+
+
+ALTER TABLE public.bot_requests_sortnamerequest OWNER TO psemdel;
+
+--
+-- Name: bot_requests_sortnamerequest_id_seq; Type: SEQUENCE; Schema: public; Owner: psemdel
+--
+
+CREATE SEQUENCE public.bot_requests_sortnamerequest_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.bot_requests_sortnamerequest_id_seq OWNER TO psemdel;
+
+--
+-- Name: bot_requests_sortnamerequest_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: psemdel
+--
+
+ALTER SEQUENCE public.bot_requests_sortnamerequest_id_seq OWNED BY public.bot_requests_sortnamerequest.id;
+
+
+--
+-- Name: bot_requests_stagesrequest; Type: TABLE; Schema: public; Owner: psemdel
+--
+
+CREATE TABLE public.bot_requests_stagesrequest (
+    id integer NOT NULL,
+    entry_time timestamp with time zone NOT NULL,
+    process_start_time timestamp with time zone,
+    process_end_time timestamp with time zone,
+    status character varying(70) NOT NULL,
+    routine character varying(100) NOT NULL,
+    item_id character varying(70) NOT NULL,
+    prologue boolean NOT NULL,
+    last_stage integer NOT NULL,
+    author_id integer NOT NULL
+);
+
+
+ALTER TABLE public.bot_requests_stagesrequest OWNER TO psemdel;
+
+--
+-- Name: bot_requests_stagesrequest_id_seq; Type: SEQUENCE; Schema: public; Owner: psemdel
+--
+
+CREATE SEQUENCE public.bot_requests_stagesrequest_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.bot_requests_stagesrequest_id_seq OWNER TO psemdel;
+
+--
+-- Name: bot_requests_stagesrequest_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: psemdel
+--
+
+ALTER SEQUENCE public.bot_requests_stagesrequest_id_seq OWNED BY public.bot_requests_stagesrequest.id;
+
+
+--
+-- Name: bot_requests_startlistrequest; Type: TABLE; Schema: public; Owner: psemdel
+--
+
+CREATE TABLE public.bot_requests_startlistrequest (
+    id integer NOT NULL,
+    entry_time timestamp with time zone NOT NULL,
+    process_start_time timestamp with time zone,
+    process_end_time timestamp with time zone,
+    status character varying(70) NOT NULL,
+    routine character varying(100) NOT NULL,
+    item_id character varying(70) NOT NULL,
+    result_file_name character varying(100) NOT NULL,
+    time_of_race timestamp with time zone NOT NULL,
+    race_type boolean NOT NULL,
+    chrono boolean NOT NULL,
+    moment boolean NOT NULL,
+    author_id integer NOT NULL
+);
+
+
+ALTER TABLE public.bot_requests_startlistrequest OWNER TO psemdel;
+
+--
+-- Name: bot_requests_startlistrequest_id_seq; Type: SEQUENCE; Schema: public; Owner: psemdel
+--
+
+CREATE SEQUENCE public.bot_requests_startlistrequest_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.bot_requests_startlistrequest_id_seq OWNER TO psemdel;
+
+--
+-- Name: bot_requests_startlistrequest_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: psemdel
+--
+
+ALTER SEQUENCE public.bot_requests_startlistrequest_id_seq OWNED BY public.bot_requests_startlistrequest.id;
+
+
+--
+-- Name: bot_requests_teamrequest; Type: TABLE; Schema: public; Owner: psemdel
+--
+
+CREATE TABLE public.bot_requests_teamrequest (
+    id integer NOT NULL,
+    entry_time timestamp with time zone NOT NULL,
+    process_start_time timestamp with time zone,
+    process_end_time timestamp with time zone,
+    status character varying(70) NOT NULL,
+    routine character varying(100) NOT NULL,
+    item_id character varying(70) NOT NULL,
+    year integer NOT NULL,
+    nationality character varying(3) NOT NULL,
+    "UCIcode" character varying(3) NOT NULL,
+    author_id integer NOT NULL,
+    name character varying(20) NOT NULL
+);
+
+
+ALTER TABLE public.bot_requests_teamrequest OWNER TO psemdel;
+
+--
+-- Name: bot_requests_teamrequest_id_seq; Type: SEQUENCE; Schema: public; Owner: psemdel
+--
+
+CREATE SEQUENCE public.bot_requests_teamrequest_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.bot_requests_teamrequest_id_seq OWNER TO psemdel;
+
+--
+-- Name: bot_requests_teamrequest_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: psemdel
+--
+
+ALTER SEQUENCE public.bot_requests_teamrequest_id_seq OWNED BY public.bot_requests_teamrequest.id;
+
+
+--
+-- Name: bot_requests_ucirankingrequest; Type: TABLE; Schema: public; Owner: psemdel
+--
+
+CREATE TABLE public.bot_requests_ucirankingrequest (
+    id integer NOT NULL,
+    entry_time timestamp with time zone NOT NULL,
+    process_start_time timestamp with time zone,
+    process_end_time timestamp with time zone,
+    status character varying(70) NOT NULL,
+    routine character varying(100) NOT NULL,
+    item_id character varying(70) NOT NULL,
+    result_file_name character varying(100) NOT NULL,
+    year integer NOT NULL,
+    author_id integer NOT NULL
+);
+
+
+ALTER TABLE public.bot_requests_ucirankingrequest OWNER TO psemdel;
+
+--
+-- Name: bot_requests_ucirankingrequest_id_seq; Type: SEQUENCE; Schema: public; Owner: psemdel
+--
+
+CREATE SEQUENCE public.bot_requests_ucirankingrequest_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.bot_requests_ucirankingrequest_id_seq OWNER TO psemdel;
+
+--
+-- Name: bot_requests_ucirankingrequest_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: psemdel
+--
+
+ALTER SEQUENCE public.bot_requests_ucirankingrequest_id_seq OWNED BY public.bot_requests_ucirankingrequest.id;
+
+
+--
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: psemdel
+--
+
+CREATE TABLE public.django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    content_type_id integer,
+    user_id integer NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO psemdel;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: psemdel
+--
+
+CREATE SEQUENCE public.django_admin_log_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO psemdel;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: psemdel
+--
+
+ALTER SEQUENCE public.django_admin_log_id_seq OWNED BY public.django_admin_log.id;
+
+
+--
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: psemdel
+--
+
+CREATE TABLE public.django_content_type (
+    id integer NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO psemdel;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: psemdel
+--
+
+CREATE SEQUENCE public.django_content_type_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO psemdel;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: psemdel
+--
+
+ALTER SEQUENCE public.django_content_type_id_seq OWNED BY public.django_content_type.id;
+
+
+--
+-- Name: django_migrations; Type: TABLE; Schema: public; Owner: psemdel
+--
+
+CREATE TABLE public.django_migrations (
+    id integer NOT NULL,
+    app character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    applied timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_migrations OWNER TO psemdel;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: psemdel
+--
+
+CREATE SEQUENCE public.django_migrations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_migrations_id_seq OWNER TO psemdel;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: psemdel
+--
+
+ALTER SEQUENCE public.django_migrations_id_seq OWNED BY public.django_migrations.id;
+
+
+--
+-- Name: django_session; Type: TABLE; Schema: public; Owner: psemdel
+--
+
+CREATE TABLE public.django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO psemdel;
+
+--
+-- Name: users_userprofile; Type: TABLE; Schema: public; Owner: psemdel
+--
+
+CREATE TABLE public.users_userprofile (
+    id integer NOT NULL,
+    wiki_name character varying(100) NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public.users_userprofile OWNER TO psemdel;
+
+--
+-- Name: users_userprofile_id_seq; Type: SEQUENCE; Schema: public; Owner: psemdel
+--
+
+CREATE SEQUENCE public.users_userprofile_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_userprofile_id_seq OWNER TO psemdel;
+
+--
+-- Name: users_userprofile_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: psemdel
+--
+
+ALTER SEQUENCE public.users_userprofile_id_seq OWNED BY public.users_userprofile.id;
+
+
+--
+-- Name: auth_group id; Type: DEFAULT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_group ALTER COLUMN id SET DEFAULT nextval('public.auth_group_id_seq'::regclass);
+
+
+--
+-- Name: auth_group_permissions id; Type: DEFAULT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- Name: auth_permission id; Type: DEFAULT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_permission ALTER COLUMN id SET DEFAULT nextval('public.auth_permission_id_seq'::regclass);
+
+
+--
+-- Name: auth_user id; Type: DEFAULT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_user ALTER COLUMN id SET DEFAULT nextval('public.auth_user_id_seq'::regclass);
+
+
+--
+-- Name: auth_user_groups id; Type: DEFAULT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_user_groups ALTER COLUMN id SET DEFAULT nextval('public.auth_user_groups_id_seq'::regclass);
+
+
+--
+-- Name: auth_user_user_permissions id; Type: DEFAULT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_user_user_permissions_id_seq'::regclass);
+
+
+--
+-- Name: bot_requests_createriderrequest id; Type: DEFAULT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_createriderrequest ALTER COLUMN id SET DEFAULT nextval('public.bot_requests_createriderrequest_id_seq'::regclass);
+
+
+--
+-- Name: bot_requests_importclassificationrequest id; Type: DEFAULT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_importclassificationrequest ALTER COLUMN id SET DEFAULT nextval('public.bot_requests_importclassificationrequest_id_seq'::regclass);
+
+
+--
+-- Name: bot_requests_nationalallchampsrequest id; Type: DEFAULT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_nationalallchampsrequest ALTER COLUMN id SET DEFAULT nextval('public.bot_requests_nationalallchampsrequest_id_seq'::regclass);
+
+
+--
+-- Name: bot_requests_nationalonechamprequest id; Type: DEFAULT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_nationalonechamprequest ALTER COLUMN id SET DEFAULT nextval('public.bot_requests_nationalonechamprequest_id_seq'::regclass);
+
+
+--
+-- Name: bot_requests_racerequest id; Type: DEFAULT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_racerequest ALTER COLUMN id SET DEFAULT nextval('public.bot_requests_racerequest_id_seq'::regclass);
+
+
+--
+-- Name: bot_requests_sortdaterequest id; Type: DEFAULT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_sortdaterequest ALTER COLUMN id SET DEFAULT nextval('public.bot_requests_sortdaterequest_id_seq'::regclass);
+
+
+--
+-- Name: bot_requests_sortnamerequest id; Type: DEFAULT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_sortnamerequest ALTER COLUMN id SET DEFAULT nextval('public.bot_requests_sortnamerequest_id_seq'::regclass);
+
+
+--
+-- Name: bot_requests_stagesrequest id; Type: DEFAULT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_stagesrequest ALTER COLUMN id SET DEFAULT nextval('public.bot_requests_stagesrequest_id_seq'::regclass);
+
+
+--
+-- Name: bot_requests_startlistrequest id; Type: DEFAULT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_startlistrequest ALTER COLUMN id SET DEFAULT nextval('public.bot_requests_startlistrequest_id_seq'::regclass);
+
+
+--
+-- Name: bot_requests_teamrequest id; Type: DEFAULT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_teamrequest ALTER COLUMN id SET DEFAULT nextval('public.bot_requests_teamrequest_id_seq'::regclass);
+
+
+--
+-- Name: bot_requests_ucirankingrequest id; Type: DEFAULT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_ucirankingrequest ALTER COLUMN id SET DEFAULT nextval('public.bot_requests_ucirankingrequest_id_seq'::regclass);
+
+
+--
+-- Name: django_admin_log id; Type: DEFAULT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.django_admin_log ALTER COLUMN id SET DEFAULT nextval('public.django_admin_log_id_seq'::regclass);
+
+
+--
+-- Name: django_content_type id; Type: DEFAULT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.django_content_type ALTER COLUMN id SET DEFAULT nextval('public.django_content_type_id_seq'::regclass);
+
+
+--
+-- Name: django_migrations id; Type: DEFAULT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.django_migrations ALTER COLUMN id SET DEFAULT nextval('public.django_migrations_id_seq'::regclass);
+
+
+--
+-- Name: users_userprofile id; Type: DEFAULT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.users_userprofile ALTER COLUMN id SET DEFAULT nextval('public.users_userprofile_id_seq'::regclass);
+
+
+--
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: psemdel
+--
+
+COPY public.auth_group (id, name) FROM stdin;
+1	new_user
+2	autocheck
+\.
+
+
+--
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: psemdel
+--
+
+COPY public.auth_group_permissions (id, group_id, permission_id) FROM stdin;
+1	1	77
+\.
+
+
+--
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: psemdel
+--
+
+COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
+1	Can add log entry	1	add_logentry
+2	Can change log entry	1	change_logentry
+3	Can delete log entry	1	delete_logentry
+4	Can view log entry	1	view_logentry
+5	Can add permission	2	add_permission
+6	Can change permission	2	change_permission
+7	Can delete permission	2	delete_permission
+8	Can view permission	2	view_permission
+9	Can add group	3	add_group
+10	Can change group	3	change_group
+11	Can delete group	3	delete_group
+12	Can view group	3	view_group
+13	Can add user	4	add_user
+14	Can change user	4	change_user
+15	Can delete user	4	delete_user
+16	Can view user	4	view_user
+17	Can add content type	5	add_contenttype
+18	Can change content type	5	change_contenttype
+19	Can delete content type	5	delete_contenttype
+20	Can view content type	5	view_contenttype
+21	Can add session	6	add_session
+22	Can change session	6	change_session
+23	Can delete session	6	delete_session
+24	Can view session	6	view_session
+25	Can add Token	7	add_token
+26	Can change Token	7	change_token
+27	Can delete Token	7	delete_token
+28	Can view Token	7	view_token
+29	Can add create rider request	8	add_createriderrequest
+30	Can change create rider request	8	change_createriderrequest
+31	Can delete create rider request	8	delete_createriderrequest
+32	Can view create rider request	8	view_createriderrequest
+33	Can add user profile	9	add_userprofile
+34	Can change user profile	9	change_userprofile
+35	Can delete user profile	9	delete_userprofile
+36	Can view user profile	9	view_userprofile
+37	Can add import classification request	10	add_importclassificationrequest
+38	Can change import classification request	10	change_importclassificationrequest
+39	Can delete import classification request	10	delete_importclassificationrequest
+40	Can view import classification request	10	view_importclassificationrequest
+41	Can add uc iranking request	11	add_ucirankingrequest
+42	Can change uc iranking request	11	change_ucirankingrequest
+43	Can delete uc iranking request	11	delete_ucirankingrequest
+44	Can view uc iranking request	11	view_ucirankingrequest
+45	Can add team request	12	add_teamrequest
+46	Can change team request	12	change_teamrequest
+47	Can delete team request	12	delete_teamrequest
+48	Can view team request	12	view_teamrequest
+49	Can add start list request	13	add_startlistrequest
+50	Can change start list request	13	change_startlistrequest
+51	Can delete start list request	13	delete_startlistrequest
+52	Can view start list request	13	view_startlistrequest
+53	Can add stages request	14	add_stagesrequest
+54	Can change stages request	14	change_stagesrequest
+55	Can delete stages request	14	delete_stagesrequest
+56	Can view stages request	14	view_stagesrequest
+57	Can add sort name request	15	add_sortnamerequest
+58	Can change sort name request	15	change_sortnamerequest
+59	Can delete sort name request	15	delete_sortnamerequest
+60	Can view sort name request	15	view_sortnamerequest
+61	Can add sort date request	16	add_sortdaterequest
+62	Can change sort date request	16	change_sortdaterequest
+63	Can delete sort date request	16	delete_sortdaterequest
+64	Can view sort date request	16	view_sortdaterequest
+65	Can add race request	17	add_racerequest
+66	Can change race request	17	change_racerequest
+67	Can delete race request	17	delete_racerequest
+68	Can view race request	17	view_racerequest
+69	Can add national one champ request	18	add_nationalonechamprequest
+70	Can change national one champ request	18	change_nationalonechamprequest
+71	Can delete national one champ request	18	delete_nationalonechamprequest
+72	Can view national one champ request	18	view_nationalonechamprequest
+73	Can add national all champs request	19	add_nationalallchampsrequest
+74	Can change national all champs request	19	change_nationalallchampsrequest
+75	Can delete national all champs request	19	delete_nationalallchampsrequest
+76	Can view national all champs request	19	view_nationalallchampsrequest
+77	Can post requests	20	can_post_requests
+\.
+
+
+--
+-- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: psemdel
+--
+
+COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
+1	pbkdf2_sha256$180000$91KfEflr4xCa$AzkTt37k9CUDNryhD4RpeEaYehOCaJIeor73xXBV3JA=	2020-07-10 21:00:57.704059+02	t	admin			maxime.delzenne@gmail.com	t	t	2020-07-10 20:57:44.157263+02
+2	pbkdf2_sha256$180000$AUCrOIGb0lzz$LUnLygsqWxahV3/ApeC44mxNy2ku1DUHetc2LctC1L0=	\N	f	tester1	tester1	tester1	tester1@a.a.com	f	t	2020-07-11 10:35:32+02
+3	pbkdf2_sha256$180000$gSvzbpJdb0c1$p4yllhRNFtOMbL86YQonlQDYRwvgwLgPtIW9A/Eq2J8=	\N	f	tester2	First	Last	maxime.delzenne@gmail.com	f	t	2020-07-12 17:39:31+02
+\.
+
+
+--
+-- Data for Name: auth_user_groups; Type: TABLE DATA; Schema: public; Owner: psemdel
+--
+
+COPY public.auth_user_groups (id, user_id, group_id) FROM stdin;
+1	1	1
+2	2	1
+5	3	1
+\.
+
+
+--
+-- Data for Name: auth_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: psemdel
+--
+
+COPY public.auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: authtoken_token; Type: TABLE DATA; Schema: public; Owner: psemdel
+--
+
+COPY public.authtoken_token (key, created, user_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: bot_requests_createriderrequest; Type: TABLE DATA; Schema: public; Owner: psemdel
+--
+
+COPY public.bot_requests_createriderrequest (id, entry_time, process_start_time, process_end_time, status, routine, item_id, nationality, name, gender, author_id) FROM stdin;
+2	2020-07-12 12:10:19.969805+02	\N	\N	pending	create_rider	Q1	COL	test6	woman	2
+6	2020-07-12 12:10:59.646196+02	\N	\N	pending	create_rider	Q1	COL	test400	woman	2
+\.
+
+
+--
+-- Data for Name: bot_requests_importclassificationrequest; Type: TABLE DATA; Schema: public; Owner: psemdel
+--
+
+COPY public.bot_requests_importclassificationrequest (id, entry_time, process_start_time, process_end_time, status, routine, item_id, classification_type, result_file_name, author_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: bot_requests_nationalallchampsrequest; Type: TABLE DATA; Schema: public; Owner: psemdel
+--
+
+COPY public.bot_requests_nationalallchampsrequest (id, entry_time, process_start_time, process_end_time, status, routine, item_id, year, author_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: bot_requests_nationalonechamprequest; Type: TABLE DATA; Schema: public; Owner: psemdel
+--
+
+COPY public.bot_requests_nationalonechamprequest (id, entry_time, process_start_time, process_end_time, status, routine, item_id, nationality, year_begin, year_end, author_id, category) FROM stdin;
+\.
+
+
+--
+-- Data for Name: bot_requests_racerequest; Type: TABLE DATA; Schema: public; Owner: psemdel
+--
+
+COPY public.bot_requests_racerequest (id, entry_time, process_start_time, process_end_time, status, routine, item_id, time_of_race, end_of_race, nationality, race_type, race_class, create_stages, prologue, last_stage, edition_nr, author_id, name) FROM stdin;
+\.
+
+
+--
+-- Data for Name: bot_requests_sortdaterequest; Type: TABLE DATA; Schema: public; Owner: psemdel
+--
+
+COPY public.bot_requests_sortdaterequest (id, entry_time, process_start_time, process_end_time, status, routine, item_id, prop, author_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: bot_requests_sortnamerequest; Type: TABLE DATA; Schema: public; Owner: psemdel
+--
+
+COPY public.bot_requests_sortnamerequest (id, entry_time, process_start_time, process_end_time, status, routine, item_id, prop, author_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: bot_requests_stagesrequest; Type: TABLE DATA; Schema: public; Owner: psemdel
+--
+
+COPY public.bot_requests_stagesrequest (id, entry_time, process_start_time, process_end_time, status, routine, item_id, prologue, last_stage, author_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: bot_requests_startlistrequest; Type: TABLE DATA; Schema: public; Owner: psemdel
+--
+
+COPY public.bot_requests_startlistrequest (id, entry_time, process_start_time, process_end_time, status, routine, item_id, result_file_name, time_of_race, race_type, chrono, moment, author_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: bot_requests_teamrequest; Type: TABLE DATA; Schema: public; Owner: psemdel
+--
+
+COPY public.bot_requests_teamrequest (id, entry_time, process_start_time, process_end_time, status, routine, item_id, year, nationality, "UCIcode", author_id, name) FROM stdin;
+\.
+
+
+--
+-- Data for Name: bot_requests_ucirankingrequest; Type: TABLE DATA; Schema: public; Owner: psemdel
+--
+
+COPY public.bot_requests_ucirankingrequest (id, entry_time, process_start_time, process_end_time, status, routine, item_id, result_file_name, year, author_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: psemdel
+--
+
+COPY public.django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
+1	2020-07-11 10:35:59.661399+02	2	tester1	2	[{"changed": {"fields": ["Active"]}}]	4	1
+2	2020-07-11 12:12:14.57362+02	2	autocheck	2	[]	3	1
+3	2020-07-12 17:40:07.06167+02	3	tester2	2	[{"changed": {"fields": ["Active"]}}]	4	1
+\.
+
+
+--
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: psemdel
+--
+
+COPY public.django_content_type (id, app_label, model) FROM stdin;
+1	admin	logentry
+2	auth	permission
+3	auth	group
+4	auth	user
+5	contenttypes	contenttype
+6	sessions	session
+7	authtoken	token
+8	bot_requests	createriderrequest
+9	users	userprofile
+10	bot_requests	importclassificationrequest
+11	bot_requests	ucirankingrequest
+12	bot_requests	teamrequest
+13	bot_requests	startlistrequest
+14	bot_requests	stagesrequest
+15	bot_requests	sortnamerequest
+16	bot_requests	sortdaterequest
+17	bot_requests	racerequest
+18	bot_requests	nationalonechamprequest
+19	bot_requests	nationalallchampsrequest
+20	bot_requests	botrequest
+\.
+
+
+--
+-- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: psemdel
+--
+
+COPY public.django_migrations (id, app, name, applied) FROM stdin;
+1	contenttypes	0001_initial	2020-05-17 16:23:40.601721+02
+2	auth	0001_initial	2020-05-17 16:23:40.646665+02
+3	admin	0001_initial	2020-05-17 16:23:40.702135+02
+4	admin	0002_logentry_remove_auto_add	2020-05-17 16:23:40.718718+02
+5	admin	0003_logentry_add_action_flag_choices	2020-05-17 16:23:40.732034+02
+6	contenttypes	0002_remove_content_type_name	2020-05-17 16:23:40.75054+02
+7	auth	0002_alter_permission_name_max_length	2020-05-17 16:23:40.758052+02
+8	auth	0003_alter_user_email_max_length	2020-05-17 16:23:40.769835+02
+9	auth	0004_alter_user_username_opts	2020-05-17 16:23:40.777586+02
+10	auth	0005_alter_user_last_login_null	2020-05-17 16:23:40.785308+02
+11	auth	0006_require_contenttypes_0002	2020-05-17 16:23:40.787798+02
+12	auth	0007_alter_validators_add_error_messages	2020-05-17 16:23:40.795005+02
+13	auth	0008_alter_user_username_max_length	2020-05-17 16:23:40.809323+02
+14	auth	0009_alter_user_last_name_max_length	2020-05-17 16:23:40.819085+02
+15	auth	0010_alter_group_name_max_length	2020-05-17 16:23:40.829725+02
+16	auth	0011_update_proxy_permissions	2020-05-17 16:23:40.84246+02
+17	authtoken	0001_initial	2020-05-17 16:23:40.86003+02
+18	authtoken	0002_auto_20160226_1747	2020-05-17 16:23:40.901286+02
+19	sessions	0001_initial	2020-05-17 16:23:40.910718+02
+20	bot_requests	0001_initial	2020-07-10 20:52:58.455308+02
+21	bot_requests	0002_auto_20200331_0849	2020-07-10 20:52:58.513831+02
+22	bot_requests	0003_auto_20200331_0945	2020-07-10 20:52:58.541496+02
+23	bot_requests	0004_auto_20200419_1117	2020-07-10 20:52:58.561039+02
+24	bot_requests	0005_auto_20200419_1451	2020-07-10 20:52:58.584794+02
+25	bot_requests	0006_userprofile	2020-07-10 20:52:58.599509+02
+26	bot_requests	0007_delete_userprofile	2020-07-10 20:52:58.606779+02
+27	bot_requests	0008_importclassificationrequest	2020-07-10 20:52:58.624627+02
+28	bot_requests	0009_auto_20200622_2013	2020-07-10 20:52:58.790797+02
+29	bot_requests	0010_racerequest_name	2020-07-10 20:52:58.853475+02
+30	bot_requests	0011_auto_20200629_2032	2020-07-10 20:52:58.89167+02
+31	bot_requests	0012_auto_20200630_1704	2020-07-10 20:52:58.922604+02
+32	bot_requests	0013_auto_20200630_1819	2020-07-10 20:52:58.961812+02
+33	bot_requests	0014_auto_20200708_1958	2020-07-10 20:52:59.009485+02
+34	users	0001_initial	2020-07-10 20:52:59.034377+02
+35	users	0002_remove_userprofile_level	2020-07-10 20:52:59.056017+02
+\.
+
+
+--
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: psemdel
+--
+
+COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
+f0l4prpt8fthxb9pgzfjdfhejbrry2sz	ZWY3Yjc0ZjI2MWU5NTBlMmZkNGE3MDkzOGZkZTg0N2NjZDBmMzQzNzp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI2YmU5NTQ1ZjNhMDYxZjk2ZDYzNzBjYTVmYzY4MmU5N2I3YTRhNzcyIn0=	2020-07-24 21:00:57.710796+02
+\.
+
+
+--
+-- Data for Name: users_userprofile; Type: TABLE DATA; Schema: public; Owner: psemdel
+--
+
+COPY public.users_userprofile (id, wiki_name, user_id) FROM stdin;
+1		2
+2		3
+\.
+
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: psemdel
+--
+
+SELECT pg_catalog.setval('public.auth_group_id_seq', 2, true);
+
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: psemdel
+--
+
+SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, true);
+
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: psemdel
+--
+
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 78, true);
+
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: psemdel
+--
+
+SELECT pg_catalog.setval('public.auth_user_groups_id_seq', 7, true);
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: psemdel
+--
+
+SELECT pg_catalog.setval('public.auth_user_id_seq', 3, true);
+
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: psemdel
+--
+
+SELECT pg_catalog.setval('public.auth_user_user_permissions_id_seq', 1, false);
+
+
+--
+-- Name: bot_requests_createriderrequest_id_seq; Type: SEQUENCE SET; Schema: public; Owner: psemdel
+--
+
+SELECT pg_catalog.setval('public.bot_requests_createriderrequest_id_seq', 6, true);
+
+
+--
+-- Name: bot_requests_importclassificationrequest_id_seq; Type: SEQUENCE SET; Schema: public; Owner: psemdel
+--
+
+SELECT pg_catalog.setval('public.bot_requests_importclassificationrequest_id_seq', 1, false);
+
+
+--
+-- Name: bot_requests_nationalallchampsrequest_id_seq; Type: SEQUENCE SET; Schema: public; Owner: psemdel
+--
+
+SELECT pg_catalog.setval('public.bot_requests_nationalallchampsrequest_id_seq', 1, false);
+
+
+--
+-- Name: bot_requests_nationalonechamprequest_id_seq; Type: SEQUENCE SET; Schema: public; Owner: psemdel
+--
+
+SELECT pg_catalog.setval('public.bot_requests_nationalonechamprequest_id_seq', 1, false);
+
+
+--
+-- Name: bot_requests_racerequest_id_seq; Type: SEQUENCE SET; Schema: public; Owner: psemdel
+--
+
+SELECT pg_catalog.setval('public.bot_requests_racerequest_id_seq', 1, true);
+
+
+--
+-- Name: bot_requests_sortdaterequest_id_seq; Type: SEQUENCE SET; Schema: public; Owner: psemdel
+--
+
+SELECT pg_catalog.setval('public.bot_requests_sortdaterequest_id_seq', 1, false);
+
+
+--
+-- Name: bot_requests_sortnamerequest_id_seq; Type: SEQUENCE SET; Schema: public; Owner: psemdel
+--
+
+SELECT pg_catalog.setval('public.bot_requests_sortnamerequest_id_seq', 1, false);
+
+
+--
+-- Name: bot_requests_stagesrequest_id_seq; Type: SEQUENCE SET; Schema: public; Owner: psemdel
+--
+
+SELECT pg_catalog.setval('public.bot_requests_stagesrequest_id_seq', 1, false);
+
+
+--
+-- Name: bot_requests_startlistrequest_id_seq; Type: SEQUENCE SET; Schema: public; Owner: psemdel
+--
+
+SELECT pg_catalog.setval('public.bot_requests_startlistrequest_id_seq', 1, false);
+
+
+--
+-- Name: bot_requests_teamrequest_id_seq; Type: SEQUENCE SET; Schema: public; Owner: psemdel
+--
+
+SELECT pg_catalog.setval('public.bot_requests_teamrequest_id_seq', 1, false);
+
+
+--
+-- Name: bot_requests_ucirankingrequest_id_seq; Type: SEQUENCE SET; Schema: public; Owner: psemdel
+--
+
+SELECT pg_catalog.setval('public.bot_requests_ucirankingrequest_id_seq', 1, false);
+
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: psemdel
+--
+
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 3, true);
+
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: psemdel
+--
+
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 20, true);
+
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: psemdel
+--
+
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 35, true);
+
+
+--
+-- Name: users_userprofile_id_seq; Type: SEQUENCE SET; Schema: public; Owner: psemdel
+--
+
+SELECT pg_catalog.setval('public.users_userprofile_id_seq', 2, true);
+
+
+--
+-- Name: auth_group auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_permission_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_permission_id_0cd325b0_uniq UNIQUE (group_id, permission_id);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_codename_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_codename_01ab375a_uniq UNIQUE (content_type_id, codename);
+
+
+--
+-- Name: auth_permission auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups auth_user_groups_user_id_group_id_94350c0c_uniq; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_group_id_94350c0c_uniq UNIQUE (user_id, group_id);
+
+
+--
+-- Name: auth_user auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_permission_id_14a6b632_uniq; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_permission_id_14a6b632_uniq UNIQUE (user_id, permission_id);
+
+
+--
+-- Name: auth_user auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_username_key UNIQUE (username);
+
+
+--
+-- Name: authtoken_token authtoken_token_pkey; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.authtoken_token
+    ADD CONSTRAINT authtoken_token_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: authtoken_token authtoken_token_user_id_key; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.authtoken_token
+    ADD CONSTRAINT authtoken_token_user_id_key UNIQUE (user_id);
+
+
+--
+-- Name: bot_requests_createriderrequest bot_requests_createriderrequest_pkey; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_createriderrequest
+    ADD CONSTRAINT bot_requests_createriderrequest_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bot_requests_importclassificationrequest bot_requests_importclassificationrequest_pkey; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_importclassificationrequest
+    ADD CONSTRAINT bot_requests_importclassificationrequest_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bot_requests_nationalallchampsrequest bot_requests_nationalallchampsrequest_pkey; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_nationalallchampsrequest
+    ADD CONSTRAINT bot_requests_nationalallchampsrequest_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bot_requests_nationalonechamprequest bot_requests_nationalonechamprequest_pkey; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_nationalonechamprequest
+    ADD CONSTRAINT bot_requests_nationalonechamprequest_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bot_requests_racerequest bot_requests_racerequest_pkey; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_racerequest
+    ADD CONSTRAINT bot_requests_racerequest_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bot_requests_sortdaterequest bot_requests_sortdaterequest_pkey; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_sortdaterequest
+    ADD CONSTRAINT bot_requests_sortdaterequest_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bot_requests_sortnamerequest bot_requests_sortnamerequest_pkey; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_sortnamerequest
+    ADD CONSTRAINT bot_requests_sortnamerequest_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bot_requests_stagesrequest bot_requests_stagesrequest_pkey; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_stagesrequest
+    ADD CONSTRAINT bot_requests_stagesrequest_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bot_requests_startlistrequest bot_requests_startlistrequest_pkey; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_startlistrequest
+    ADD CONSTRAINT bot_requests_startlistrequest_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bot_requests_teamrequest bot_requests_teamrequest_pkey; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_teamrequest
+    ADD CONSTRAINT bot_requests_teamrequest_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bot_requests_ucirankingrequest bot_requests_ucirankingrequest_pkey; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_ucirankingrequest
+    ADD CONSTRAINT bot_requests_ucirankingrequest_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_admin_log django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_content_type django_content_type_app_label_model_76bd3d3b_uniq; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_app_label_model_76bd3d3b_uniq UNIQUE (app_label, model);
+
+
+--
+-- Name: django_content_type django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_migrations django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.django_migrations
+    ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_session django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- Name: users_userprofile users_userprofile_pkey; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.users_userprofile
+    ADD CONSTRAINT users_userprofile_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_userprofile users_userprofile_user_id_key; Type: CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.users_userprofile
+    ADD CONSTRAINT users_userprofile_user_id_key UNIQUE (user_id);
+
+
+--
+-- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX auth_group_name_a6ea08ec_like ON public.auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions_group_id_b120cbf9; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX auth_group_permissions_group_id_b120cbf9 ON public.auth_group_permissions USING btree (group_id);
+
+
+--
+-- Name: auth_group_permissions_permission_id_84c5c92e; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX auth_group_permissions_permission_id_84c5c92e ON public.auth_group_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_permission_content_type_id_2f476e4b; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX auth_permission_content_type_id_2f476e4b ON public.auth_permission USING btree (content_type_id);
+
+
+--
+-- Name: auth_user_groups_group_id_97559544; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX auth_user_groups_group_id_97559544 ON public.auth_user_groups USING btree (group_id);
+
+
+--
+-- Name: auth_user_groups_user_id_6a12ed8b; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX auth_user_groups_user_id_6a12ed8b ON public.auth_user_groups USING btree (user_id);
+
+
+--
+-- Name: auth_user_user_permissions_permission_id_1fbb5f2c; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX auth_user_user_permissions_permission_id_1fbb5f2c ON public.auth_user_user_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_user_user_permissions_user_id_a95ead1b; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX auth_user_user_permissions_user_id_a95ead1b ON public.auth_user_user_permissions USING btree (user_id);
+
+
+--
+-- Name: auth_user_username_6821ab7c_like; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX auth_user_username_6821ab7c_like ON public.auth_user USING btree (username varchar_pattern_ops);
+
+
+--
+-- Name: authtoken_token_key_10f0b77e_like; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX authtoken_token_key_10f0b77e_like ON public.authtoken_token USING btree (key varchar_pattern_ops);
+
+
+--
+-- Name: bot_requests_createriderrequest_author_id_367d8691; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX bot_requests_createriderrequest_author_id_367d8691 ON public.bot_requests_createriderrequest USING btree (author_id);
+
+
+--
+-- Name: bot_requests_importclassificationrequest_author_id_d0410180; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX bot_requests_importclassificationrequest_author_id_d0410180 ON public.bot_requests_importclassificationrequest USING btree (author_id);
+
+
+--
+-- Name: bot_requests_nationalallchampsrequest_author_id_0e713470; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX bot_requests_nationalallchampsrequest_author_id_0e713470 ON public.bot_requests_nationalallchampsrequest USING btree (author_id);
+
+
+--
+-- Name: bot_requests_nationalonechamprequest_author_id_40ceebd6; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX bot_requests_nationalonechamprequest_author_id_40ceebd6 ON public.bot_requests_nationalonechamprequest USING btree (author_id);
+
+
+--
+-- Name: bot_requests_racerequest_author_id_08c5a920; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX bot_requests_racerequest_author_id_08c5a920 ON public.bot_requests_racerequest USING btree (author_id);
+
+
+--
+-- Name: bot_requests_sortdaterequest_author_id_484c9eec; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX bot_requests_sortdaterequest_author_id_484c9eec ON public.bot_requests_sortdaterequest USING btree (author_id);
+
+
+--
+-- Name: bot_requests_sortnamerequest_author_id_9551da42; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX bot_requests_sortnamerequest_author_id_9551da42 ON public.bot_requests_sortnamerequest USING btree (author_id);
+
+
+--
+-- Name: bot_requests_stagesrequest_author_id_ff5faa1e; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX bot_requests_stagesrequest_author_id_ff5faa1e ON public.bot_requests_stagesrequest USING btree (author_id);
+
+
+--
+-- Name: bot_requests_startlistrequest_author_id_6b071786; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX bot_requests_startlistrequest_author_id_6b071786 ON public.bot_requests_startlistrequest USING btree (author_id);
+
+
+--
+-- Name: bot_requests_teamrequest_author_id_3554e05b; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX bot_requests_teamrequest_author_id_3554e05b ON public.bot_requests_teamrequest USING btree (author_id);
+
+
+--
+-- Name: bot_requests_ucirankingrequest_author_id_1e93e90c; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX bot_requests_ucirankingrequest_author_id_1e93e90c ON public.bot_requests_ucirankingrequest USING btree (author_id);
+
+
+--
+-- Name: django_admin_log_content_type_id_c4bce8eb; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX django_admin_log_content_type_id_c4bce8eb ON public.django_admin_log USING btree (content_type_id);
+
+
+--
+-- Name: django_admin_log_user_id_c564eba6; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX django_admin_log_user_id_c564eba6 ON public.django_admin_log USING btree (user_id);
+
+
+--
+-- Name: django_session_expire_date_a5c62663; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX django_session_expire_date_a5c62663 ON public.django_session USING btree (expire_date);
+
+
+--
+-- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: psemdel
+--
+
+CREATE INDEX django_session_session_key_c0390e0f_like ON public.django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissio_permission_id_84c5c92e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissio_permission_id_84c5c92e_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_2f476e4b_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_2f476e4b_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups auth_user_groups_group_id_97559544_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_group_id_97559544_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups auth_user_groups_user_id_6a12ed8b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_6a12ed8b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: authtoken_token authtoken_token_user_id_35299eff_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.authtoken_token
+    ADD CONSTRAINT authtoken_token_user_id_35299eff_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: bot_requests_createriderrequest bot_requests_creater_author_id_367d8691_fk_auth_user; Type: FK CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_createriderrequest
+    ADD CONSTRAINT bot_requests_creater_author_id_367d8691_fk_auth_user FOREIGN KEY (author_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: bot_requests_importclassificationrequest bot_requests_importc_author_id_d0410180_fk_auth_user; Type: FK CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_importclassificationrequest
+    ADD CONSTRAINT bot_requests_importc_author_id_d0410180_fk_auth_user FOREIGN KEY (author_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: bot_requests_nationalallchampsrequest bot_requests_nationa_author_id_0e713470_fk_auth_user; Type: FK CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_nationalallchampsrequest
+    ADD CONSTRAINT bot_requests_nationa_author_id_0e713470_fk_auth_user FOREIGN KEY (author_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: bot_requests_nationalonechamprequest bot_requests_nationa_author_id_40ceebd6_fk_auth_user; Type: FK CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_nationalonechamprequest
+    ADD CONSTRAINT bot_requests_nationa_author_id_40ceebd6_fk_auth_user FOREIGN KEY (author_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: bot_requests_racerequest bot_requests_racerequest_author_id_08c5a920_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_racerequest
+    ADD CONSTRAINT bot_requests_racerequest_author_id_08c5a920_fk_auth_user_id FOREIGN KEY (author_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: bot_requests_sortdaterequest bot_requests_sortdaterequest_author_id_484c9eec_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_sortdaterequest
+    ADD CONSTRAINT bot_requests_sortdaterequest_author_id_484c9eec_fk_auth_user_id FOREIGN KEY (author_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: bot_requests_sortnamerequest bot_requests_sortnamerequest_author_id_9551da42_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_sortnamerequest
+    ADD CONSTRAINT bot_requests_sortnamerequest_author_id_9551da42_fk_auth_user_id FOREIGN KEY (author_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: bot_requests_stagesrequest bot_requests_stagesrequest_author_id_ff5faa1e_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_stagesrequest
+    ADD CONSTRAINT bot_requests_stagesrequest_author_id_ff5faa1e_fk_auth_user_id FOREIGN KEY (author_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: bot_requests_startlistrequest bot_requests_startli_author_id_6b071786_fk_auth_user; Type: FK CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_startlistrequest
+    ADD CONSTRAINT bot_requests_startli_author_id_6b071786_fk_auth_user FOREIGN KEY (author_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: bot_requests_teamrequest bot_requests_teamrequest_author_id_3554e05b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_teamrequest
+    ADD CONSTRAINT bot_requests_teamrequest_author_id_3554e05b_fk_auth_user_id FOREIGN KEY (author_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: bot_requests_ucirankingrequest bot_requests_ucirank_author_id_1e93e90c_fk_auth_user; Type: FK CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.bot_requests_ucirankingrequest
+    ADD CONSTRAINT bot_requests_ucirank_author_id_1e93e90c_fk_auth_user FOREIGN KEY (author_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_content_type_id_c4bce8eb_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_content_type_id_c4bce8eb_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_user_id_c564eba6_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: users_userprofile users_userprofile_user_id_87251ef1_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: psemdel
+--
+
+ALTER TABLE ONLY public.users_userprofile
+    ADD CONSTRAINT users_userprofile_user_id_87251ef1_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+\connect postgres
+
+SET default_transaction_read_only = off;
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.12 (Ubuntu 10.12-0ubuntu0.18.04.1)
+-- Dumped by pg_dump version 10.12 (Ubuntu 10.12-0ubuntu0.18.04.1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: DATABASE postgres; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON DATABASE postgres IS 'default administrative connection database';
+
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+\connect template1
+
+SET default_transaction_read_only = off;
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.12 (Ubuntu 10.12-0ubuntu0.18.04.1)
+-- Dumped by pg_dump version 10.12 (Ubuntu 10.12-0ubuntu0.18.04.1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: DATABASE template1; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON DATABASE template1 IS 'default template for new databases';
+
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+--
+-- PostgreSQL database cluster dump complete
+--
+

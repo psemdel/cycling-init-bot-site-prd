@@ -1,0 +1,103 @@
+<div style="width: 600px;">
+    <h3>Import a start list</h3>
+    <p>To determine the start list, an easy method is to read the ranking of a race at the first stage (prologue). To fill the ranking of the riders, the ranking at final stage should be given.</p>
+    <div style="width: 400px;">
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                  <label for=" item_id">Id of the race item on wikidata<br/>
+                  <small>for instance Q30091668 for Tour de France 2019</small>
+                  </label>
+              
+                  <input type="text" class="form-control" id="item_id" formControlName="item_id"
+                       [ngClass]="{ 'is-invalid': submitted && f.item_id.errors }" />
+                     <div *ngIf="submitted && f.item_id.errors" class="invalid-feedback">
+                         <div *ngIf="f.item_id.errors.required">Field required</div>
+                         <div *ngIf="f.item_id.errors.pattern">Item id should start with "Q"</div>
+                    </div>
+                </div>
+            <br/>
+            <div class="form-group">
+              <label for="gender">Man or woman race?<br/>
+              <small> (don't use for U23 or Junior races)</small>
+              </label>
+              <select class="form-control" formControlName="gender"
+              [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
+                  <option *ngFor="let gender of genders" [value]="gender.value">
+                    {{gender.viewValue}}
+                  </option>
+                </select>
+                <div *ngIf="submitted && f.gender.errors" class="invalid-feedback">
+                    <div *ngIf="f.gender.errors.required">Field required</div>
+               </div>
+    
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="time_of_race">Begin of the race</label>
+                <br>
+                    <input matInput [matDatepicker]="picker1" formControlName="time_of_race">
+                    <mat-datepicker-toggle matSuffix [for]="picker1">
+                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                 </mat-datepicker-toggle>
+                 <mat-datepicker #picker1></mat-datepicker>
+            </div>
+            <br>
+                <div class="form-group">
+                   <label for="race_type">Type of race</label>
+                   <select class="form-control" formControlName="race_type"
+                      [ngClass]="{ 'is-invalid': submitted && f.race_type.errors }">
+                      <option *ngFor="let race_type of race_types" [value]="race_type.value">
+                        {{race_type.viewValue}}
+                      </option>
+                    </select>
+                     <div *ngIf="submitted && f.race_type.errors" class="invalid-feedback">
+                         <div *ngIf="f.race_type.errors.required">Field required</div>
+                    </div>
+                </div>
+            <br>
+            <div *ngIf="f.race_type.value=='true'" class="form-group">
+                <label for="moment">
+                Start list corresponding to :<br/>
+                <small>By giving prologue, the start list at the beginning of the stage race is filled<br/>
+                By giving end stage, the list of the finisher with their ranking is filled</small>
+                </label>
+                <select class="form-control" formControlName="moment"
+                      [ngClass]="{ 'is-invalid': submitted && f.moment.errors }">
+                      <option *ngFor="let moment of moments" [value]="moment.value">
+                        {{moment.viewValue}}
+                      </option>
+                </select>
+            <br/>
+            </div>
+             <div class="form-group">
+                   <label for="chrono">Is the race an ITT or include an ITT?</label>
+                   <small>To decide whether to display or not the jersey of ITT national champion</small>
+                   <select class="form-control" formControlName="chrono"
+                      [ngClass]="{ 'is-invalid': submitted && f.chrono.errors }">
+                      <option *ngFor="let yesno of yesnos" [value]="yesno.value">
+                        {{yesno.viewValue}}
+                      </option>
+                    </select>
+                     <div *ngIf="submitted && f.chrono.errors" class="invalid-feedback">
+                         <div *ngIf="f.chrono.errors.required">Field required</div>
+                    </div>
+                </div>
+
+           <label>Excel or csv file from UCI web site</label>
+           <input type="file" id="fileUpload" name="fileUpload" formControlName="file"  multiple="multiple" 
+              accept=".xlsx, .csv" />
+            <br>
+            <li *ngFor="let file of files" [@fadeInOut]="file.state">
+                <mat-progress-bar [value]="file.progress"></mat-progress-bar>
+            </li>
+            <div *ngIf="submitted && sizeerror" class="invalid-feedback">Maximum size exceeded</div>
+            <div *ngIf="submitted && exterror" class="invalid-feedback">Wrong file type</div>
+            <br>
+            <button mat-raised-button color="primary" type="submit">Submit</button>
+          </form>
+    </div>
+    <div *ngIf="success">
+          <h4>You submitted successfully {{lastname}}!</h4>
+          <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
+    </div>
+</div>

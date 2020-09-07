@@ -1,0 +1,158 @@
+<div style="width: 600px;">
+    <h3>Create an edition of a race</h3>
+    <div style="width: 400px;">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="name">
+              Name of the race<br />
+              <small>for instance: 2019 Tour de France</small>
+          </label>
+          <input type="text" class="form-control" id="name" formControlName="name"
+           [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+        </div>
+        <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+            <div *ngIf="f.name.errors.required">Field required</div>
+       </div>
+    <br/>
+       <div class="form-group">
+          <label for=" item_id">
+              Id of the parent race item on wikidata<br/>
+              <small>for instance Q33881 for Tour de France<br/>
+              note: if this parent iteam does not exist, create it manually first</small>
+          </label>
+          <input type="text" class="form-control" id="item_id" formControlName="item_id"
+               [ngClass]="{ 'is-invalid': submitted && f.item_id.errors }" />
+             <div *ngIf="submitted && f.item_id.errors" class="invalid-feedback">
+                 <div *ngIf="f.item_id.errors.required">Field required</div>
+                 <div *ngIf="f.item_id.errors.pattern">Item id should start with "Q"</div>
+            </div>
+        </div>
+    <br>
+        <div class="form-group">
+           <label for="race_type">Type of race</label>
+           <select class="form-control" formControlName="race_type"
+              [ngClass]="{ 'is-invalid': submitted && f.race_type.errors }">
+              <option *ngFor="let race_type of race_types" [value]="race_type.value">
+                {{race_type.viewValue}}
+              </option>
+            </select>
+             <div *ngIf="submitted && f.race_type.errors" class="invalid-feedback">
+                 <div *ngIf="f.race_type.errors.required">Field required</div>
+            </div>
+        </div>
+     <br>
+     <div class="form-group">
+        <label for="time_of_race">Begin of the race</label>
+        <br>
+            <input matInput [matDatepicker]="picker1" formControlName="time_of_race">
+            <mat-datepicker-toggle matSuffix [for]="picker1">
+            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+         </mat-datepicker-toggle>
+         <mat-datepicker #picker1></mat-datepicker>
+         <div *ngIf="submitted && f.time_of_race.errors" class="invalid-feedback">
+                 <div *ngIf="f.time_of_race.errors.required">Field required</div>
+        </div>
+    </div>
+        
+     <div *ngIf="f.race_type.value=='true'" class="form-group">
+        <label for="end_of_race">End of the race</label>
+        <br>
+            <input matInput [matDatepicker]="picker2" formControlName="end_of_race">
+            <mat-datepicker-toggle matSuffix [for]="picker2">
+            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+         </mat-datepicker-toggle>
+         <mat-datepicker #picker2></mat-datepicker>
+    <br>
+    </div>
+        <div class="form-group">
+          <label for="nationality">Country</label>
+          <select class="form-control" formControlName="nationality"
+          [ngClass]="{ 'is-invalid': submitted && f.nationality.errors }" >
+              <option *ngFor="let nationality of nationalities" [value]="nationality.value">
+                {{nationality.viewValue}}
+              </option>
+            </select>
+        <label><small>Listed by UCI nation ranking men 2019 up to top 20</small></label>
+        <div *ngIf="submitted && f.nationality.errors" class="invalid-feedback">
+            <div *ngIf="f.nationality.errors.required">Field required</div>
+        </div>
+    </div>
+    <br>
+        <div *ngIf="f.race_type.value=='true'" class="form-group">
+          <label for="race_class">Class</label>
+          <select class="form-control" formControlName="race_class2"
+          [ngClass]="{ 'is-invalid': submitted && f.race_class2.errors }" >
+            <option *ngFor="let race_class of race_2x_classes" [value]="race_class.value">
+              {{race_class.viewValue}}
+            </option>
+          </select>
+           <div *ngIf="submitted && f.race_class2.errors" class="invalid-feedback">
+                <div *ngIf="f.race_class2.errors.required">Field required</div>
+           </div>
+          
+       </div>
+       <div *ngIf="f.race_type.value=='false'" class="form-group">
+          <label for="race_class">Class</label>
+          <select class="form-control" formControlName="race_class1"
+          [ngClass]="{ 'is-invalid': submitted && f.race_class1.errors }" >
+                <option *ngFor="let race_class of race_1x_classes" [value]="race_class.value">
+                  {{race_class.viewValue}}
+                </option>
+          </select>
+          <div *ngIf="submitted && f.race_class1.errors" class="invalid-feedback">
+                <div *ngIf="f.race_class1.errors.required">Field required</div>
+           </div>
+       </div>
+
+    <br>
+    <div class="form-group"> 
+          <label for="edition_nr">Edition number</label>
+          <input type="number" class="form-control" id="edition_nr" formControlName="edition_nr"
+           [ngClass]="{ 'is-invalid': submitted && f.edition_nr.errors }" />
+          <div *ngIf="submitted && f.edition_nr.errors" class="invalid-feedback">
+                <div *ngIf="f.edition_nr.errors.required">Field required</div>
+          </div>
+           
+    </div>
+    <br>
+    <div *ngIf="f.race_type.value=='true'" class="form-group"> 
+           <label for="create_stages">
+               Create the stages?<br/>
+               <small>In the beginning of the year, the details about organisation are not always known, 
+               it can useful to proceed in two steps for the creation the stage races</small>
+           </label>
+           <select class="form-control" formControlName="create_stages"
+              [ngClass]="{ 'is-invalid': submitted && f.create_stages.errors }">
+              <option *ngFor="let yesno of yesnos" [value]="yesno.value">
+                {{yesno.viewValue}}
+              </option>
+            </select>
+    </div>
+    <div *ngIf="f.create_stages.value=='true'" class="form-group"> 
+           <label for="prologue">Is there a prologue?</label>
+           <select class="form-control" formControlName="prologue"
+              [ngClass]="{ 'is-invalid': submitted && f.prologue.errors }">
+              <option *ngFor="let yesno of yesnos" [value]="yesno.value">
+                {{yesno.viewValue}}
+              </option>
+            </select>
+    </div>
+    <div *ngIf="f.create_stages.value=='true'" class="form-group"> 
+          <label for="last_stage">
+              Number of the last stage<br/>
+              <small>For instance: end stage is stage 4, then write 4<br/>
+              half-stages are present, add one for each half-stage</small>
+          </label>
+          <input type="number" class="form-control" id="last_stage" formControlName="last_stage"
+           [ngClass]="{ 'is-invalid': submitted && f.last_stage.errors }" />
+    </div>
+    <br>
+        <button mat-raised-button color="primary" type="submit">Submit</button>
+      </form>
+    </div>
+    
+    <div *ngIf="success">
+      <h4>You submitted successfully {{lastname}}!</h4>
+      <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
+    </div>
+</div>

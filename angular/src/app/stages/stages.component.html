@@ -1,0 +1,46 @@
+<div style="width: 600px;">
+    <h3>Create the stages for a race edition</h3>
+    <div style="width: 400px;">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+       <div class="form-group">
+          <label for=" item_id">
+              Id of the parent race item on wikidata<br/>
+               <small>for instance Q30091668 for Tour de France 2019</small>
+          </label>
+          <input type="text" class="form-control" id="item_id" formControlName="item_id"
+               [ngClass]="{ 'is-invalid': submitted && f.item_id.errors }" />
+             <div *ngIf="submitted && f.item_id.errors" class="invalid-feedback">
+                 <div *ngIf="f.item_id.errors.required">Field required</div>
+                 <div *ngIf="f.item_id.errors.pattern">Item id should start with "Q"</div>
+            </div>
+        </div>
+     <br>
+     <p>Check that the begin and end dates are given in the item of the race edition!</p>
+     <div class="form-group"> 
+           <label for="prologue">Is there a prologue?</label>
+           <select class="form-control" formControlName="prologue"
+              [ngClass]="{ 'is-invalid': submitted && f.prologue.errors }">
+              <option *ngFor="let yesno of yesnos" [value]="yesno.value">
+                {{yesno.viewValue}}
+           </option>
+           </select>
+    </div>
+    <div class="form-group"> 
+          <label for="last_stage">
+              Number of the last stage<br/>
+              <small>For instance: end stage is stage 4, then write 4<br/>
+              if half-stages are present, add one for each half-stage</small>
+          </label>
+          <input type="number" class="form-control" id="last_stage" formControlName="last_stage"
+           [ngClass]="{ 'is-invalid': submitted && f.last_stage.errors }" />
+    </div>
+    <br>
+        <button mat-raised-button color="primary" type="submit">Submit</button>
+      </form>
+    </div>
+    
+    <div *ngIf="success">
+      <h4>You submitted successfully {{lastname}}!</h4>
+      <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
+    </div>
+</div>

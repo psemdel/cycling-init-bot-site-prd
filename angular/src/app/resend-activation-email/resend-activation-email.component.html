@@ -1,0 +1,26 @@
+<div style="width: 600px;">
+<h2>Resend activation email</h2>
+    <div *ngIf="!success">
+        <form [formGroup]="forgottenForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="text" formControlName="email" email="true" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.required">E-mail address is required</div>
+                <div *ngIf="f.email.errors.email">Enter an E-mail address</div>
+            </div>
+        </div>  
+        
+        <div class="form-group">
+            <button [disabled]="loading" mat-raised-button color="primary">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Send
+            </button>
+            <a routerLink="/login" mat-raised-button color="primary" role="button">Cancel</a>
+        </div>
+             <div *ngIf="submitted && unknownerror" class="invalid-feedback">Unknown error, check your password</div>
+        </form>
+    </div>
+<div *ngIf="success">
+  <p>E-mail sent successfully!</p>
+</div>  

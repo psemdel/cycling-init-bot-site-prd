@@ -1,0 +1,76 @@
+<div style="width: 600px;">
+    <h3>Import race results</h3>
+    <div style="width: 400px;">
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                  <label for=" item_id">Id of the race item on wikidata<br/>
+                  <small>for instance Q30091668 for Tour de France 2019</small>
+                  </label>
+              
+                  <input type="text" class="form-control" id="item_id" formControlName="item_id"
+                       [ngClass]="{ 'is-invalid': submitted && f.item_id.errors }" />
+                     <div *ngIf="submitted && f.item_id.errors" class="invalid-feedback">
+                         <div *ngIf="f.item_id.errors.required">Field required</div>
+                         <div *ngIf="f.item_id.errors.pattern">Item id should start with "Q"</div>
+                    </div>
+                </div>
+            <br/>
+                <div class="form-group">
+                   <label for="classification_type">Type of classification</label>
+                   <select class="form-control" formControlName="classification_type"
+                      [ngClass]="{ 'is-invalid': submitted && f.classification_type.errors }">
+                      <option *ngFor="let classification_type of classification_types" [value]="classification_type.value">
+                        {{classification_type.viewValue}}
+                      </option>
+                    </select>
+                     <div *ngIf="submitted && f.classification_type.errors" class="invalid-feedback">
+                         <div *ngIf="f.classification_type.errors.required">Field required</div>
+                    </div>
+                </div>
+            <br>
+                <div *ngIf="(f.classification_type.value==='5'||f.classification_type.value==='6')" class="form-group"> 
+                      <label for="year">
+                          Year of the race
+                      </label>
+                      <select class="form-control" id="year" formControlName="year"
+                       [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
+                          <option *ngFor="let year of years" [value]="year">
+                                        {{year}}
+                          </option>
+                      </select>
+                      
+                     <br/>
+                     <div class="form-group">
+                          <label for="gender">Man or woman race?<br/>
+                          </label>
+                          <select class="form-control" formControlName="gender"
+                          [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
+                              <option *ngFor="let gender of genders" [value]="gender.value">
+                                {{gender.viewValue}}
+                              </option>
+                            </select>
+                            <div *ngIf="submitted && f.gender.errors" class="invalid-feedback">
+                                <div *ngIf="f.gender.errors.required">Field required</div>
+                           </div>
+                     </div>
+                </div>
+             <br>   
+
+           <label>Excel or csv file from UCI web site</label>
+           <input type="file" id="fileUpload" name="fileUpload" formControlName="file"  multiple="multiple" 
+              accept=".xlsx, .csv" />
+            <br>
+            <li *ngFor="let file of files" [@fadeInOut]="file.state">
+                <mat-progress-bar [value]="file.progress"></mat-progress-bar>
+            </li>
+            <div *ngIf="submitted && sizeerror" class="invalid-feedback">Maximum size exceeded</div>
+            <div *ngIf="submitted && exterror" class="invalid-feedback">Wrong file type</div>
+            <br>
+            <button mat-raised-button color="primary" type="submit">Submit</button>
+          </form>
+    </div>
+    <div *ngIf="success">
+          <h4>You submitted successfully {{lastname}}!</h4>
+          <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
+    </div>
+</div>

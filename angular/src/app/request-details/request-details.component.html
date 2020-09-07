@@ -1,0 +1,55 @@
+<!--variation 1-->
+<div *ngIf="(tbotrequests | async)?.length!=0">
+    <h2>{{title}} requests</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr> 
+            <th *ngIf="year_begin_col">Begin year</th>
+            <th *ngIf="year_begin_col">End year</th>
+            <th *ngIf="year_begin_col">Country</th>
+            <th *ngIf="year_col">Year</th>
+            <th *ngIf="name_col">Name</th>
+            <th *ngIf="id_col">Item</th>
+            <th>Status</th>
+            <th *ngIf="result_id_col">Result id</th>
+            <th colspan="2">Actions</th>
+        </tr>
+        </thead>
+        <tr *ngFor="let botrequest of tbotrequests | async">
+            <td *ngIf="year_begin_col">{{botrequest.year_begin}}</td>
+            <td *ngIf="year_begin_col">{{botrequest.year_end}}</td>
+            <td *ngIf="year_begin_col">{{botrequest.nationality}}</td>
+            <td *ngIf="year_col">{{botrequest.year}}</td>
+            <td *ngIf="name_col">{{botrequest.name}}</td>
+            <td *ngIf="id_col">{{botrequest.item_id}}</td>
+            <td>{{botrequest.status}}<log [txt]="botrequest.log"></log></td>
+            <td *ngIf="result_id_col">{{botrequest.result_id}}</td>
+            
+            <div *ngIf="admin">
+                <td>
+                <button mat-raised-button color="warn" type="button" (click)='delete_rq(botrequest)'>
+                    <mat-icon>clear</mat-icon>
+                </button>
+                 </td>
+                 <td>
+                  <button mat-raised-button color="primary" [disabled]="(botrequest.status != 'pending' && botrequest.status != 'failed')" type="button" (click)='run(botrequest)'>
+                     <mat-icon>play_arrow</mat-icon>
+                  </button>
+                  </td>
+            </div>
+            <div *ngIf="!admin">
+                    <td>
+                    <button mat-raised-button color="warn" type="button" (click)='delete_rq(botrequest)'>
+                        <mat-icon>clear</mat-icon>
+                    </button>
+                    <button *ngIf="!admin" mat-raised-button color="primary" [disabled]="(botrequest.status != 'failed')" type="button" (click)='run(botrequest)'>
+                         <mat-icon>play_arrow</mat-icon>
+                      </button>
+                    </td>
+             </div>
+        </tr>
+    </table>
+</div>
+
+
+

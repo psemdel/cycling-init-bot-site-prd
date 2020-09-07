@@ -1,0 +1,45 @@
+<div style="width: 600px;">
+    <h3>Sort elements in a property by date</h3>
+    <div style="width: 400px;">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+       <div class="form-group">
+          <label for=" item_id">Id of the item on wikidata to be sorted<br/>
+           <small>for instance Q30091668 for Tour de France 2019</small>
+          </label>
+          <input type="text" class="form-control" id="item_id" formControlName="item_id"
+               [ngClass]="{ 'is-invalid': submitted && f.item_id.errors }" />
+             <div *ngIf="submitted && f.item_id.errors" class="invalid-feedback">
+                 <div *ngIf="f.item_id.errors.required">Field required</div>
+                 <div *ngIf="f.item_id.errors.pattern">Item id should start with "Q"</div>
+            </div>
+        </div>
+     <br>
+     <div class="form-group">
+          <label for="prop">
+              Property to sort<br/>
+               <small>"has part" for instance for sorting the races in a calendar or stages 
+               in a stage races
+               <br/>
+               "victory" to sort the victories of a team</small>
+          </label>
+          
+          <select class="form-control" formControlName="prop"
+          [ngClass]="{ 'is-invalid': submitted && f.prop.errors }">
+              <option *ngFor="let prop of properties" [value]="prop.value">
+                {{prop.viewValue}}
+              </option>
+            </select>
+            <div *ngIf="submitted && f.prop.errors" class="invalid-feedback">
+                <div *ngIf="f.prop.errors.required">Field required</div>
+           </div>
+        </div>
+
+        <button mat-raised-button color="primary" type="submit">Submit</button>
+      </form>
+    </div>
+    
+    <div *ngIf="success">
+      <h4>You submitted successfully {{lastname}}!</h4>
+      <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
+    </div>
+</div>

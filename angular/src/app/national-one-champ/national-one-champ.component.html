@@ -1,0 +1,72 @@
+<div style="width: 600px;">
+    <h3>Create a series of national championships, road and clm</h3>
+    <div style="width: 400px;">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                  <label for="age">Country of the national championship to be created</label>
+                  <select class="form-control" formControlName="nationality"
+                  [ngClass]="{ 'is-invalid': submitted && f.nationality.errors }" >
+                      <option *ngFor="let nationality of nationalities" [value]="nationality.value">
+                        {{nationality.viewValue}}
+                      </option>
+                    </select>
+                  <label><small>Listed by UCI nation ranking men 2019 up to top 20</small></label>
+                <div *ngIf="submitted && f.nationality.errors" class="invalid-feedback">
+                    <div *ngIf="f.nationality.errors.required">Field required</div>
+                </div>
+            </div>
+            
+            <br>
+            <div class="form-group">
+          <label for="category">Category</label>
+              <select class="form-control" formControlName="category"
+              [ngClass]="{ 'is-invalid': submitted && f.category.errors }">
+                  <option *ngFor="let category of categories" [value]="category.value">
+                    {{category.viewValue}}
+                  </option>
+                </select>
+                <div *ngIf="submitted && f.category.errors" class="invalid-feedback">
+                    <div *ngIf="f.category.errors.required">Field required</div>
+               </div>
+    
+            </div>
+            <br>
+            
+             <div class="form-group">
+                 <label for="name">Start year </label>
+                 <select class="form-control" id="year_begin" formControlName="year_begin"
+                    [ngClass]="{ 'is-invalid': submitted && f.year_begin.errors }">
+                     <option *ngFor="let year of years" [value]="year">
+                                     {{year}}
+                     </option>
+                 </select>
+                 <div *ngIf="submitted && f.year_begin.errors" class="invalid-feedback">
+                     <div *ngIf="f.year_begin.errors.required">Field required</div>
+                </div>
+             </div>
+             
+            <br>
+            
+            <div class="form-group">
+                  <label for="name">End year</label>
+                  <select class="form-control" id="year_end" formControlName="year_end"
+                   [ngClass]="{ 'is-invalid': submitted && f.year_end.errors }">
+                      <option *ngFor="let year of years" [value]="year">
+                            {{year}}
+                      </option>
+                   </select>
+                <div *ngIf="submitted && f.year_end.errors" class="invalid-feedback">
+                    <div *ngIf="f.year_end.errors.required">Field required</div>
+                    <div *ngIf="f.year_end.errors.notOk">Begin year higher than end year</div>
+               </div>
+           </div>
+           
+           <button mat-raised-button color="primary" type="submit">Submit</button>
+      </form>
+    </div>
+    
+    <div *ngIf="success">
+      <h4>You submitted successfully {{lastname}}!</h4>
+      <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
+    </div>
+</div>
