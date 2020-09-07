@@ -1,0 +1,23 @@
+<h1>request overview number: {{botrequest.id}}</h1>
+{%if botrequest.name %}
+    <table>
+    <tr><td>author</td><td>{{botrequest.author}}</td></tr>
+    <tr><td>entry_time</td><td>{{botrequest.entry_time}}</td></tr>
+    <tr><td>process_start_time</td><td>{{botrequest.process_start_time}}</td></tr>
+    <tr><td>process_end_time</td><td>{{botrequest.process_end_time}}</td></tr>
+    <tr><td>status</td><td>{{botrequest.status}}</td></tr>
+    <tr><td>routine</td><td>{{botrequest.routine}}</td></tr>
+    <tr><td>item id</td><td>{{botrequest.item_id}}</td></tr>
+    <tr><td>text</td><td>{{botrequest.request_text}}</td></tr>
+    <tr><td>nationality</td><td>{{botrequest.nationality}}</td></tr>
+    <tr><td>name</td><td>{{botrequest.name}}</td></tr>
+    <tr><td>gender</td><td>{{botrequest.gender}}</td></tr>
+    </table>
+{%else%}
+    <p>request not found</p>
+{% endif %}
+
+<form action="{% url 'botrequests:run' botrequest.id %}" method="post">
+{% csrf_token %}
+<input type="submit" value="run">
+</form>
