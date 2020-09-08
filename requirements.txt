@@ -1,16 +1,14 @@
 ####Cycling init site
 django
 djangorestframework
-gunicorn
-django-heroku
 djangorestframework_simplejwt
 djoser
 whitenoise
-xlrd
+xlrd 
 django-ratelimit
 django-cors-headers
-dj_database_url
 Celery
+toolforge
 
 ####pywikibot
 
