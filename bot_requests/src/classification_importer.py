@@ -34,8 +34,7 @@ def put_dnf_in_startlist(pywikibot, site, repo, item, startlist, row_count,
                          result_table, result_dic,**kwargs):
     
     test=kwargs.get('test',False)
-    qualifier_DNF=pywikibot.page.Claim(site, 'P1534', is_qualifier=True)
-    qualifier_stage_number=pywikibot.page.Claim(site, 'P1545', is_qualifier=True)
+    
     stage_nummer=-1
     if(u'P1545' in item.claims):  
         list_of_order=item.claims.get(u'P1545')
@@ -57,6 +56,7 @@ def put_dnf_in_startlist(pywikibot, site, repo, item, startlist, row_count,
                          qualnotfound=False
                      if qualnotfound:
                          target_qualifier = pywikibot.ItemPage(repo, u'Q1210380')
+                         qualifier_DNF=pywikibot.page.Claim(site, 'P1534', is_qualifier=True)
                          qualifier_DNF.setTarget(target_qualifier)
                          if not test:
                              this_starter.addQualifier(qualifier_DNF)
@@ -64,13 +64,37 @@ def put_dnf_in_startlist(pywikibot, site, repo, item, startlist, row_count,
                      for qual in this_starter.qualifiers.get('P1545', []):
                          qualnotfound=False 
                      if qualnotfound and stage_nummer!=-1:   
+                         qualifier_stage_number=pywikibot.page.Claim(site, 'P1545', is_qualifier=True)
                          qualifier_stage_number.setTarget(stage_nummer)
                          if not test:
                              this_starter.addQualifier(qualifier_stage_number)
                      if test and stage_nummer!=-1: 
                          return this_starter, stage_nummer #return first dnf rider
     return None, stage_nummer                          
-                      
+
+def is_there_a_startlist(item, general_or_stage, general_or_stage_team, startliston):
+    there_is_a_startlist=False #only useful for stage race
+    in_parent=False
+    startlist=None
+    item_with_startlist=None
+    
+    if (general_or_stage not in general_or_stage_team) and  startliston:
+        if(u'P710' in item.claims): 
+            item_with_startlist=item
+        elif (u'P361' in item.claims):
+            list_of_comprend=item.claims.get(u'P361')
+            parent=list_of_comprend[0].getTarget()
+            parent.get()
+            if(u'P710' in parent.claims): 
+                item_with_startlist=parent
+                in_parent=True
+       
+        if item_with_startlist is not None:
+            startlist=item_with_startlist.claims.get(u'P710')
+            there_is_a_startlist=True
+
+    return there_is_a_startlist, startlist, in_parent
+                    
 def f(pywikibot,site,repo,general_or_stage, id_race,
                            final, maxkk,test,**kwargs):
      
@@ -149,22 +173,9 @@ def f(pywikibot,site,repo,general_or_stage, id_race,
         item =pywikibot.ItemPage(repo, id_race)
         item.get()
         
-        there_is_a_startlist=False #only useful for stage race
-        if (general_or_stage not in general_or_stage_team) and startliston:
-            if(u'P710' in item.claims): 
-                item_with_startlist=item
-            elif (u'P361' in item.claims): #stage race
-                list_of_comprend=item.claims.get(u'P361')
-                parent=list_of_comprend[0].getTarget()
-                parent.get()
-                if(u'P710' in parent.claims): 
-                    item_with_startlist=parent
-           
-            if item_with_startlist is not None:
-                startlist=item_with_startlist.claims.get(u'P710')
-                there_is_a_startlist=True
-                log.concat('startlist found')
-   
+        there_is_a_startlist, startlist, in_parent=is_there_a_startlist(item, general_or_stage, general_or_stage_team, startliston)
+        if there_is_a_startlist:
+            log.concat('startlist found')
         
         if not test:
             if(u'P'+str(property_nummer) in item.claims):  #already there do nothing
@@ -223,6 +234,7 @@ def f(pywikibot,site,repo,general_or_stage, id_race,
                              result_table, result_dic)
                 log.concat('completion of startlist with DNF finished')
             return 0, log                          
-    except:
+    except Exception as msg:
+            print(msg)
             log.concat("General Error in classification_importer")
             return 10, log  

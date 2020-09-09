@@ -11,8 +11,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import django_heroku
-import dj_database_url
 
 from datetime import timedelta
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -24,21 +22,22 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEBUG=True
 
 if DEBUG:
-    #local
     with open('CyclingInitBotSite/etc/secret_key.txt') as f:
         SECRET_KEY = f.read().strip()
-    
+
     with open('CyclingInitBotSite/etc/DB_secret_key.txt') as f:
         DB_SECRET_KEY = f.read().strip()
         
     with open('CyclingInitBotSite/etc/g.txt') as f:
         EMAIL_SECRET_KEY = f.read().strip()    
-        
+    with open('CyclingInitBotSite/etc/DB_user.txt') as f:
+        DB_USER = f.read().strip()  
+
 else:
-   SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY') 
-#   PGUSER= os.environ.get('PGUSER') 
-#   DB_SECRET_KEY =  os.environ.get('PGPASSWORD') 
-   EMAIL_SECRET_KEY = os.environ.get('EMAIL_SECRET_KEY') 
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    DB_SECRET_KEY = os.environ.get('DB_SECRET_KEY')
+    EMAIL_SECRET_KEY= os.environ.get('EMAIL_SECRET_KEY')
+    DB_USER= os.environ.get('DB_USER')
 # SECURITY WARNING: keep the secret key used in production secret!
 #
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -156,21 +155,25 @@ WSGI_APPLICATION = 'CyclingInitBotSite.wsgi.application'
 if DEBUG:
     DATABASES = {
     'default': {
-         'ENGINE': 'django.db.backends.postgresql',
-         'NAME': 'pgcyclingdb', #pgcyclingdb
-         'USER': 'psemdel',
+         'ENGINE': 'django.db.backends.mysql',
+         'NAME': 'cyclingdb', 
+         'USER': DB_USER,
          'PASSWORD': DB_SECRET_KEY,
          'HOST': 'localhost',
          'PORT': '',
      }
     }
 else:
-    if os.environ.get('DATABASE_URL'):
-        DATABASES={
-            'default': dj_database_url.config(default=os.environ['DATABASE_URL'],conn_max_age=600, ssl_require=True)
-        }
-    else:
-        print('DATABASE_URL not found')
+    DATABASES = {
+    'default': {
+         'ENGINE': 'django.db.backends.mysql',
+         'NAME': 's54511__maria_cyclingdb', #pgcyclingdb
+         'USER': DB_USER,
+         'PASSWORD': DB_SECRET_KEY,
+         'HOST': 'tools.db.svc.eqiad.wmflabs',
+         'PORT': '',
+     }
+    }
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -199,13 +202,14 @@ if DEBUG:
 else:
     CORS_ORIGIN_WHITELIST = (
         'https://cycling-init-bot-site.herokuapp.com',
-        'http://www.cycling-init-bot.site'
+        'http://www.cycling-init-bot.site',
+        'https://cycling-init-bot.toolforge.org/'
     ) 
     
 if DEBUG:
     URL_ROOT= 'http://localhost:8000' 
 else:
-    URL_ROOT='https://cycling-init-bot-site.herokuapp.com'
+    URL_ROOT='https://cycling-init-bot.toolforge.org/'
     
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -223,9 +227,9 @@ USE_TZ = True
 
 # CELERY
 if DEBUG:
-    CELERY_BROKER_URL = 'pyamqp://guest@localhost//'
+    CELERY_BROKER_URL = 'redis://localhost:6379'
 else:
-    CELERY_BROKER_URL =os.environ.get('CLOUDAMQP_URL')
+    CELERY_BROKER_URL ='tools-redis.svc.eqiad.wmflabs'  #redis://:password@hostname:port/db_number
     CELERY_BROKER_POOL_LIMIT= 1
     CELERY_BROKER_HEARTBEAT = None # We're using TCP keep-alive instead
     CELERY_BROKER_CONNECTION_TIMEOUT = 30 # May require a long timeout due to Linux DNS timeouts etc
@@ -248,5 +252,3 @@ MEDIA_URL = DJANGO_STATIC_HOST + '/uploads/'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
-
-django_heroku.settings(locals())

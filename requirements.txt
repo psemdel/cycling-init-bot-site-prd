@@ -7,8 +7,8 @@ whitenoise
 xlrd 
 django-ratelimit
 django-cors-headers
-Celery
-toolforge
+celery[redis]
+mysqlclient
 
 ####pywikibot
 
