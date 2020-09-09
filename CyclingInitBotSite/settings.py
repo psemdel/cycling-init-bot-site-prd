@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
-DEBUG=True
+DEBUG=False
 
 if DEBUG:
     with open('CyclingInitBotSite/etc/secret_key.txt') as f:
