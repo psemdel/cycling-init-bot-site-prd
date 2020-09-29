@@ -4,7 +4,7 @@
 </button>
 <mat-menu #menu="matMenu">
     <button mat-menu-item>
-        Signed in as <b>{{currentUser.username}}</b>
+        Signed in as <b  *ngIf="currentUser?.username">{{currentUser.username}}</b>
     </button>
     <button mat-menu-item>
         <a routerLink="user_settings" role="button" routerLinkActive="active">Settings</a>
@@ -14,10 +14,10 @@
     <button mat-menu-item>
         <a routerLink="request_list" role="button" routerLinkActive="active">My requests</a>
     </button>
-    <button mat-menu-item *ngIf="currentUser.level">
+    <button mat-menu-item *ngIf="currentUser?.level">
         <a routerLink="all_request_list" role="button" routerLinkActive="active">All requests</a>
     </button>   
-    <button mat-menu-item *ngIf="currentUser.level">
+    <button mat-menu-item *ngIf="currentUser?.level">
         <a routerLink="resend_activation_email" role="button" routerLinkActive="active">Resend activation</a>
     </button>   
     <button mat-menu-item (click)="logout()">
