@@ -1,3 +1,5 @@
+@import "googleicon.css";
+
 .my-app {
   position: absolute;
   margin: 20 auto;
@@ -11,4 +13,5 @@ a{
    text-decoration: none;
    color: inherit;
 }
+
 

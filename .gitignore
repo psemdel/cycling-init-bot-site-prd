@@ -2,6 +2,7 @@
 **/apicache-py3/
 **/CyclingInitBotSite/etc/
 **/staticfiles/
+**/static/
 **/dist
 **/node_modules
 **/uploads
