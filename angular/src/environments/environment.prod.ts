@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://cycling-init-bot-site.herokuapp.com/api/',
-  authUrl: 'https://cycling-init-bot-site.herokuapp.com/auth/'
+  apiUrl: 'https://cycling-init-bot.toolforge.org/api/',
+  authUrl: 'https://cycling-init-bot.toolforge.org/auth/'
 };
