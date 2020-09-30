@@ -23,23 +23,24 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 DEBUG=False
 
-if DEBUG:
-    with open('CyclingInitBotSite/etc/secret_key.txt') as f:
-        SECRET_KEY = f.read().strip()
+#if DEBUG:
+with open('CyclingInitBotSite/etc/secret_key.txt') as f:
+    SECRET_KEY = f.read().strip()
 
-    with open('CyclingInitBotSite/etc/DB_secret_key.txt') as f:
-        DB_SECRET_KEY = f.read().strip()
-        
-    with open('CyclingInitBotSite/etc/g.txt') as f:
-        EMAIL_SECRET_KEY = f.read().strip()    
-    with open('CyclingInitBotSite/etc/DB_user.txt') as f:
-        DB_USER = f.read().strip()  
+with open('CyclingInitBotSite/etc/DB_secret_key.txt') as f:
+    DB_SECRET_KEY = f.read().strip()
+    
+with open('CyclingInitBotSite/etc/g.txt') as f:
+    EMAIL_SECRET_KEY = f.read().strip()    
+with open('CyclingInitBotSite/etc/DB_user.txt') as f:
+    DB_USER = f.read().strip()  
 
-else:
-    SECRET_KEY = os.environ.get('SECRET_KEY')
-    DB_SECRET_KEY = os.environ.get('DB_SECRET_KEY')
-    EMAIL_SECRET_KEY= os.environ.get('EMAIL_SECRET_KEY')
-    DB_USER= os.environ.get('DB_USER')
+#else:
+#    SECRET_KEY = os.path.join(BASE_DIR, 'CyclingInitBotSite/static')
+#os.environ.get('SECRET_KEY')
+ #   DB_SECRET_KEY = os.environ.get('DB_SECRET_KEY')
+ #   EMAIL_SECRET_KEY= os.environ.get('EMAIL_SECRET_KEY')
+ #   DB_USER= os.environ.get('DB_USER')
 # SECURITY WARNING: keep the secret key used in production secret!
 #
 # SECURITY WARNING: don't run with debug turned on in production!
