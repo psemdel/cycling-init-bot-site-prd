@@ -11,9 +11,11 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import sentry_sdk
 #import configparser
 
 from datetime import timedelta
+from sentry_sdk.integrations.django import DjangoIntegration
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -34,13 +36,6 @@ with open('CyclingInitBotSite/etc/g.txt') as f:
     EMAIL_SECRET_KEY = f.read().strip()    
 with open('CyclingInitBotSite/etc/DB_user.txt') as f:
     DB_USER = f.read().strip()  
-
-#else:
-#    SECRET_KEY = os.path.join(BASE_DIR, 'CyclingInitBotSite/static')
-#os.environ.get('SECRET_KEY')
- #   DB_SECRET_KEY = os.environ.get('DB_SECRET_KEY')
- #   EMAIL_SECRET_KEY= os.environ.get('EMAIL_SECRET_KEY')
- #   DB_USER= os.environ.get('DB_USER')
 # SECURITY WARNING: keep the secret key used in production secret!
 #
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -276,5 +271,13 @@ STATIC_URL = DJANGO_STATIC_HOST + '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 MEDIA_URL = DJANGO_STATIC_HOST + '/uploads/'
 
-#STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+#sentry
+sentry_sdk.init(
+    dsn="https://5ef588d52c64406da19b637880d0c3b3@o455109.ingest.sentry.io/5447219",
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=1.0,
 
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)

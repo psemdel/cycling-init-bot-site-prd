@@ -11,6 +11,7 @@ celery[redis]
 mysqlclient
 uwsgi
 social-auth-app-django
+sentry-sdk
 
 ####pywikibot
 
