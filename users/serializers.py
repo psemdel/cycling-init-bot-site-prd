@@ -9,7 +9,8 @@ Created on Mon Apr 27 21:24:48 2020
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User, Group
 from django.dispatch import receiver
-
+# Create your models here.
+from sentry_sdk import capture_message
 #rest
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers 
@@ -44,6 +45,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 def create_profile(sender, instance, created, **kwargs):
     new_user_group = Group.objects.get(name="new_user")
     instance.groups.add(new_user_group)
+    capture_message("new user created")
     
     if created:
         UserProfile.objects.create(user=instance)
