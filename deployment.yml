@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cycling-init-bot.celery.sh
+  namespace: tool-cycling-init-bot
+  labels:
+    name: cycling-init-bot.celery.sh
+    toolforge: tool
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: cycling-init-bot.celery.sh
+      toolforge: tool
+  template:
+    metadata:
+      labels:
+        name: cycling-init-bot.celery.sh
+        toolforge: tool
+    spec:
+      containers:
+        - name: celery
+          image: docker-registry.tools.wmflabs.org/toollabs-python37-base:latest
+          command: [ "/data/project/cycling-init-bot/www/python/src/start.sh" ]
+          workingDir: /data/project/cycling-init-bot/www/python/src
+          env:
+            - name: HOME
+              value: /data/project/cycling-init-bot
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: home
+              mountPath: /data/project/cycling-init-bot/
+      volumes:
+        - name: home
+          hostPath:
+            path: /data/project/cycling-init-bot/

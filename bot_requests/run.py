@@ -9,8 +9,10 @@ import pywikibot #avoid confusion
 from bot_requests.src import nation_team_table
 import time, os
 
+from sentry_sdk import capture_message
 from .dic import routine_to_model
-from .log import save_log
+from .log import save_log #log to the user
+
 
 site = pywikibot.Site("wikidata", "wikidata")
 repo = site.data_repository()
@@ -219,6 +221,7 @@ def run_bot(rq_id, rq_routine):
                 status, log=national_championship_creator.f(pywikibot,site,repo,time,nation_table,
                                     man_or_woman,option, start_year,end_year,False,country=country)  
         else:
+            capture_message("rq_id: "+ rq_id + "rq_routine: "+ rq_routine + " routine not managed", level="info")
             save_log(rq_id, rq_routine,"routine not managed")
             return 1
         
@@ -237,6 +240,7 @@ def run_bot(rq_id, rq_routine):
             return 0
         else:
             save_log(rq_id, rq_routine, "request failed")
+            capture_message("rq_id: "+ rq_id + "rq_routine: "+ rq_routine + " failed", level="info")
             rq.status = "failed"
             rq.save() 
             return 10
