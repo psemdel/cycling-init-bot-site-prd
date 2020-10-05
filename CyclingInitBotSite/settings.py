@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import sentry_sdk
-#import configparser
+import configparser
 
 from datetime import timedelta
 from sentry_sdk.integrations.django import DjangoIntegration
@@ -150,6 +150,9 @@ DJOSER = {
 
 WSGI_APPLICATION = 'CyclingInitBotSite.wsgi.application'
 
+if not DEBUG:
+    HOME=os.environ.get('HOME')
+
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 if DEBUG:
@@ -164,16 +167,19 @@ if DEBUG:
      }
     }
 else:
-   # config = configparser.ConfigParser()
-   # config.read('replica.my.cnf')
-   # print(config['client']['user'])
+    replica_path=HOME + '/replica.my.cnf'
+    if os.path.exists(replica_path):
+        config = configparser.ConfigParser()
+        config.read(replica_path)
+    else:
+        print('replica.my.cnf file not found')
     
     DATABASES = {
     'default': {
          'ENGINE': 'django.db.backends.mysql',
          'NAME': 's54511__maria_cyclingdb',
-         'USER': DB_USER,
-         'PASSWORD': DB_SECRET_KEY,
+         'USER': config['client']['user'],
+         'PASSWORD': config['client']['password'],
          'HOST': 'tools.db.svc.eqiad.wmflabs',
          'PORT': '',
          'OPTIONS': {
