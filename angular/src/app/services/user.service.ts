@@ -11,6 +11,7 @@ export class UserService {
     
     constructor(private http: HttpClient) { }
 
+    //used?
     getAll() {
         return this.http.get<User[]>(`${this.baseUrl}`);
     }
@@ -19,8 +20,9 @@ export class UserService {
         return this.http.post(`${this.authUrl}users/`, user );
     }
     
-    delete(id: number) {
-        return this.http.delete(`${this.baseUrl}/${id}`);
+    //used?, pass required?
+    delete() {
+        return this.http.delete(`${this.authUrl}users/me/`);
     }
     
     //will trigger email send

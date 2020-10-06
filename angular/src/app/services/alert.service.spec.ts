@@ -1,4 +1,4 @@
-import { TestBed, inject, fakeAsync, flush, async, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, flush, tick } from '@angular/core/testing';
 import {AlertService} from '@ser/alert.service';
 import { Observable, Subject } from 'rxjs';
 import {RouterTestingModule} from "@angular/router/testing";
@@ -15,8 +15,7 @@ describe('Alert service', () => {
         imports: [RouterTestingModule.withRoutes(routes)], 
         providers: [AlertService]
         });
-        router = TestBed.get(Router);
-        service = new AlertService(router);
+        service = TestBed.get(AlertService)
         
       });
     
@@ -24,17 +23,31 @@ describe('Alert service', () => {
         obs=service.getAlert();
         obs.subscribe(
         data=> {
-            expect(data).toEqual({ type: 'success', text: 'work' });
+            expect(data.type).toEqual('success');
+            expect(data.text).toEqual('work');
             done();
-        })
+        });
         service.success('work');
     });
+
+    it('test success fake',  fakeAsync(() =>{
+        obs=service.getAlert();
+        service.success('work');
+        flush();
+        obs.subscribe(
+        data=> {
+            expect(data.type).toEqual('success');
+            expect(data.text).toEqual('work');
+        });
+        flush();
+    }));
     
     it('test error',  (done) =>{
         obs=service.getAlert();
         obs.subscribe(
         data=> {
-            expect(data).toEqual({ type: 'error', text: 'work' });
+            expect(data.type).toEqual('error');
+            expect(data.text).toEqual('work');
             done();
         })
         service.error('work');
@@ -50,23 +63,27 @@ describe('Alert service', () => {
         service.clear();
     });
     
-   // it('test clear 2',  fakeAsync(() =>{
-   //     obs=service.getAlert();
-   //     service.success('work');
-  //      setTimeout(() => { service.clear(); }, 100);
-   //     obs.subscribe(
-   //     data=> {
-    //        expect(data).toEqual({ type: 'success', text: 'work' });
-   //     })
-    //    tick(200);
-    //    obs.subscribe(
-    //    data=> {
-   //         expect(data).toEqual(undefined);
+    it('test clear 2',  fakeAsync(() =>{
+        obs=service.getAlert();
+        service.success('work');
+        flush();        
+
+      //  obs.subscribe(
+      //  data=> {
+      //      expect(data.type).toEqual('success');
+       //     expect(data.text).toEqual('work');
     //    })
-        
-   //     })
-   
-   // );   
+
+        tick(100);
+        service.clear();
+        flush();
+        obs.subscribe(
+        data=> {
+            expect(data).toEqual(undefined);
+        });
+        flush();
+       })
+    );   
     
     });
          
