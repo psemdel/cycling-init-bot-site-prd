@@ -12,6 +12,8 @@ mysqlclient
 uwsgi
 social-auth-app-django
 sentry-sdk
+-U setuptools
+pywikibot
 
 ####pywikibot
 

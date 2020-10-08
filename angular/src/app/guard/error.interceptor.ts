@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, filter, take, switchMap, map  } from 'rxjs/operators';
+import { IntervalObservable } from "rxjs/observable/IntervalObservable";
+
 
 import {AuthenticationService } from '@ser/authentication.service';
 
@@ -10,6 +12,8 @@ import {AuthenticationService } from '@ser/authentication.service';
 export class ErrorInterceptor implements HttpInterceptor {
     private isRefreshing = false;
     private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    private firstCall=true;
+    private interval;
 
     constructor(private authenticationService: AuthenticationService) {}
 
@@ -19,11 +23,23 @@ export class ErrorInterceptor implements HttpInterceptor {
                
                 if (!this.isRefreshing) {
                     this.isRefreshing = true;
+                    
+                    this.interval=IntervalObservable.create(5000) //10 s to refresh
+                    .subscribe( data => {
+                        if (this.firstCall){
+                            this.firstCall=false;                            
+                        }else{
+                            this.isRefreshing=false; 
+                        }
+                    })
+                    
                     this.refreshTokenSubject.next(null);
                     
                     return this.authenticationService.refreshToken().pipe(
                     switchMap((token: any) => {
                         this.isRefreshing = false;
+                        this.interval.unsubscribe();
+                        this.firstCall=true;
                         console.log("refreshing token");
                         this.refreshTokenSubject.next(token.access);
                         return next.handle(this.addToken(request, token.access));

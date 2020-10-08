@@ -23,7 +23,12 @@ export class TopbarComponent implements OnInit {
         private authenticationService: AuthenticationService,
         private monitoringService: MonitoringService
     ) {
-        this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+        this.authenticationService.currentUser.subscribe(x => { 
+            this.currentUser = x
+            if (x==null){
+                this.monitoringService.reset();
+            }
+        });
     }
 
   ngOnInit() {
