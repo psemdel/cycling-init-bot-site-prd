@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import, division, unicode_literals
-
 # This is an automatically generated file. You can find more configuration
 # parameters in 'config.py' file.
 
@@ -199,9 +197,9 @@ step = -1
 # Maximum number of times to retry an API request before quitting.
 max_retries = 15
 # Minimum time to wait before resubmitting a failed API request.
-retry_wait = 30
+retry_wait = 5
 # Maximum time to wait before resubmitting a failed API request.
-retry_max = 300
+retry_max = 120
 
 # ############# TABLE CONVERSION BOT SETTINGS ##############
 
@@ -239,7 +237,7 @@ db_name_format = '{0}'
 db_connect_file = user_home_path('.my.cnf')
 # local port for mysql server
 # ssh -L 4711:enwiki.analytics.db.svc.eqiad.wmflabs:3306 \
-#     user@login.tools.wmflabs.org
+#     user@login.toolforge.org
 db_port = 3306
 
 # ############# SEARCH ENGINE SETTINGS ##############
@@ -328,7 +326,7 @@ persistent_http = False
 # DO NOT set to None to disable timeouts. Otherwise this may freeze your
 # script.
 # You may assign either a tuple of two int or float values for connection and
-# read timeout, or a single value for both in a tuple (since requests 2.4.0).
+# read timeout, or a single value for both in a tuple.
 socket_timeout = (6.05, 45)
 
 
@@ -405,17 +403,13 @@ simulate = False
 # processing. As higher this value this effect will decrease.
 max_queue_size = 64
 
-# Settings to enable mwparserfromhell
-# <https://mwparserfromhell.readthedocs.org/en/latest/>
-# Currently used in textlib.extract_templates_and_params
-# This is more accurate than our current regex, but only works
-# if the user has already installed the library.
-use_mwparserfromhell = True
-
 # Pickle protocol version to use for storing dumps.
 # This config variable is not used for loading dumps.
+# Version 0 is a more or less human-readable protocol
 # Version 2 is common to both Python 2 and 3, and should
 # be used when dumps are accessed by both versions.
-# Version 4 is only available for Python 3.4
+# Version 3 is only available for Python 3
+# Version 4 is only available for Python 3.4+
+# Version 5 was added with Python 3.8
 pickle_protocol = 2
 
