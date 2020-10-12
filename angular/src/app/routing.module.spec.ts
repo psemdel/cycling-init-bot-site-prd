@@ -1,117 +1,225 @@
-import { RouterTestingModule } from '@angular/router/testing';
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { RoutingModule, routes } from '@app/routing.module';
-import { DebugElement, Type } from '@angular/core';
+//import { routes} from './routing.module';
 
-import { By } from '@angular/platform-browser';
-import { Router, RouterLinkWithHref } from '@angular/router';
-import { SpyLocation } from '@angular/common/testing';
-import { Location } from '@angular/common';
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 
-import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
+import { Location } from "@angular/common";
+import { TestBed, fakeAsync, tick, flush } from "@angular/core/testing";
+import { RouterTestingModule } from "@angular/router/testing";
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-class Page {
-  aboutLinkDe: DebugElement;
-  dashboardLinkDe: DebugElement;
-  heroesLinkDe: DebugElement;
+import { Router, Routes } from "@angular/router";
 
-  // for debugging
-  comp: AppComponent;
-  location: SpyLocation;
-  router: Router;
-  fixture: ComponentFixture<AppComponent>;
+import {AuthGuard} from './guard/auth.guard';
+import {AuthGuardStaff} from './guard/authstaff.guard';
 
-  constructor() {
-    const links = fixture.debugElement.queryAll(By.directive(RouterLinkWithHref));
-    this.aboutLinkDe     = links[2];
-    this.dashboardLinkDe = links[0];
-    this.heroesLinkDe    = links[1];
+import { Component, Injectable } from "@angular/core";
 
-    // for debugging
-    this.comp    = comp;
-    this.fixture = fixture;
-    this.router  = router;
-  }
+@Component({ template: '<router-outlet></router-outlet>' })
+class TestBootstrapComponent {}
+
+@Component({ template: '' })
+class TestComponent {}
+
+@Injectable()
+class MockAuthGuard {
+    canActivate() {
+    return true;
+    }
 }
 
-function createComponent() {
-  fixture = TestBed.createComponent(AppComponent);
-  comp = fixture.componentInstance;
+@Injectable()
+class MockAuthGuard_false {
+    canActivate() {
+    return false;
+    }
+}
+  //  router.navigate(['/login']);
 
-  const injector = fixture.debugElement.injector;
-  location = injector.get(Location) as SpyLocation;
-  router = injector.get(Router);
-  router.initialNavigation();
-  advance();
-
-  page = new Page();
+@Injectable()
+class MockAuthGuardStaff {
+    canActivate() {
+    return true;
+    }
 }
 
-function expectPathToBe(path: string, expectationFailOutput?: any) {
-  expect(location.path()).toEqual(path, expectationFailOutput || 'location.path()');
+@Injectable()
+class MockAuthGuardStaff_false  {
+    canActivate() {
+    return false;
+    }
 }
+//    router.navigate(['/login']);
 
-function expectElementOf(type: Type<any>): any {
-  const el = fixture.debugElement.query(By.directive(type));
-  expect(el).toBeTruthy('expected an element for ' + type.name);
-  return el;
-}
-
-function advance(): void {
-  tick(); // wait while navigating
-  fixture.detectChanges(); // update view
-  tick(); // wait for async data to arrive
-}
-
-export const ButtonClickEvents = {
-   left:  { button: 0 },
-   right: { button: 2 }
-};
-
-function click(el: DebugElement | HTMLElement, eventObj: any = ButtonClickEvents.left): void {
-  if (el instanceof HTMLElement) {
-    el.click();
-  } else {
-    el.triggerEventHandler('click', eventObj);
-  }
-}
-
-let comp: AppComponent;
-let fixture: ComponentFixture<AppComponent>;
-let router: Router;
-let page: Page;
-let location: SpyLocation;
-
-describe('RouterTestingModule', () => {
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-     declarations: [
-        HomeComponent,
-      ],
-      imports: [
-        RouterTestingModule.withRoutes(routes),
-      ],
-    })
-    .compileComponents();
-  }));
+describe('router testing', () => {
+  let location: Location;
+  let router: Router;
+  let fixture;
+  let mockAuthGuard: AuthGuard;
+  let mockAuthGuardStaff: AuthGuardStaff;  
   
-  it('should navigate to "home" immediately', fakeAsync(() => {
-    createComponent();
-    tick(); // wait for async data to arrive
-    expectPathToBe('/home', 'after initialNavigation()');
-    expectElementOf(HomeComponent);
-  }));
-  
-   it('should navigate to create rider', fakeAsync(() => {
-    createComponent();
-    click(page.aboutLinkDe);
+    const init_staff = (() => {
+        //we test route similar to the true one
+    
+        const routesUnderTest: Routes = [
+            { path: '', redirectTo: 'home', pathMatch: 'full' },
+            { path: 'home', component: TestComponent},
+            { path: 'race', component: TestComponent, canActivate: [AuthGuard] },
+            { path: 'national-all-champs', component: TestComponent, canActivate: [AuthGuardStaff] },
+        ];
+    
+        TestBed
+        .configureTestingModule({
+          imports: [RouterTestingModule.withRoutes(routesUnderTest), 
+                   ],   //HttpClientTestingModule
+          providers: [ 
+              {provide: AuthGuard, useClass: MockAuthGuard},
+              {provide: AuthGuardStaff, useClass: MockAuthGuardStaff}
+               ],
+          declarations: [ TestComponent, TestBootstrapComponent ]
+        });
+        
+        router = TestBed.get(Router);
+        location = TestBed.get(Location);
+    
+        fixture = TestBed.createComponent(TestBootstrapComponent);
+        router.initialNavigation();
+    });
+    
+    const init_normal = (() => {
+        //we test route similar to the true one
+    
+        const routesUnderTest: Routes = [
+            { path: '', redirectTo: 'home', pathMatch: 'full' },
+            { path: 'home', component: TestComponent},
+            { path: 'race', component: TestComponent, canActivate: [AuthGuard] },
+            { path: 'national-all-champs', component: TestComponent, canActivate: [AuthGuardStaff] },
+        ];
+    
+        TestBed
+        .configureTestingModule({
+          imports: [RouterTestingModule.withRoutes(routesUnderTest), 
+                   ],   //HttpClientTestingModule
+          providers: [ 
+              {provide: AuthGuard, useClass: MockAuthGuard},
+              {provide: AuthGuardStaff, useClass: MockAuthGuardStaff_false}
+               ],
+          declarations: [ TestComponent, TestBootstrapComponent ]
+        });
+        
+        router = TestBed.get(Router);
+        location = TestBed.get(Location);
+    
+        fixture = TestBed.createComponent(TestBootstrapComponent);
+        router.initialNavigation();
+    });
+    
+     const init_nolog = (() => {
+        //we test route similar to the true one
+    
+        const routesUnderTest: Routes = [
+            { path: '', redirectTo: 'home', pathMatch: 'full' },
+            { path: 'home', component: TestComponent},
+            { path: 'race', component: TestComponent, canActivate: [AuthGuard] },
+            { path: 'national-all-champs', component: TestComponent, canActivate: [AuthGuardStaff] },
+        ];
+    
+        TestBed
+        .configureTestingModule({
+          imports: [RouterTestingModule.withRoutes(routesUnderTest), 
+                   ],   //HttpClientTestingModule
+          providers: [ 
+              {provide: AuthGuard, useClass: MockAuthGuard_false},
+              {provide: AuthGuardStaff, useClass: MockAuthGuardStaff_false}
+               ],
+          declarations: [ TestComponent, TestBootstrapComponent ]
+        });
+        
+        router = TestBed.get(Router);
+        location = TestBed.get(Location);
+    
+        fixture = TestBed.createComponent(TestBootstrapComponent);
+        router.initialNavigation();
+    });  
 
-    advance();
-    expectPathToBe('/home', 'after initialNavigation()');
-    expectElementOf(HomeComponent);
-  })); 
-  
-  
-  });
+      it('navigate to "" redirects you to /home', fakeAsync(() => {
+        init_staff();
+        router.navigate([""]).then(() => {
+          expect(location.path()).toBe("/home");
+        });
+        flush();
+      }));
+      
+      it('navigate to "home" takes you to /home', fakeAsync(() => {
+        init_staff();
+        router.navigate(["/home"]).then(() => {
+          expect(location.path()).toBe("/home");
+        });
+        flush();
+   }));
+
+   it('navigate to "race" takes you to /race', fakeAsync(() => {
+        init_staff();
+        router.navigate(["/race"]).then(() => {
+          expect(location.path()).toBe("/race");
+        });
+        flush();
+   }));
+   
+   it('navigate to "national-all-champs" takes you to /national-all-champs', fakeAsync(() => {
+        init_staff();
+        router.navigate(["/national-all-champs"]).then(() => {
+          expect(location.path()).toBe("/national-all-champs");
+        });
+        flush();
+   }));
+
+   it('navigate to "home" takes you to /home', fakeAsync(() => {
+        init_normal();
+        router.navigate(["/home"]).then(() => {
+          expect(location.path()).toBe("/home");
+        });
+        flush();
+   }));
+
+   it('navigate to "race" takes you to /race', fakeAsync(() => {
+        init_normal();
+        router.navigate(["/race"]).then(() => {
+          expect(location.path()).toBe("/race");
+        });
+        flush();
+   }));
+   
+   it('navigate to "national-all-champs" takes you to /national-all-champs', fakeAsync(() => {
+        init_normal();
+        router.navigate(["/national-all-champs"]).then(() => {
+          expect(location.path()).toBe("/");
+        });
+        flush();
+   }));
+   
+   it('navigate to "home" takes you to /home', fakeAsync(() => {
+        init_nolog();
+        router.navigate(["/home"]).then(() => {
+          expect(location.path()).toBe("/home");
+        });
+        flush();
+   }));
+
+   it('navigate to "race" takes you to /race', fakeAsync(() => {
+        init_nolog();
+        router.navigate(["/race"]).then(() => {
+          expect(location.path()).toBe("/");
+        });
+        flush();
+   }));
+   
+   it('navigate to "national-all-champs" takes you to /national-all-champs', fakeAsync(() => {
+        init_nolog();
+        router.navigate(["/national-all-champs"]).then(() => {
+          expect(location.path()).toBe("/");
+        });
+        flush();
+   }));
+   
+     
+});

@@ -183,7 +183,7 @@ def run_bot(rq_id, rq_routine):
             time_of_race=rq.time_of_race
             man_or_woman=rq.gender
             file=rq.result_file_name
-            force_nation_team=False
+            force_nation_team=rq.force_nation_team
             
             if not test_site:
                 status, log=startlist_importer.f(pywikibot,site,repo, prologue_or_final, id_race, 

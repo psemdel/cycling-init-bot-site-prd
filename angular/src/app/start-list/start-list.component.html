@@ -82,6 +82,19 @@
                          <div *ngIf="f.chrono.errors.required">Field required</div>
                     </div>
                 </div>
+                
+        <div class="form-group">
+              <label for="force">Is it a race where ONLY national teams participate?</label>
+              <select class="form-control" formControlName="force_nation_team"
+                 [ngClass]="{ 'is-invalid': submitted && f.force_nation_team.errors }">
+                 <option *ngFor="let yesno of yesnos" [value]="yesno.value">
+                   {{yesno.viewValue}}
+                 </option>
+               </select>
+                <div *ngIf="submitted && f.force_nation_team.errors" class="invalid-feedback">
+                    <div *ngIf="f.force_nation_team.errors.required">Field required</div>
+               </div>
+           </div>
 
            <label>Excel or csv file from UCI web site</label>
            <input type="file" id="fileUpload" name="fileUpload" formControlName="file"  multiple="multiple" 

@@ -28,6 +28,7 @@ export class BotRequest {
     race_type: boolean;
     chrono: boolean;
     moment: boolean;
+    force_nation_team: boolean;
     //race
     end_of_race: Date;  
     create_stages: boolean; 
