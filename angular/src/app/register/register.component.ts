@@ -9,6 +9,7 @@ import { UserService} from '@ser/user.service';
 
 @Component({ templateUrl: 'register.component.html' })
 
+
 export class RegisterComponent implements OnInit {
     registerForm: FormGroup;
     loading = false;
@@ -16,6 +17,7 @@ export class RegisterComponent implements OnInit {
     success = false;
     useralready=false;
     unknownerror=false;
+    notSame=null;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -47,6 +49,7 @@ export class RegisterComponent implements OnInit {
 
     onSubmit() {
         this.submitted = true;
+        this.notSame=false;
         // stop here if form is invalid
         if (this.registerForm.invalid) {
             console.log("input not valid")
@@ -71,7 +74,7 @@ export class RegisterComponent implements OnInit {
                 error => {
                     console.log(error); 
                     this.loading = false;
-                    this.unknownerror = true;
+                    this.unknownerror = true; 
                 }
                 );
     }
@@ -81,6 +84,11 @@ export class RegisterComponent implements OnInit {
       let pass = group.get('password').value;
       let confirmPass = group.get('confirmPass').value;
     
-      return pass === confirmPass ? null : { notSame: true }     
+      if (pass === confirmPass){
+      return null;
+      }else{
+      this.notSame=true;
+      return { notSame: true };
+      }
     }
 }

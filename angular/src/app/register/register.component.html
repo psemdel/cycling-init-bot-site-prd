@@ -53,7 +53,7 @@
                 <input type="password" formControlName="confirmPass" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmPass.errors }" />
                 <div *ngIf="submitted && f.confirmPass.errors" class="invalid-feedback">
                     <div *ngIf="f.confirmPass.errors.required">Password confirmation is required</div>
-                    <div *ngIf="f.confirmPass.errors.notSame">Password confirmation differs from password</div>
+                    <div *ngIf="notSame">Password confirmation differs from password</div>
                 </div>
             </div>       
             

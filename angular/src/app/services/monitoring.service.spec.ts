@@ -1,5 +1,7 @@
 import {MonitoringService} from '@ser/monitoring.service';
 
+import {MockAuthenticationService} from '../mock/mock-authentication.service';
+
 import { TestBed, fakeAsync, flush, async, ComponentFixture, tick } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { User, BotRequest} from '../models/models';
@@ -26,18 +28,6 @@ class MockBotRequestService {
      getRq(routine: string, author_id: number){
        return of(rq_list);
      }
-}
-
-@Injectable()
-class MockAuthenticationService {
-  currentUserSubject: BehaviorSubject<User>;
-  currentUser: Observable<User>; //save other information about user
-
-  constructor() {
-        this.currentUserSubject = new BehaviorSubject<User>({"id":1,"username":"tester","password":"","email":"",
-    "first_name":"","last_name":"","wiki_name":"","level":false}); 
-        this.currentUser = this.currentUserSubject.asObservable();
-    }
 }
 
 describe('Monitoring service', () => {

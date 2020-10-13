@@ -1,7 +1,5 @@
 //import { routes} from './routing.module';
 
-import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
-
 import { Location } from "@angular/common";
 import { TestBed, fakeAsync, tick, flush } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
