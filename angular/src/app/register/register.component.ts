@@ -7,8 +7,9 @@ import { first, catchError  } from 'rxjs/operators';
 import { AuthenticationService } from '@ser/authentication.service';
 import { UserService} from '@ser/user.service';
 
-@Component({ templateUrl: 'register.component.html' })
-
+@Component({ templateUrl: 'register.component.html' ,
+             styleUrls: ['./register.component.css']           
+})
 
 export class RegisterComponent implements OnInit {
     registerForm: FormGroup;
@@ -16,7 +17,7 @@ export class RegisterComponent implements OnInit {
     submitted = false;
     success = false;
     useralready=false;
-    unknownerror=false;
+    backenderror=[];
     notSame=null;
 
     constructor(
@@ -61,20 +62,19 @@ export class RegisterComponent implements OnInit {
         
         this.useralready=false;
         this.loading = true;
-        this.unknownerror=false;
+        this.backenderror=[];
         this.userService.register(this.registerForm.value)
             .pipe(
             first(),
-           // catchError(this.handleerror)              
             )
             .subscribe(
                 data => {
                     this.success = true;
                 },
                 error => {
-                    console.log(error); 
                     this.loading = false;
-                    this.unknownerror = true; 
+                    let keylist = Object.keys(error);
+                    this.backenderror = error[keylist[0]]; 
                 }
                 );
     }
@@ -85,10 +85,9 @@ export class RegisterComponent implements OnInit {
       let confirmPass = group.get('confirmPass').value;
     
       if (pass === confirmPass){
-      return null;
+          return null;
       }else{
-      this.notSame=true;
-      return { notSame: true };
+          return { notSame: true };
       }
     }
 }

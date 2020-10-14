@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User} from '@app/models/models';
+import { of  } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 
@@ -13,4 +14,8 @@ export class MockAuthenticationService {
     "first_name":"","last_name":"","wiki_name":"","level":false}); 
         this.currentUser = this.currentUserSubject.asObservable();
     }
+    
+   login(username, password) {
+        return of("ras");
+   } 
 }

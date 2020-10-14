@@ -4,8 +4,8 @@ import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, filter, take, switchMap, map  } from 'rxjs/operators';
 import { IntervalObservable } from "rxjs/observable/IntervalObservable";
 
-
 import {AuthenticationService } from '@ser/authentication.service';
+import {AlertService } from '@ser/alert.service';
 
 @Injectable()
 
@@ -15,7 +15,9 @@ export class ErrorInterceptor implements HttpInterceptor {
     private firstCall=true;
     private interval;
 
-    constructor(private authenticationService: AuthenticationService) {}
+    constructor(private authenticationService: AuthenticationService,
+                private alertService: AlertService
+    ) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(catchError(err => {
@@ -56,6 +58,12 @@ export class ErrorInterceptor implements HttpInterceptor {
                   );
                 }
             }
+            else if (err.status===400){ //for register
+                return throwError(err.error || err.error.message || err.statusText);
+            }
+            else if  (err.status===403){
+                this.alertService.error("maximum number of requests per hour reached, wait a bit or contact the webmaster for extended rights");
+            }            
             else if(err.status===404){
              console.log("error 404");
             }else
