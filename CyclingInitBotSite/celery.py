@@ -10,6 +10,7 @@ from celery import Celery
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'CyclingInitBotSite.settings')
 
 app = Celery('CyclingInitBotSite')
+app.conf.task_default_queue = 'cycling-init-bot-worker'
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.
