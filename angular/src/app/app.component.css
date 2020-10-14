@@ -12,3 +12,6 @@ body {
   margin: 8px;
 }
 
+.invalid-feedback{
+   color: red;
+}

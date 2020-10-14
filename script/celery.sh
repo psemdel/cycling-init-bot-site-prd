@@ -1,2 +1,2 @@
 #!/bin/bash
-/data/project/cycling-init-bot/www/python/venv/bin/celery -A CyclingInitBotSite worker -l info
+/data/project/cycling-init-bot/venv_celery/bin/celery -A CyclingInitBotSite worker -l info
