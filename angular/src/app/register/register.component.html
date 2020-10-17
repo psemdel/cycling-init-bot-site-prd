@@ -51,14 +51,14 @@
              <div class="form-group">
                 <label for="confirmPass">Confirm password</label>
                 <input type="password" formControlName="confirmPass" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmPass.errors }" />
+                <div *ngIf="submitted && registerForm.errors?.notSame" class="invalid-feedback">Password confirmation differs from password</div>
                 <div *ngIf="submitted && f.confirmPass.errors" class="invalid-feedback">
                     <div *ngIf="f.confirmPass.errors.required">Password confirmation is required</div>
-                    <div *ngIf="registerForm.errors.notSame">Password confirmation differs from password</div>
                 </div>
             </div>       
             
             <div class="form-group">
-                <button mat-raised-button color="primary">
+                <button mat-raised-button color="primary" id="submit">
                     <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                     Register
                 </button>
@@ -73,7 +73,7 @@
         </form>
     </div>
     <div *ngIf="success">
-      <p>You submitted successfully! An activation e-mail was sent to your mailbox.</p>
+      <p class="content">You submitted successfully! An activation e-mail was sent to your mailbox.</p>
       <a routerLink="/login" mat-raised-button color="primary" role="button">Login</a>
     </div>
 </div>

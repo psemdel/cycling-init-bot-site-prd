@@ -1,11 +1,13 @@
 **/__pycache__
 **/apicache-py3/
 **/CyclingInitBotSite/etc/
+**/selenium_tests/etc/
 **/staticfiles/
 /static/
 **/dist
 **/node_modules
 **/uploads
+**/pywikibot
 user-password.py
 config
 

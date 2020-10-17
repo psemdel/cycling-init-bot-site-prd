@@ -6,7 +6,9 @@ import { first } from 'rxjs/operators';
 import {AuthenticationService } from '@ser/authentication.service';
 import { User} from '@app/models/models';
 
-@Component({ templateUrl: 'login.component.html' })
+@Component({ templateUrl: 'login.component.html',
+             styleUrls: ['./login.component.css']   
+})
 
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;

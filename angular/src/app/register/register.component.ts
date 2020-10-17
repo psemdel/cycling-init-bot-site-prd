@@ -18,7 +18,6 @@ export class RegisterComponent implements OnInit {
     success = false;
     useralready=false;
     backenderror=[];
-    notSame=null;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -50,13 +49,9 @@ export class RegisterComponent implements OnInit {
 
     onSubmit() {
         this.submitted = true;
-        this.notSame=false;
         // stop here if form is invalid
         if (this.registerForm.invalid) {
-            console.log("input not valid")
-            error => {
-                    console.log(error);
-            }
+           console.log("input invalid")
            return;
         }
         

@@ -17,7 +17,7 @@ def djoser_getpost(key_path, payload):
     response = requests.post(rq_url, data = payload)
     
     if response.status_code == 204:
-         return HttpResponse("<h1>" + key_path +" successful!</h1><br><a href='http://www.cycling-init-bot.site/home'>Cycling-Init-Bot</a>")
+         return HttpResponse("<h1>" + key_path +" successful!</h1><br><a href='https://cycling-init-bot.toolforge.org/home'>Cycling-Init-Bot</a>")
     else:
          return HttpResponse("Something went wrong!")
 

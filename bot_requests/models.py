@@ -61,7 +61,7 @@ class StartListRequest(BotRequestWithFile):
    chrono= models.BooleanField(blank=False)
    moment= models.BooleanField(blank=False)
    gender =models.CharField(max_length=5, blank=True)#for champ
-   force_nation_team= models.BooleanField(blank=False)
+   force_nation_team= models.BooleanField(blank=False, default=False)
  
    def __str__(self):
         return self.routine + " "+ self.item_id
