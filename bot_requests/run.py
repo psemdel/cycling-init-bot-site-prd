@@ -70,7 +70,8 @@ def run_bot(rq_id, rq_routine):
             
             if rq.race_type: #stage race
                 single_race=False
-                
+                man_or_woman=u'woman' #to be implemented
+
                 if rq.prologue:
                    first_stage=0
                 else:
@@ -81,6 +82,7 @@ def run_bot(rq_id, rq_routine):
                                   nation_table,
                                   rq.name,
                                   single_race,
+                                  man_or_woman,
                                   id_race_master=rq.item_id,
                                   race_begin=rq.time_of_race,
                                   countryCIO=rq.nationality,
@@ -93,12 +95,14 @@ def run_bot(rq_id, rq_routine):
                                   last_stage=rq.last_stage)
             else:
                 single_race=True
+                man_or_woman=u'woman' #to be implemented
                 
                 if not test_site:
                     status, log, result_id=race_creator.f(pywikibot,site,repo,time,
                                   nation_table,
                                   rq.name,
                                   single_race,
+                                  man_or_woman,
                                   id_race_master=rq.item_id,
                                   race_begin=rq.time_of_race,
                                   countryCIO=rq.nationality,
@@ -112,6 +116,8 @@ def run_bot(rq_id, rq_routine):
             from bot_src.src import race_creator
 
             single_race=False
+            man_or_woman=u'woman' #to be implemented
+            
             if rq.prologue:
                 first_stage=0
             else:
@@ -122,6 +128,7 @@ def run_bot(rq_id, rq_routine):
                                   nation_table,
                                   rq.name,
                                   single_race,
+                                  man_or_woman,
                                   stage_race_id=rq.item_id, 
                                   only_stages=True,
                                   first_stage=first_stage,
