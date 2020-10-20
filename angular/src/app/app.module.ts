@@ -37,6 +37,7 @@ import { StartListComponent} from '@app/start-list/start-list.component';
 import { StagesComponent} from '@app/stages/stages.component';
 import { RaceComponent} from '@app/race/race.component';
 import { TeamComponent} from '@app/team/team.component';
+import { NationalTeamComponent} from '@app/national-team/national-team.component';
 import { UCIrankingComponent} from '@app/UCIranking/UCIranking.component';
 import { SortDateComponent} from '@app/sort-date/sort-date.component';
 import { SortNameComponent} from '@app/sort-name/sort-name.component';
@@ -85,7 +86,7 @@ import {LoadingInterceptorService } from './guard/loading.interceptor';
                 SortDateComponent, SortNameComponent, LoadingComponent,
                 ForgottenPassComponent, UserSettingsComponent, 
                 LogComponent, LogContentComponent, AlertComponent, MenuComponent,
-                RequestDetailsComponent, NotFoundComponent 
+                RequestDetailsComponent, NotFoundComponent, NationalTeamComponent
                 ],
   bootstrap:    [ AppComponent ],
   providers: [

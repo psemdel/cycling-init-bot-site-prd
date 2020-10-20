@@ -107,8 +107,17 @@ class TeamRequest(BotRequest):
    result_id=models.CharField(max_length=30, blank=True)
     
    def __str__(self):
-        return self.routine + " "+ self.name  
-    
+        return self.routine + " "+ self.name 
+ 
+class NationalTeamRequest(BotRequest):
+   nationality = models.CharField(max_length=3, blank=True)
+   year_begin = models.IntegerField(blank=False)
+   year_end = models.IntegerField(blank=False)
+   gender =models.CharField(max_length=5, blank=False)#for champ
+
+   def __str__(self):
+        return self.routine + " "+ self.item_id
+   
 class SortDateRequest(BotRequest):
    prop = models.IntegerField(blank=False)
     

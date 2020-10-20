@@ -21,6 +21,7 @@ export class AllRequestListComponent implements OnInit {
   race_botrequests: Observable<BotRequest[]>;
   stages_botrequests: Observable<BotRequest[]>;
   team_botrequests: Observable<BotRequest[]>;
+  national_team_botrequests: Observable<BotRequest[]>;
   UCIranking_botrequests: Observable<BotRequest[]>;
   sort_date_botrequests: Observable<BotRequest[]>;
   sort_name_botrequests: Observable<BotRequest[]>; 
@@ -60,6 +61,9 @@ export class AllRequestListComponent implements OnInit {
     this.team_botrequests =
       this.botRequestService.getAllRq('team',this.currentUser.id);   
       
+    this.national_team_botrequests =
+      this.botRequestService.getRq('national_team',this.currentUser.id);  
+
     this.UCIranking_botrequests =
       this.botRequestService.getAllRq('UCIranking',this.currentUser.id);  
    

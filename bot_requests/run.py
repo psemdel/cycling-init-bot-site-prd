@@ -64,7 +64,6 @@ def run_bot(rq_id, rq_routine):
                  status, log=classification_importer.f(pywikibot,site,repo,stage_or_general,id_race,final,
                                    maxkk,test,startliston=startliston,file=file, year=year,
                                    man_or_woman=rq.gender)
-             return 0
         elif rq_routine=="race":
             from bot_src.src import race_creator
             
@@ -152,6 +151,17 @@ def run_bot(rq_id, rq_routine):
                                    team_dic,rq.year)
                 rq.result_id=result_id
                 rq.save()
+
+        elif rq_routine=="national_team":
+            from bot_src.src import national_team_creator
+            
+            if not test_site:
+                status, log=national_team_creator.f(pywikibot,site,repo,time,nation_table,
+                                rq.gender,
+                                rq.year_begin,
+                                rq.year_end,
+                                country=rq.nationality)
+
                 
         elif rq_routine=="sort_date":
             from bot_src.src import sorter

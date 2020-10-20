@@ -196,6 +196,7 @@ dic_of_routines['start_list']="importation of start list";
 dic_of_routines['race']="race creation";
 dic_of_routines['stages']="stages creation";
 dic_of_routines['team']="team season creation";
+dic_of_routines['national_team']="national team season creation";
 dic_of_routines['UCIranking']="importation of UCI ranking";
 dic_of_routines['sort_date']="sorting";
 dic_of_routines['sort_name']="sorting";
