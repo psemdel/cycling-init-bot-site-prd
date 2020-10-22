@@ -36,9 +36,9 @@ with open('CyclingInitBotSite/etc/g.txt') as f:
     EMAIL_SECRET_KEY = f.read().strip()    
 with open('CyclingInitBotSite/etc/DB_user.txt') as f:
     DB_USER = f.read().strip()  
+    
 # SECURITY WARNING: keep the secret key used in production secret!
-#
-# SECURITY WARNING: don't run with debug turned on in production!
+## SECURITY WARNING: don't run with debug turned on in production!
 
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -281,7 +281,7 @@ MEDIA_URL = DJANGO_STATIC_HOST + '/uploads/'
 sentry_sdk.init(
     dsn="https://5ef588d52c64406da19b637880d0c3b3@o455109.ingest.sentry.io/5447219",
     integrations=[DjangoIntegration()],
-    traces_sample_rate=1.0,
+    traces_sample_rate=0.01,
 
     # If you wish to associate users to errors (assuming you are using
     # django.contrib.auth) you may enable sending PII data.

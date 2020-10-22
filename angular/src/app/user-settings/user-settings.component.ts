@@ -7,24 +7,35 @@ import { first, catchError  } from 'rxjs/operators';
 import { AuthenticationService } from '@ser/authentication.service';
 import { UserService} from '@ser/user.service';
 import { SetPass} from '@app/models/models';
+import { User} from '@app/models/models';
 
 @Component({ templateUrl: 'user-settings.component.html' })
 
 export class UserSettingsComponent implements OnInit {
     settingsForm: FormGroup;
+    
     loading = false;
     submitted = false;
     success = false;
     useralready=false;
     unknownerror=false;
     setpass:SetPass;
-
+    
+    currentUser: User;
+    
+    deleteForm: FormGroup;
+    delete_success= false;
+    delete_submitted = false;
+    delete_unknownerror=false;
+ 
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
         private authenticationService: AuthenticationService,
         private userService: UserService
-    ) {}
+    ) {
+        this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    }
     
     ngOnInit() {
         this.setpass = new SetPass();
@@ -34,6 +45,11 @@ export class UserSettingsComponent implements OnInit {
             confirmPass: ['']}
            , { validator: this.checkPasswords 
            });
+        this.deleteForm= this.formBuilder.group({
+            password: ['', [Validators.required]],
+           //},
+           // {validator: this.checkUsername.bind(this)    username: ['',  [Validators.required]]
+        });
     }
 
     // convenience getter for easy access to form fields
@@ -81,4 +97,29 @@ export class UserSettingsComponent implements OnInit {
     
       return pass === confirmPass ? null : { notSame: true }     
     }
+    
+    get fd() { return this.deleteForm.controls; }
+    
+    deleteAccount(){
+        this.delete_submitted = true;
+        this.delete_success= false;
+        this.delete_unknownerror = false;
+    
+        this.userService.delete()
+        .subscribe(
+                data => {
+                    this.delete_success= true;
+                },
+                error => {
+                    console.log(error); 
+                    this.delete_unknownerror = true;
+                }
+                );
+    }
+    
+    //checkUsername(group: FormGroup) { // here we have the 'passwords' group
+   //   let username = group.get('username').value;
+    
+   //   return username ===  this.currentUser.username ? null : { notSame: true }     
+   // }
 }
