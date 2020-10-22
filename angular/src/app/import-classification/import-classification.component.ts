@@ -115,6 +115,7 @@ export class ImportClassificationComponent implements OnInit {
     this.submitted = true;
     this.exterror=false;
     this.sizeerror=false;
+    this.files=[]; //new
     // stop here if form is invalid
     if (this.registerForm.invalid) {
         console.log("input not valid")
@@ -151,6 +152,8 @@ export class ImportClassificationComponent implements OnInit {
     this.botrequest.item_id=this.f.item_id.value;
     this.botrequest.classification_type=this.f.classification_type.value;
     this.botrequest.author=this.currentUser.id;
+    this.botrequest.gender=this.f.gender.value;
+    this.botrequest.year=this.f.year.value;
     
     this.uploadFile(this.files[0], this.botrequest);
     this.botrequest = new BotRequest();

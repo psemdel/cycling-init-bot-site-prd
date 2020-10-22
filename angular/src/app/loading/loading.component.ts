@@ -16,7 +16,6 @@ export class LoadingComponent implements AfterViewInit, OnDestroy {
   ) { }
 
   ngAfterViewInit(): void {
-    console.log("after");
     this._elmRef.nativeElement.style.display = 'none';
     this.loadingSubscription = this.loadingScreenService.loading$.pipe().subscribe(
       (status: boolean) => {
