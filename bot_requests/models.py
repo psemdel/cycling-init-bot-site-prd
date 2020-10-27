@@ -116,7 +116,7 @@ class NationalTeamRequest(BotRequest):
    gender =models.CharField(max_length=5, blank=False)#for champ
 
    def __str__(self):
-        return self.routine + " "+ self.item_id
+        return self.routine + " "+ self.nationality
    
 class SortDateRequest(BotRequest):
    prop = models.IntegerField(blank=False)

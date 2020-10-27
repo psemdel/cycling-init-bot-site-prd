@@ -3,6 +3,7 @@ from .models import (CreateRiderRequest, ImportClassificationRequest,StagesReque
                     StartListRequest,NationalAllChampsRequest,NationalOneChampRequest, 
                     UCIrankingRequest, TeamRequest, SortDateRequest, SortNameRequest
                     )
+from home_infos.models import HomeInfo
 
 # Register your models here.
 admin.site.register(CreateRiderRequest)  
@@ -16,3 +17,4 @@ admin.site.register(UCIrankingRequest)
 admin.site.register(TeamRequest)
 admin.site.register(SortDateRequest)
 admin.site.register(SortNameRequest)
+admin.site.register(HomeInfo)

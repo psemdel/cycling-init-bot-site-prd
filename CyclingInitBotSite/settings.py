@@ -72,6 +72,7 @@ if DEBUG:
         'djoser',
         'bot_requests.apps.BotRequestsConfig',
         'users.apps.UsersConfig',
+        'home_infos.apps.HomeInfosConfig',
         # CORS
         'corsheaders', 
     ]
@@ -90,6 +91,7 @@ else:
         'bot_requests.apps.BotRequestsConfig',
         'email_manager.apps.EmailManagerConfig',
         'users.apps.UsersConfig',
+        'home_infos.apps.HomeInfosConfig',
     ]  
 
 
@@ -278,12 +280,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 MEDIA_URL = DJANGO_STATIC_HOST + '/uploads/'
 
 #sentry
-sentry_sdk.init(
-    dsn="https://5ef588d52c64406da19b637880d0c3b3@o455109.ingest.sentry.io/5447219",
-    integrations=[DjangoIntegration()],
-    traces_sample_rate=0.01,
-
-    # If you wish to associate users to errors (assuming you are using
-    # django.contrib.auth) you may enable sending PII data.
-    send_default_pii=True
-)
+if DEBUG==False:
+    sentry_sdk.init(
+        dsn="https://5ef588d52c64406da19b637880d0c3b3@o455109.ingest.sentry.io/5447219",
+        integrations=[DjangoIntegration()],
+        traces_sample_rate=0.01,
+    
+        # If you wish to associate users to errors (assuming you are using
+        # django.contrib.auth) you may enable sending PII data.
+        send_default_pii=True
+    )

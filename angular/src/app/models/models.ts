@@ -72,3 +72,7 @@ export class SetPass {
   re_new_password: string;
   current_password: string;  
 }
+
+export class HomeInfo{
+  news: string;
+}
