@@ -4,8 +4,10 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.http.response import JsonResponse, HttpResponse
 from django.conf import settings
+
+from django.core.mail import send_mail
 # rest
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.decorators import permission_classes, api_view
 
 import requests
@@ -62,7 +64,17 @@ def activate_user(request, uid, token):
         return djoser_getpost("activation", payload)
 
  
-
+@api_view(['GET'])    
+@permission_classes((IsAdminUser,)) 
+def test(request):
+    send_mail(
+    'Cycling-init-bot test email',
+    'This is a test.',
+    'cyclinginitbot@gmail.com',
+    ['maxime.delzenne@gmail.com'],
+    fail_silently=False,
+    )
+    return HttpResponse("ok")
 #@api_view(['GET'])       
 #@permission_classes([AllowAny])    
 #def resend_activation(request, email):

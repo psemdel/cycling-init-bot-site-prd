@@ -172,14 +172,18 @@ interface RaceClass {
 }
   
 export const race_1x_classes: RaceClass[] = [
+    {value: "1.Pro", viewValue: "UCI 1.Pro"},
     {value: "1.HC", viewValue: 'UCI 1.HC'},
     {value: "1.1", viewValue: 'UCI 1.1'},
     {value: "1.2", viewValue: 'UCI 1.2'},
+    {value: "1.5", viewValue: 'UCI 1.5 (old)'},
     {value: "UWT.1", viewValue: 'UWT 1'},
     {value: "WWT.1", viewValue: 'WWT 1'},
+    
   ];
   
 export const race_2x_classes: RaceClass[] = [
+    {value: "2.Pro", viewValue: "UCI 2.Pro"},
     {value: "2.HC", viewValue: 'UCI 2.HC'},
     {value: "2.1", viewValue: 'UCI 2.1'},
     {value: "2.2", viewValue: 'UCI 2.2'},

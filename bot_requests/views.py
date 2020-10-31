@@ -28,7 +28,7 @@ from .log import save_log
 if settings.DEBUG:
     RATELIMRQ='200000/h'
 else:
-    RATELIMRQ='10/h'
+    RATELIMRQ='100/h' #not needed for "not autocheck" as the requests are then pending
 
 def index(request):
    return HttpResponse("<p>bot_requests index</p>")

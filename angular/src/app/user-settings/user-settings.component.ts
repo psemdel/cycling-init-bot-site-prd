@@ -6,6 +6,7 @@ import { first, catchError  } from 'rxjs/operators';
 
 import { AuthenticationService } from '@ser/authentication.service';
 import { UserService} from '@ser/user.service';
+import {MonitoringService } from '@ser/monitoring.service';
 import { SetPass} from '@app/models/models';
 import { User} from '@app/models/models';
 
@@ -32,7 +33,8 @@ export class UserSettingsComponent implements OnInit {
         private formBuilder: FormBuilder,
         private router: Router,
         private authenticationService: AuthenticationService,
-        private userService: UserService
+        private userService: UserService,
+        private monitoringService: MonitoringService
     ) {
         this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
     }
@@ -81,6 +83,8 @@ export class UserSettingsComponent implements OnInit {
             )
             .subscribe(
                 data => {
+                    this.monitoringService.reset(); //has to be here to avoid interdependency
+                    this.authenticationService.logout();
                     this.success = true;
                 },
                 error => {
