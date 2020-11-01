@@ -89,7 +89,7 @@ def run_bot(rq_id, rq_routine):
             
             if rq.race_type: #stage race
                 single_race=False
-                man_or_woman=u'woman' #to be implemented
+                man_or_woman=rq.gender
                 
                 if rq.prologue:
                    first_stage=0
@@ -117,7 +117,7 @@ def run_bot(rq_id, rq_routine):
                                   last_stage=rq.last_stage)
             else:
                 single_race=True
-                man_or_woman=u'woman' #to be implemented
+                man_or_woman=rq.gender
                 time_of_race=datetime_to_Wbtime(site, rq.time_of_race)
        
                 if not test_site:
@@ -139,7 +139,7 @@ def run_bot(rq_id, rq_routine):
             from bot_src.src import race_creator
 
             single_race=False
-            man_or_woman=u'woman' #to be implemented
+            man_or_woman=rq.gender
             
             if rq.prologue:
                 first_stage=0

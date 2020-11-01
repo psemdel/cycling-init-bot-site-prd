@@ -15,6 +15,20 @@
             </div>
         </div>
      <br>
+         <div class="form-group">
+              <label for="gender">Man or woman race?<br/>
+              </label>
+              <select class="form-control" formControlName="gender"
+              [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
+                  <option *ngFor="let gender of genders" [value]="gender.value">
+                    {{gender.viewValue}}
+                  </option>
+                </select>
+                <div *ngIf="submitted && f.gender.errors" class="invalid-feedback">
+                    <div *ngIf="f.gender.errors.required">Field required</div>
+               </div>
+            </div>
+     <br>
      <p>Check that the begin and end dates are given in the item of the race edition!</p>
      <div class="form-group"> 
            <label for="prologue">Is there a prologue?</label>

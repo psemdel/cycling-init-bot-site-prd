@@ -5,7 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {AuthenticationService } from '@ser/authentication.service';
 import {MonitoringService } from '@ser/monitoring.service';
 import { BotRequest, User} from '@app/models/models';
-import {yesnos} from '@app/models/lists';
+import {yesnos,  genders} from '@app/models/lists';
 
 @Component({
   selector: 'stages',
@@ -21,6 +21,7 @@ export class StagesComponent implements OnInit {
   success = false;
   lastname: string;
   yesnos=yesnos;
+  genders=genders;
   
   constructor(private botRequestService: BotRequestService,
               private formBuilder: FormBuilder,
@@ -36,6 +37,7 @@ export class StagesComponent implements OnInit {
             item_id: ['', [Validators.required, Validators.pattern(/^[Q].*$/)]],
             prologue: [true, Validators.required],
             last_stage: [0, Validators.required],
+            gender: ['',Validators.required],
             });
   }
 

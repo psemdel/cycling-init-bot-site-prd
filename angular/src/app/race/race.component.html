@@ -27,6 +27,21 @@
                  <div *ngIf="f.item_id.errors.pattern">Item id should start with "Q"</div>
             </div>
         </div>
+   <br> 
+            <div class="form-group">
+              <label for="gender">Man or woman race?<br/>
+              </label>
+              <select class="form-control" formControlName="gender"
+              [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
+                  <option *ngFor="let gender of genders" [value]="gender.value">
+                    {{gender.viewValue}}
+                  </option>
+                </select>
+                <div *ngIf="submitted && f.gender.errors" class="invalid-feedback">
+                    <div *ngIf="f.gender.errors.required">Field required</div>
+               </div>
+    
+            </div>
     <br>
         <div class="form-group">
            <label for="race_type">Type of race</label>
@@ -91,7 +106,7 @@
            </div>
           
        </div>
-       <div *ngIf="f.race_type.value=='false'" class="form-group">
+       <div *ngIf="f.race_type.value!='true'" class="form-group">
           <label for="race_class">Class</label>
           <select class="form-control" formControlName="race_class1"
           [ngClass]="{ 'is-invalid': submitted && f.race_class1.errors }" >

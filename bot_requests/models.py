@@ -87,6 +87,8 @@ class RaceRequest(BotRequest):
    prologue= models.BooleanField(blank=True)
    last_stage=models.IntegerField(blank=True)
    edition_nr=models.IntegerField(blank=False)
+   
+   gender =models.CharField(max_length=5, blank=True)#for champ
      
    def __str__(self):
         return self.routine + " "+ self.name
@@ -94,6 +96,7 @@ class RaceRequest(BotRequest):
 class StagesRequest(BotRequest):
    prologue= models.BooleanField(blank=False)
    last_stage=models.IntegerField(blank=False)
+   gender =models.CharField(max_length=5, blank=True)#for champ
      
    def __str__(self):
         return self.routine + " "+ self.item_id

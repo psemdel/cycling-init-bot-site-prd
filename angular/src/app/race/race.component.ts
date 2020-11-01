@@ -5,8 +5,8 @@ import { FormGroup, FormBuilder, Validators, FormControl} from '@angular/forms';
 import {AuthenticationService } from '@ser/authentication.service';
 import {MonitoringService } from '@ser/monitoring.service';
 import { BotRequest, User} from '@app/models/models';
-import { race_types, nationalities,yesnos,race_1x_classes, race_2x_classes} from '@app/models/lists';
-
+import { race_types, nationalities,yesnos,
+race_1x_classes, race_2x_classes,  genders} from '@app/models/lists';
 import { MY_FORMATS} from '@app/models/date-format';
 import {MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 
@@ -30,6 +30,7 @@ export class RaceComponent implements OnInit {
   race_types=race_types;
   race_1x_classes=race_1x_classes;
   race_2x_classes=race_2x_classes;
+  genders=genders;
   yesnos=yesnos;
   temp1: boolean;
   temp2: string;
@@ -50,13 +51,14 @@ export class RaceComponent implements OnInit {
             nationality: ['', Validators.required],
             time_of_race: ['', Validators.required],
             end_of_race: [''],
-            race_type: [true, Validators.required],
+            race_type: [false, Validators.required],
             race_class1: ['',],
             race_class2: [''],
             edition_nr: [''],
             create_stages: [true],
             prologue: [true],
             last_stage: [0],
+            gender: ['',Validators.required],
     
             });
             
@@ -118,6 +120,7 @@ export class RaceComponent implements OnInit {
     this.botrequest.time_of_race=this.f.time_of_race.value;
     this.botrequest.race_type=this.f.race_type.value;
     this.botrequest.edition_nr=this.f.edition_nr.value;
+    this.botrequest.gender=this.f.gender.value;
     
     if (this.registerForm.value.race_type=='true')
     {
