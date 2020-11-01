@@ -17,7 +17,8 @@ import { race_types, yesnos,  genders} from '@app/models/lists';
 import { environment } from '@env/environment';
 
 import { MY_FORMATS} from '@app/models/date-format';
-import {MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {DateAdapter,MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter} from '@angular/material-moment-adapter';
 
 
 interface Moment {
@@ -30,8 +31,10 @@ interface Moment {
   templateUrl: './start-list.component.html',
   styleUrls: ['./start-list.component.css'],
   providers: [
-  {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
-  {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, 
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS] },
+  {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
   ],
   animations: [
             trigger('fadeInOut', [

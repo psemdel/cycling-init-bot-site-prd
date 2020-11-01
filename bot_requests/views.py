@@ -94,7 +94,7 @@ def create_file_rq(request,routine):
 @shared_task
 def async_run_bot(rq_id, rq_routine):
     res=11
-    max_iter=1
+    max_iter=2
     kk=0
     
     while res==11 and kk<max_iter:
@@ -105,7 +105,11 @@ def async_run_bot(rq_id, rq_routine):
                 print("waiting 10 min")
                 time.sleep(600) #wait 10 minutes before retrying
         except:
-            print("run_bot crashed")
+            table=routine_to_model(rq_routine)
+            rq=table.objects.get(pk=rq_id)
+            save_log(rq_id, rq_routine, "run_bot crashed")
+            rq.status = "failed"
+            rq.save() 
             break
 
 def run_autocheck(rq_data, request, rq_id):

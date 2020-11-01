@@ -8,15 +8,18 @@ import { BotRequest, User} from '@app/models/models';
 import { race_types, nationalities,yesnos,
 race_1x_classes, race_2x_classes,  genders} from '@app/models/lists';
 import { MY_FORMATS} from '@app/models/date-format';
-import {MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {DateAdapter,MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter} from '@angular/material-moment-adapter';
 
 @Component({
   selector: 'race',
   templateUrl: './race.component.html',
   styleUrls: ['./race.component.css'],
   providers: [
-  {provide: MAT_DATE_LOCALE, useValue: 'fr'},
-  {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
+{ provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, 
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS] },
+  {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
   ],
 })
 export class RaceComponent implements OnInit {
