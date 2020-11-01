@@ -118,9 +118,7 @@ def run_bot(rq_id, rq_routine):
             else:
                 single_race=True
                 man_or_woman=u'woman' #to be implemented
-                print("before")
                 time_of_race=datetime_to_Wbtime(site, rq.time_of_race)
-                print(time_of_race)    
        
                 if not test_site:
                     status, log, result_id=race_creator.f(pywikibot,site,repo,time,
