@@ -12,7 +12,7 @@ import time, os
 from sentry_sdk import capture_message
 from .dic import routine_to_model
 from .log import save_log #log to the user
-
+from bot_src.src import bot_log
 
 site = pywikibot.Site("wikidata", "wikidata")
 repo = site.data_repository()
@@ -29,11 +29,31 @@ def kill_file(rq):
     filepath='uploads/'+rq.result_file_name
     os.remove(filepath)
     print("file removed")
+    
+def datetime_to_Wbtime(site, tdatetime):
+    if tdatetime.year:
+        tyear=tdatetime.year
+    else:
+        tyear=2020
+    
+    if tdatetime.month:
+        tmonth=tdatetime.month
+    else:
+        tmonth=1
+        
+    if tdatetime.day:
+        tday=tdatetime.day
+    else:
+        tday=1
+        
+    return pywikibot.WbTime(site=site,year=tyear, month=tmonth, day=tday, precision='day')
 
 def run_bot(rq_id, rq_routine):
     #code 10: already there
     #code 11: general crash
     try:
+        log=None
+        status=10
         rq=load_request(rq_id, rq_routine)
         save_log(rq_id, rq_routine, "request loaded")
         save_log(rq_id, rq_routine, rq_routine + " routine selected")
@@ -70,11 +90,14 @@ def run_bot(rq_id, rq_routine):
             if rq.race_type: #stage race
                 single_race=False
                 man_or_woman=u'woman' #to be implemented
-
+                
                 if rq.prologue:
                    first_stage=0
                 else:
                    first_stage=1 
+                
+                time_of_race=datetime_to_Wbtime(site, rq.time_of_race)
+                end_of_race=datetime_to_Wbtime(site, rq.end_of_race)
                 
                 if not test_site:
                     status, log, result_id=race_creator.f(pywikibot,site,repo,time,
@@ -83,11 +106,11 @@ def run_bot(rq_id, rq_routine):
                                   single_race,
                                   man_or_woman,
                                   id_race_master=rq.item_id,
-                                  race_begin=rq.time_of_race,
+                                  race_begin=time_of_race,
                                   countryCIO=rq.nationality,
                                   classe=rq.race_class,
                                   edition_nr=rq.edition_nr,
-                                  end_date=rq.end_of_race,
+                                  end_date=end_of_race,
                                   only_stages=False,
                                   create_stages=rq.create_stages, 
                                   first_stage=first_stage,
@@ -95,7 +118,10 @@ def run_bot(rq_id, rq_routine):
             else:
                 single_race=True
                 man_or_woman=u'woman' #to be implemented
-                
+                print("before")
+                time_of_race=datetime_to_Wbtime(site, rq.time_of_race)
+                print(time_of_race)    
+       
                 if not test_site:
                     status, log, result_id=race_creator.f(pywikibot,site,repo,time,
                                   nation_table,
@@ -103,7 +129,7 @@ def run_bot(rq_id, rq_routine):
                                   single_race,
                                   man_or_woman,
                                   id_race_master=rq.item_id,
-                                  race_begin=rq.time_of_race,
+                                  race_begin=time_of_race,
                                   countryCIO=rq.nationality,
                                   classe=rq.race_class,
                                   edition_nr=rq.edition_nr,
@@ -197,8 +223,9 @@ def run_bot(rq_id, rq_routine):
                     prologue_or_final=0
             else:
                 prologue_or_final=2
-            chrono=rq.chrono    
-            time_of_race=rq.time_of_race
+            chrono=rq.chrono  
+            time_of_race=datetime_to_Wbtime(site, rq.time_of_race)
+            #time_of_race=rq.time_of_race
             man_or_woman=rq.gender
             file=rq.result_file_name
             force_nation_team=rq.force_nation_team
@@ -243,10 +270,12 @@ def run_bot(rq_id, rq_routine):
             save_log(rq_id, rq_routine,"routine not managed")
             return 1
         
+        if log is None:
+             log=bot_log.Log()
+             log.concat("log not found at the end of run")
         save_log(rq_id, rq_routine,log.txt,display=False)
         table=routine_to_model(rq_routine)
         rq=table.objects.get(pk=rq_id)
-      #  print(rq.log)
         routine_with_file=["import_classification","start_list","UCIranking"]
         
         if status==0:
@@ -258,13 +287,15 @@ def run_bot(rq_id, rq_routine):
             return 0
         else:
             save_log(rq_id, rq_routine, "request failed")
-            capture_message("rq_id: "+ rq_id + "rq_routine: "+ rq_routine + " failed", level="info")
+            capture_message("rq_id: "+ str(rq_id) + "rq_routine: "+ str(rq_routine) + " failed", level="info")
             rq.status = "failed"
             rq.save() 
             return 10
      
-            
     except Exception as msg:
+        print(msg)
+        if log is None:
+            log=bot_log.Log()
         table=routine_to_model(rq_routine)
         rq=table.objects.get(pk=rq_id)
         save_log(rq_id, rq_routine, "request failed, most probably max lag of wikidata, retry in 10 minutes" )
@@ -274,6 +305,8 @@ def run_bot(rq_id, rq_routine):
     except:
         table=routine_to_model(rq_routine)
         rq=table.objects.get(pk=rq_id)
+        if log is None:
+            log=bot_log.Log()
         save_log(rq_id, rq_routine, "request failed, total")
 
         rq.status = "failed"

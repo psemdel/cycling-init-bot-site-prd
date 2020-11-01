@@ -60,7 +60,8 @@ def create_rq(request,routine):
             
             ##supplementary info depending on the routine
             #for creation there is no id available
-            if routine in ["create_rider", "race", "national_all_champs", "national_one_champ", "national_team"]:
+            #not for race where the master is placed there
+            if routine in ["create_rider", "national_all_champs", "national_one_champ", "national_team"]:
                 rq_data.update(item_id="Q1")
             
             request_serializer =serializer(data=rq_data)
