@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BotRequestService} from '@ser/bot-request.service';
 import { Observable, concat } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
 import { IntervalObservable } from "rxjs/observable/IntervalObservable";
 
 import {AuthenticationService } from '@ser/authentication.service';

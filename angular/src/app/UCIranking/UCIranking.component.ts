@@ -3,7 +3,7 @@ import { BotRequestService} from '@ser/bot-request.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
-import { HttpClient, HttpResponse, HttpRequest, 
+import { HttpClient, HttpRequest, 
          HttpEventType, HttpErrorResponse } from '@angular/common/http';
 import { of } from 'rxjs/observable/of';
 import { catchError, last, map, tap } from 'rxjs/operators';

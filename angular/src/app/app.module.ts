@@ -85,7 +85,7 @@ import {LoadingInterceptorService } from './guard/loading.interceptor';
                 StagesComponent, TeamComponent, UCIrankingComponent,
                 SortDateComponent, SortNameComponent, LoadingComponent,
                 ForgottenPassComponent, UserSettingsComponent, 
-                LogComponent, LogContentComponent, AlertComponent, MenuComponent,
+                LogComponent, LogContentComponent, AlertComponent, 
                 RequestDetailsComponent, NotFoundComponent, NationalTeamComponent
                 ],
   bootstrap:    [ AppComponent ],

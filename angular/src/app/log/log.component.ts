@@ -1,5 +1,4 @@
-import {Component, Inject, Input, OnInit } from '@angular/core';
-import {BotRequest} from '@app/models/models';
+import {Component, Input, OnInit } from '@angular/core';
 import {LogContentComponent } from '@app/logcontent/logcontent.component'
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 

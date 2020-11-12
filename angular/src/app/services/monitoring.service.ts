@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BotRequestService} from '@ser/bot-request.service';
-import { Observable, Subject, Subscription } from 'rxjs';
-import { filter  } from 'rxjs/operators';
+import { Subject, Subscription } from 'rxjs';
 
 import {AuthenticationService } from '@ser/authentication.service';
 import {AlertService } from '@ser/alert.service';

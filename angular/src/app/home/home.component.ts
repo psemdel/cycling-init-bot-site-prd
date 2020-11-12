@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {HomeInfo} from '@app/models/models';
 import {HomeService } from '@ser/home.service';
-import { map, tap, first} from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',

@@ -3,8 +3,8 @@
     <div style="width: 400px;">
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
-                  <label for=" item_id">Id of the race item on wikidata<br/>
-                  <small>for instance Q30091668 for Tour de France 2019</small>
+                  <label for=" item_id">Id of the race item on wikidata <br/>
+                  <small>where you want to import the classification, if it is a stage put the id of the stage</small><br/>                <small>for instance Q30091668 for Tour de France 2019</small>
                   </label>
               
                   <input type="text" class="form-control" id="item_id" formControlName="item_id"

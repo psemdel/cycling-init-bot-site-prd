@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { throwError} from 'rxjs';
-import { first, catchError  } from 'rxjs/operators';
+import { first  } from 'rxjs/operators';
 
 import { UserService} from '@ser/user.service';
 
