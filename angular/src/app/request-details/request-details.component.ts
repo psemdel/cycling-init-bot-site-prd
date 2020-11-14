@@ -9,6 +9,7 @@ import { BotRequest} from '@app/models/models';
 @Component({
   selector: 'request-details',
   templateUrl: './request-details.component.html',
+  styleUrls: ['./request-details.component.css']  
 })
 export class RequestDetailsComponent implements OnInit {
    @Input() tbotrequests: Observable<BotRequest[]>;
