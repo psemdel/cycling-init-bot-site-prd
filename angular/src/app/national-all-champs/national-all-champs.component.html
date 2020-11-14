@@ -1,25 +1,25 @@
-<div style="width: 600px;">
-    <h4>Create all national and continental championships, road and clm, for one year</h4>
-    <div style="width: 400px;">
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-              <label for="name">Year </label>
-              <select class="form-control" id="year" formControlName="year"
-               [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
-                  <option *ngFor="let year of years" [value]="year">
-                                {{year}}
-                  </option>
-              </select>
-                <div *ngIf="submitted && f.year.errors" class="invalid-feedback">
-                    <div *ngIf="f.year.errors.required">Field required</div>
-               </div>
-           </div>
-           
-           <button mat-raised-button color="primary" type="submit">Submit</button>
-     </form>
-   </div>
-    <div *ngIf="success">
-      <h4>You submitted successfully year {{lastname}}!</h4>
-      <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
-    </div>
+<h4>Create all national and continental championships, road and clm, for one year</h4>
+<div>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <mat-form-field >
+          <mat-label for="name">Year </mat-label>
+          <mat-select formControlName="year"
+          disableOptionCentering id="year"
+        [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
+              <mat-option *ngFor="let year of years" [value]="year">
+                            {{year}}
+              </mat-option>
+          </mat-select>
+            <div *ngIf="submitted && f.year.errors">
+                <mat-error *ngIf="f.year.errors.required">Field required</mat-error>
+            </div>
+        </mat-form-field>
+        <br/>
+
+        <button mat-raised-button color="primary" type="submit">Submit</button>
+  </form>
+</div>
+<div *ngIf="success">
+  <h4>You submitted successfully year {{lastname}}!</h4>
+  <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
 </div>

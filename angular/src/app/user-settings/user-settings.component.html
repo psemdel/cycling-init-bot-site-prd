@@ -2,36 +2,34 @@
     <h2 style="width: 600px; align-text: center">Change password</h2>
         <div *ngIf="!success">
         <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()">
-             <div class="form-group">
-                <label for="old_password">Old password</label>
-                <input type="old_password" formControlName="old_password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.old_password.errors }" />
-                <div *ngIf="submitted && f.old_password.errors" class="invalid-feedback">
-                    <div *ngIf="f.old_password.errors.required">Password is required</div>
+            <mat-form-field >
+                <mat-label for="old_password">Old password</mat-label>
+                <input matInput type="old_password" formControlName="old_password"  [ngClass]="{ 'is-invalid': submitted && f.old_password.errors }" />
+                <div *ngIf="submitted && f.old_password.errors" >
+                    <mat-error *ngIf="f.old_password.errors.required">Password is required</mat-error>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="password">New password</label>
-                <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                    <div *ngIf="f.password.errors.required">Password is required</div>
-                    <div *ngIf="f.password.errors.minlength">Password must be at least 8 characters</div>
+            </mat-form-field >
+            <mat-form-field >
+                <mat-label for="password">New password</mat-label>
+                <input matInput type="password" formControlName="password"  [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                <div *ngIf="submitted && f.password.errors" >
+                    <mat-error *ngIf="f.password.errors.required">Password is required</mat-error>
+                    <mat-error *ngIf="f.password.errors.minlength">Password must be at least 8 characters</mat-error>
                 </div>
-            </div>
-             <div class="form-group">
-                <label for="confirmPass">Confirm new password</label>
-                <input type="password" formControlName="confirmPass" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmPass.errors }" />
-                <div *ngIf="submitted && f.confirmPass.errors" class="invalid-feedback">
-                    <div *ngIf="f.confirmPass.errors.required">Password confirmation is required</div>
-                    <div *ngIf="settingsForm.errors?.notSame">Password confirmation differs from password</div>
+            </mat-form-field >
+            <mat-form-field >
+                <mat-label for="confirmPass">Confirm new password</mat-label>
+                <input matInput type="password" formControlName="confirmPass"  [ngClass]="{ 'is-invalid': submitted && f.confirmPass.errors }" />
+                <div *ngIf="submitted && f.confirmPass.errors" >
+                    <mat-error *ngIf="f.confirmPass.errors.required">Password confirmation is required</mat-error>
+                    <mat-error *ngIf="settingsForm.errors?.notSame">Password confirmation differs from password</mat-error>
                 </div>
-            </div>     
-             <div class="form-group">
-                <button [disabled]="loading" mat-raised-button color="primary">
-                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                    Change password
-                </button>
-            </div>
-             <div *ngIf="submitted && unknownerror" class="invalid-feedback">Unknown error, check your password</div>
+            </mat-form-field >
+            <button [disabled]="loading" mat-raised-button color="primary">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Change password
+            </button>
+             <mat-error *ngIf="submitted && unknownerror" >Unknown error, check your password</mat-error>
         </form>
     </div>
     <div *ngIf="success">
@@ -44,17 +42,17 @@
      <div *ngIf="!delete_success">
         <form [formGroup]="deleteForm" (ngSubmit)="deleteAccount()">
             <div class="form-group">
-                <label for="password">Current password</label>
-                <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': delete_submitted && fd.password.errors }" />
-                <div *ngIf="delete_submitted && fd.password.errors" class="invalid-feedback">
+                <mat-label for="password">Current password</mat-label>
+                <input type="password" formControlName="password"  [ngClass]="{ 'is-invalid': delete_submitted && fd.password.errors }" />
+                <div *ngIf="delete_submitted && fd.password.errors" >
                     <div *ngIf="fd.password.errors.required">Password is required</div>
                 </div>
             </div>
              <!--
              <div class="form-group">
-                 <label for="username">Type your username</label>
-                 <input type="username" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': delete_submitted && fd.username.errors }" />
-                <div *ngIf="delete_submitted && fd.username.errors" class="invalid-feedback">
+                 <mat-label for="username">Type your username</mat-label>
+                 <input type="username" formControlName="username"  [ngClass]="{ 'is-invalid': delete_submitted && fd.username.errors }" />
+                <div *ngIf="delete_submitted && fd.username.errors" >
                     <div *ngIf="fd.username.errors.required">Username is required</div>
                 </div>
             </div>
@@ -64,7 +62,7 @@
                     Delete account
                 </button>
             </div>
-        <div *ngIf="delete_submitted && delete_unknownerror" class="invalid-feedback">Unknown error, check your username</div>
+        <div *ngIf="delete_submitted && delete_unknownerror" >Unknown error, check your username</div>
        </form>
      </div> 
      <div *ngIf="delete_success">

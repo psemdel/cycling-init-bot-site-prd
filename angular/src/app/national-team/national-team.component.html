@@ -1,71 +1,73 @@
-<div style="width: 600px;">
-    <h3>Create a national team season</h3>
-    <div style="width: 400px;">
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <label for="age">Country of the national team to be created</label>
-          <select class="form-control" formControlName="nationality"
-          [ngClass]="{ 'is-invalid': submitted && f.nationality.errors }" >
-              <option *ngFor="let nationality of nationalities" [value]="nationality.value">
-                {{nationality.viewValue}}
-              </option>
-            </select>
-            <label>
-                <small>Listed by UCI nation ranking men 2019 up to rank 30</small>
-            </label>
-        </div>
-        <div *ngIf="submitted && f.nationality.errors" class="invalid-feedback">
-            <div *ngIf="f.nationality.errors.required">Field required</div>
-        </div>
-      <br>
-         <div class="form-group">
-             <label for="name">Start year </label>
-             <select class="form-control" id="year_begin" formControlName="year_begin"
-                [ngClass]="{ 'is-invalid': submitted && f.year_begin.errors }">
-                 <option *ngFor="let year of years" [value]="year">
-                                 {{year}}
-                 </option>
-             </select>
-             <div *ngIf="submitted && f.year_begin.errors" class="invalid-feedback">
-                 <div *ngIf="f.year_begin.errors.required">Field required</div>
-            </div>
-         </div>
-         
-        <br>
+<h3>Create a national team season</h3>
+<div>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <mat-form-field >
+      <mat-label for="age">Country of the national team to be created</mat-label>
+      <mat-select disableOptionCentering formControlName="nationality"
+      [ngClass]="{ 'is-invalid': submitted && f.nationality.errors }" >
+          <mat-option *ngFor="let nationality of nationalities" [value]="nationality.value">
+            {{nationality.viewValue}}
+          </mat-option>
+        </mat-select>
+        <mat-hint>
+            Listed by UCI nation ranking men 2019 up to rank 20
+        </mat-hint>
+      
+    <div *ngIf="submitted && f.nationality.errors" >
+      <mat-error *ngIf="f.nationality.errors.required">Field required</mat-error>
+    </div> 
+  </mat-form-field>
+  <br>
+      <mat-form-field >
+          <mat-label for="name">Start year </mat-label>
+          <mat-select disableOptionCentering id="year_begin" formControlName="year_begin"
+            [ngClass]="{ 'is-invalid': submitted && f.year_begin.errors }">
+              <mat-option *ngFor="let year of years" [value]="year">
+                              {{year}}
+              </mat-option>
+          </mat-select>
         
-        <div class="form-group">
-              <label for="name">End year</label>
-              <select class="form-control" id="year_end" formControlName="year_end"
-               [ngClass]="{ 'is-invalid': submitted && f.year_end.errors }">
-                  <option *ngFor="let year of years" [value]="year">
-                        {{year}}
-                  </option>
-               </select>
-            <div *ngIf="submitted && f.year_end.errors" class="invalid-feedback">
-                <div *ngIf="f.year_end.errors.required">Field required</div>
-                <div *ngIf="f.year_end.errors.notOk">Begin year higher than end year</div>
-           </div>
-       </div>
-       <br>
-          <div class="form-group">
-          <label for="gender">Gender of the team (only man or woman)</label>
-          <select class="form-control" formControlName="gender"
-          [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
-              <option *ngFor="let gender of genders" [value]="gender.value">
-                {{gender.viewValue}}
-              </option>
-            </select>
-            <div *ngIf="submitted && f.gender.errors" class="invalid-feedback">
-                <div *ngIf="f.gender.errors.required">Field required</div>
-           </div>
+          <div *ngIf="submitted && f.year_begin.errors" >
+          <mat-error *ngIf="f.year_begin.errors.required">Field required</mat-error>
         </div>
-        
-        <button mat-raised-button color="primary" type="submit">Submit</button>
-      </form>
-    </div>
+      </mat-form-field>
+      
+    <br>
     
-    <div *ngIf="success">
-      <h4>You submitted successfully {{lastname}}!</h4>
-      <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
-    </div>
+    <mat-form-field >
+          <mat-label for="name">End year</mat-label>
+          <mat-select disableOptionCentering id="year_end" formControlName="year_end"
+            [ngClass]="{ 'is-invalid': submitted && f.year_end.errors }">
+              <mat-option *ngFor="let year of years" [value]="year">
+                    {{year}}
+              </mat-option>
+            </mat-select>
+          
+        <div *ngIf="submitted && f.year_end.errors" >
+          <mat-error *ngIf="f.year_end.errors.required">Field required</mat-error>
+            <mat-error *ngIf="f.year_end.errors.notOk">Begin year higher than end year</mat-error>
+        </div>
+      </mat-form-field>
+    <br>
+      <mat-form-field >
+      <mat-label for="gender">Gender of the team (only man or woman)</mat-label>
+      <mat-select disableOptionCentering formControlName="gender"
+      [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
+          <mat-option *ngFor="let gender of genders" [value]="gender.value">
+            {{gender.viewValue}}
+          </mat-option>
+        </mat-select>
+        <div *ngIf="submitted && f.gender.errors" >
+          <mat-error *ngIf="f.gender.errors.required">Field required</mat-error>
+        </div>
+      </mat-form-field>
+    <br/>
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+  </form>
 </div>
+
+<div *ngIf="success">
+  <h4>You submitted successfully {{lastname}}!</h4>
+  <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
+</div>
+

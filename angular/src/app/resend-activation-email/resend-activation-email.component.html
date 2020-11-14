@@ -2,16 +2,16 @@
 <h2>Resend activation email</h2>
     <div *ngIf="!success">
         <form [formGroup]="forgottenForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-            <label for="email">E-mail</label>
-            <input type="text" formControlName="email" email="true" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+            <mat-form-field >
+            <mat-label matInput for="email">E-mail</mat-label>
+            <input matInput type="text" formControlName="email" email="true" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
             <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                <div *ngIf="f.email.errors.required">E-mail address is required</div>
-                <div *ngIf="f.email.errors.email">Enter an E-mail address</div>
+                <mat-error *ngIf="f.email.errors.required">E-mail address is required</mat-error>
+                <mat-error *ngIf="f.email.errors.email">Enter an E-mail address</mat-error>
             </div>
-        </div>  
+        </mat-form-field >
         
-        <div class="form-group">
+        <div>
             <button [disabled]="loading" mat-raised-button color="primary">
             <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                 Send

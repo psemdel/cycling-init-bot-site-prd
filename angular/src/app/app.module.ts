@@ -18,6 +18,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatDialogModule } from '@angular/material/dialog';
+import {MatInputModule} from '@angular/material/input';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions} from '@angular/material/form-field';
 
 import { AppComponent } from '@app/app.component';
 import { MenuComponent } from '@app/menu/menu.component';
@@ -56,6 +58,9 @@ import {JwtInterceptor} from './guard/jwt.interceptor';
 import {ErrorInterceptor} from './guard/error.interceptor';
 import {LoadingInterceptorService } from './guard/loading.interceptor';
 
+const appearance: MatFormFieldDefaultOptions = {
+  appearance: 'fill'
+};
 
 @NgModule({
   imports:      [
@@ -76,6 +81,7 @@ import {LoadingInterceptorService } from './guard/loading.interceptor';
   MatMomentDateModule,
   MatProgressSpinnerModule,
   MatDialogModule,
+  MatInputModule,
   ],
   declarations: [ AppComponent, MenuComponent,MenuPersComponent, TopbarComponent, CreateRiderComponent, HomeComponent,
                 RequestListComponent, AllRequestListComponent,
@@ -95,6 +101,7 @@ import {LoadingInterceptorService } from './guard/loading.interceptor';
       {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
       {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptorService, multi: true },
       MatMomentDateModule,
+      { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: appearance }
   ]
 })
 export class AppModule { }

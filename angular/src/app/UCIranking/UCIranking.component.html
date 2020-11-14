@@ -1,53 +1,48 @@
-<div style="width: 600px;">
-    <h3>Import yearly final UCI ranking</h3>
-    <p>The ranking will be added to the corresponding calendar, to the corresponding teams and riders</p>
-    <div style="width: 400px;">
-          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-                <div class="form-group">
-                  <label for=" item_id">Id of the UCI calendar<br/>
-                  <small>for instance Q57267790 for 2019 in women's road cycling</small>
-                  </label>
-              
-                  <input type="text" class="form-control" id="item_id" formControlName="item_id"
-                       [ngClass]="{ 'is-invalid': submitted && f.item_id.errors }" />
-                     <div *ngIf="submitted && f.item_id.errors" class="invalid-feedback">
-                         <div *ngIf="f.item_id.errors.required">Field required</div>
-                         <div *ngIf="f.item_id.errors.pattern">Item id should start with "Q"</div>
-                    </div>
-                </div>
-            <br/>
-              <div class="form-group">
-                  <label for="name">Year <br />
-                  <small>Used to fill the team ranking</small>
-                  </label>
-   
-                  <select class="form-control" id="year" formControlName="year"
-                   [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
-                      <option *ngFor="let year of years" [value]="year">
-                                    {{year}}
-                      </option>
-                  </select>
-                    <div *ngIf="submitted && f.year.errors" class="invalid-feedback">
-                        <div *ngIf="f.year.errors.required">Field required</div>
-                   </div>
-               </div>
-            <br>
+<h3>Import yearly final UCI ranking</h3>
+<p>The ranking will be added to the corresponding calendar, to the corresponding teams and riders</p>
+<div >
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <mat-form-field >
+            <mat-label for=" item_id">Id of the UCI calendar</mat-label>
+            <mat-hint>for instance Q57267790 for 2019 in women's road cycling</mat-hint>
+            <input matInput type="text"  id="item_id" formControlName="item_id"
+                  [ngClass]="{ 'is-invalid': submitted && f.item_id.errors }" />
+                  <div *ngIf="submitted && f.item_id.errors" >
+                        <mat-error *ngIf="f.item_id.errors.required">Field required</mat-error>
+                        <mat-error *ngIf="f.item_id.errors.pattern">Item id should start with "Q"</mat-error>
+                  </div>
+            </mat-form-field >
+      <br/>
+      <mat-form-field >
+            <mat-label for="name">Year </mat-label>
+            <mat-hint>Used to fill the team ranking</mat-hint>
+            <mat-select disableOptionCentering id="year" formControlName="year"
+                  [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
+                  <mat-option *ngFor="let year of years" [value]="year">
+                              {{year}}
+                  </mat-option>
+            </mat-select>
+                  <div *ngIf="submitted && f.year.errors" >
+                  <mat-error *ngIf="f.year.errors.required">Field required</mat-error>
+                  </div>
+            </mat-form-field >
+      <br/><br/>
 
-           <label>Excel or csv file from UCI web site</label>
-           <input type="file" id="fileUpload" name="fileUpload" formControlName="file"  multiple="multiple" 
-              accept=".xlsx, .csv" />
-            <br>
-            <li *ngFor="let file of files" [@fadeInOut]="file.state">
-                <mat-progress-bar [value]="file.progress"></mat-progress-bar>
-            </li>
-            <div *ngIf="submitted && sizeerror" class="invalid-feedback">Maximum size exceeded</div>
-            <div *ngIf="submitted && exterror" class="invalid-feedback">Wrong file type</div>
-            <br>
-            <button mat-raised-button color="primary" type="submit">Submit</button>
-          </form>
-    </div>
-    <div *ngIf="success">
-          <h4>You submitted successfully {{lastname}}!</h4>
-          <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
-    </div>
+      <label>Excel or csv file from UCI web site</label>
+      <br/>
+      <input type="file" id="fileUpload" name="fileUpload" formControlName="file"  multiple="multiple" 
+            accept=".xlsx, .csv" />
+      <br>
+      <li *ngFor="let file of files" [@fadeInOut]="file.state">
+            <mat-progress-bar [value]="file.progress"></mat-progress-bar>
+      </li>
+      <div *ngIf="submitted && sizeerror" >Maximum size exceeded</div>
+      <div *ngIf="submitted && exterror" >Wrong file type</div>
+      <br>
+      <button mat-raised-button color="primary" type="submit">Submit</button>
+      </form>
+</div>
+<div *ngIf="success">
+      <h4>You submitted successfully {{lastname}}!</h4>
+      <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
 </div>

@@ -1,53 +1,51 @@
-<div style="width: 600px;">
-    <h3>Create a rider</h3>
-    <div style="width: 400px;">
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <label for="name">Name </label>
-          <input type="text" class="form-control" id="name" formControlName="name"
-           [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
-        </div>
-        <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
-            <div *ngIf="f.name.errors.required">Field required</div>
-       </div>
-        
-        
-    <br/>
-     <div class="form-group">
-          <label for="gender">Gender</label>
-          <select class="form-control" formControlName="gender"
-          [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
-              <option *ngFor="let gender of genders" [value]="gender.value">
-                {{gender.viewValue}}
-              </option>
-            </select>
-            <div *ngIf="submitted && f.gender.errors" class="invalid-feedback">
-                <div *ngIf="f.gender.errors.required">Field required</div>
-           </div>
+<h3>Create a rider</h3>
+<div>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <mat-label for="name">Name </mat-label>
+      <input matInput type="text" id="name" formControlName="name"
+      [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
 
-        </div>
-        <br>
-        <div class="form-group">
-          <label for="nationality">Country of nationality</label>
-          <select class="form-control" formControlName="nationality"
-          [ngClass]="{ 'is-invalid': submitted && f.nationality.errors }" >
-              <option *ngFor="let nationality of nationalities" [value]="nationality.value">
-                {{nationality.viewValue}}
-              </option>
-            </select>
-        <label><small>Listed by UCI nation ranking men 2019 up to rank 20</small></label>
-        </div>
-        <p>Note that it does not work, if a homonymous item already exists</p>
-        <div *ngIf="submitted && f.nationality.errors" class="invalid-feedback">
-            <div *ngIf="f.nationality.errors.required">Field required</div>
-        </div>
-        <br>
-        <button mat-raised-button color="primary" type="submit">Submit</button>
-      </form>
+    <div *ngIf="submitted && f.name.errors" >
+      <mat-error *ngIf="f.name.errors.required">Field required</mat-error>
     </div>
-    
-    <div *ngIf="success">
-      <h4>You submitted successfully {{lastname}}!</h4>
-      <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
-    </div>
+  </mat-form-field >
+  <br/>
+  <mat-form-field >
+      <mat-label for="gender">Gender</mat-label>
+      <mat-select disableOptionCentering formControlName="gender"
+      [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
+          <mat-option *ngFor="let gender of genders" [value]="gender.value">
+            {{gender.viewValue}}
+          </mat-option>
+        </mat-select>
+      <div *ngIf="submitted && f.gender.errors" >
+          <mat-error *ngIf="f.gender.errors.required">Field required</mat-error>
+        </div>
+    </mat-form-field >
+    <br>
+    <mat-form-field >
+      <mat-label for="nationality">Country of nationality</mat-label>
+      <mat-select disableOptionCentering formControlName="nationality"
+      [ngClass]="{ 'is-invalid': submitted && f.nationality.errors }" >
+          <mat-option *ngFor="let nationality of nationalities" [value]="nationality.value">
+            {{nationality.viewValue}}
+          </mat-option>
+      </mat-select>
+      <mat-hint>Listed by UCI nation ranking men 2019 up to rank 20</mat-hint>
+      <div *ngIf="submitted && f.nationality.errors" >
+        <mat-error *ngIf="f.nationality.errors.required">Field required</mat-error>
+      </div>
+    </mat-form-field >
+    <br>
+    <p>Note: that it does not work, if a homonymous item already exists</p>
+    <br>
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+  </form>
 </div>
+
+<div *ngIf="success">
+  <h4>You submitted successfully {{lastname}}!</h4>
+  <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
+</div>
+

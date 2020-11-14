@@ -14,4 +14,7 @@ a{
    color: inherit;
 }
 
+mat-form-field{
+  width: 40vw;
+}
 

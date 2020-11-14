@@ -1,74 +1,69 @@
-<div style="width: 600px;">
-    <h3>Create a team season</h3>
-    <div style="width: 400px;">
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <label for="name">Name of the team for the season</label>
-          <input type="text" class="form-control" id="name" formControlName="name"
-           [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
-        </div>
-        <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
-            <div *ngIf="f.name.errors.required">Field required</div>
-       </div>
-    <br>
-       <div class="form-group">
-          <label for=" item_id">
-              Id of the parent team item on wikidata<br/>
-              <small>for instance Q645032 for Deceuninck-Quick Step<br/>
-              note: if this parent iteam does not exist, create it manually first</small>
-          </label>
-          <input type="text" class="form-control" id="item_id" formControlName="item_id"
-               [ngClass]="{ 'is-invalid': submitted && f.item_id.errors }" />
-             <div *ngIf="submitted && f.item_id.errors" class="invalid-feedback">
-                 <div *ngIf="f.item_id.errors.required">Field required</div>
-                 <div *ngIf="f.item_id.errors.pattern">Item id should start with "Q"</div>
-            </div>
-        </div>
-    <br>
-        <div class="form-group">
-                 <label for="name">Year </label>
-                 <select class="form-control" id="year" formControlName="year"
-                    [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
-                     <option *ngFor="let year of years" [value]="year">
-                                     {{year}}
-                     </option>
-                 </select>
-                 <div *ngIf="submitted && f.year.errors" class="invalid-feedback">
-                     <div *ngIf="f.year.errors.required">Field required</div>
-                </div>
-        </div>
-      <br>
-        <div class="form-group">
-          <label for="nationality">Country of nationality</label>
-          <select class="form-control" formControlName="nationality"
-          [ngClass]="{ 'is-invalid': submitted && f.nationality.errors }" >
-              <option *ngFor="let nationality of nationalities" [value]="nationality.value">
-                {{nationality.viewValue}}
-              </option>
-            </select>
-            <label>
-                <small>Listed by UCI nation ranking men 2019 up to rank 30</small>
-            </label>
-        </div>
-        <div *ngIf="submitted && f.nationality.errors" class="invalid-feedback">
-            <div *ngIf="f.nationality.errors.required">Field required</div>
-        </div>
-      <br>
-        <div class="form-group">
-          <label for="UCIcode">UCI code, if existing</label>
-          <input type="text" class="form-control" id="UCIcode" formControlName="UCIcode"
-           [ngClass]="{ 'is-invalid': submitted && f.UCIcode.errors }" />
-             <div *ngIf="submitted && f.UCIcode.errors" class="invalid-feedback">
-                <div *ngIf="f.UCIcode.errors.pattern">UCI code has 3 letters</div>
-            </div>
-        </div>
-        
-        <button mat-raised-button color="primary" type="submit">Submit</button>
-      </form>
+<h3>Create a team season</h3>
+<div>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <mat-form-field >
+      <mat-label for="name">Name of the team for the season</mat-label>
+      <input matInput type="text"  id="name" formControlName="name"
+        [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+    <div *ngIf="submitted && f.name.errors" >
+        <mat-error *ngIf="f.name.errors.required">Field required</mat-error>
     </div>
-    
-    <div *ngIf="success">
-      <h4>You submitted successfully {{lastname}}!</h4>
-      <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
+  </mat-form-field >
+<br>
+<mat-form-field >
+      <mat-label for=" item_id">Id of the parent team item on wikidata</mat-label>
+      <mat-hint>for instance Q645032 for Deceuninck-Quick Step<br/>
+        note: if this parent iteam does not exist, create it manually first</mat-hint>
+      <input matInput type="text"  id="item_id" formControlName="item_id"
+            [ngClass]="{ 'is-invalid': submitted && f.item_id.errors }" />
+          <div *ngIf="submitted && f.item_id.errors" >
+              <mat-error *ngIf="f.item_id.errors.required">Field required</mat-error>
+              <mat-error *ngIf="f.item_id.errors.pattern">Item id should start with "Q"</mat-error>
+        </div>
+      </mat-form-field >
+<br>
+<mat-form-field >
+              <mat-label for="name">Year </mat-label>
+              <mat-select disableOptionCentering id="year" formControlName="year"
+                [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
+                  <mat-option *ngFor="let year of years" [value]="year">
+                                  {{year}}
+                  </mat-option>
+              </mat-select>
+              <div *ngIf="submitted && f.year.errors" >
+                  <mat-error *ngIf="f.year.errors.required">Field required</mat-error>
+            </div>
+          </mat-form-field >
+  <br>
+  <mat-form-field >
+      <mat-label for="nationality">Country of nationality</mat-label>
+      <mat-hint>Listed by UCI nation ranking men 2019 up to rank 20</mat-hint>
+      <mat-select disableOptionCentering  formControlName="nationality"
+      [ngClass]="{ 'is-invalid': submitted && f.nationality.errors }" >
+          <mat-option *ngFor="let nationality of nationalities" [value]="nationality.value">
+            {{nationality.viewValue}}
+          </mat-option>
+        </mat-select>
+    <div *ngIf="submitted && f.nationality.errors" >
+        <mat-error *ngIf="f.nationality.errors.required">Field required</mat-error>
     </div>
+  </mat-form-field >
+  <br>
+  <mat-form-field >
+      <mat-label for="UCIcode">UCI code, if existing</mat-label>
+      <input matInput type="text"  id="UCIcode" formControlName="UCIcode"
+        [ngClass]="{ 'is-invalid': submitted && f.UCIcode.errors }" />
+          <div *ngIf="submitted && f.UCIcode.errors" >
+            <mat-error *ngIf="f.UCIcode.errors.pattern">UCI code has 3 letters</mat-error>
+        </div>
+      </mat-form-field >
+    <br>
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+  </form>
 </div>
+
+<div *ngIf="success">
+  <h4>You submitted successfully {{lastname}}!</h4>
+  <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
+</div>
+

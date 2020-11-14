@@ -1,82 +1,76 @@
-<div style="width: 600px;">
-    <h2 style="width: 600px; align-text: center">Register</h2>
-    <div *ngIf="!success">
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-            <div class="form-group" color="primary">
-                <label for="first_name">First Name</label>
-                <input type="text" formControlName="first_name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.first_name.errors }" />
-                <div *ngIf="submitted && f.first_name.errors" class="invalid-feedback">
-                    <div *ngIf="f.first_name.errors.required">First Name is required</div>
-                </div>
+<h2 style="align-text: center">Register</h2>
+<div *ngIf="!success">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <mat-form-field class="form-group" color="primary">
+            <mat-label for="first_name">First Name</mat-label>
+            <input matInput type="text" formControlName="first_name"  [ngClass]="{ 'is-invalid': submitted && f.first_name.errors }" />
+            <div *ngIf="submitted && f.first_name.errors" >
+                <mat-error *ngIf="f.first_name.errors.required">First Name is required</mat-error>
             </div>
-            <div class="form-group">
-                <label for="last_name">Last Name</label>
-                <input type="text" formControlName="last_name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.last_name.errors }" />
-                <div *ngIf="submitted && f.last_name.errors" class="invalid-feedback">
-                    <div *ngIf="f.last_name.errors.required">Last Name is required</div>
-                </div>
+        </mat-form-field>
+        <br>
+        <mat-form-field >
+            <mat-label for="last_name">Last Name</mat-label>
+            <input matInput type="text" formControlName="last_name"  [ngClass]="{ 'is-invalid': submitted && f.last_name.errors }" />
+            <div *ngIf="submitted && f.last_name.errors" >
+                <mat-error *ngIf="f.last_name.errors.required">Last Name is required</mat-error>
             </div>
-            <!--
-            <div class="form-group">
-                <label for="wiki_name">Wikipedia user name</label>
-                <input type="text" formControlName="wiki_name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.wiki_name.errors }" />
-                <div *ngIf="submitted && f.wiki_name.errors" class="invalid-feedback">
-                    <div *ngIf="f.wiki_name.errors.required">Wikipedia username is required</div>
-                </div>
-            </div> 
-            -->
-            <div class="form-group">
-                <label for="email">E-mail</label>
-                <input type="text" formControlName="email" email="true" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
-                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                    <div *ngIf="f.email.errors.required">E-mail address is required</div>
-                    <div *ngIf="f.email.errors.email">Enter an E-mail address</div>
-                </div>
-            </div>     
-            <div class="form-group">
-                <label for="username">Username, <small>please use same name as on Wikipedia</small></label>
-                <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-                <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                    <div *ngIf="f.username.errors.required">Username is required</div>
-                </div>
+        </mat-form-field>
+        <br>
+        <mat-form-field >
+            <mat-label for="email">E-mail</mat-label>
+            <input matInput type="text" formControlName="email" email="true"  [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+            <div *ngIf="submitted && f.email.errors" >
+                <mat-error *ngIf="f.email.errors.required">E-mail address is required</mat-error>
+                <mat-error *ngIf="f.email.errors.email">Enter an E-mail address</mat-error>
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                    <div *ngIf="f.password.errors.required">Password is required</div>
-                    <div *ngIf="f.password.errors.minlength">Password must be at least 8 characters</div>
-                </div>
+        </mat-form-field>    
+        <br>
+        <mat-form-field >
+            <mat-label for="username">Username, <small>please use same name as on Wikipedia</small></mat-label>
+            <input matInput type="text" formControlName="username"  [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+            <div *ngIf="submitted && f.username.errors" >
+                <mat-error *ngIf="f.username.errors.required">Username is required</mat-error>
             </div>
-             <div class="form-group">
-                <label for="confirmPass">Confirm password</label>
-                <input type="password" formControlName="confirmPass" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmPass.errors }" />
-                <div *ngIf="submitted && registerForm.errors?.notSame" class="invalid-feedback">Password confirmation differs from password</div>
-                <div *ngIf="submitted && f.confirmPass.errors" class="invalid-feedback">
-                    <div *ngIf="f.confirmPass.errors.required">Password confirmation is required</div>
-                </div>
-            </div>       
-            
-            <p>No further data are collected. This website does not use cookies. For any question related to privacy, do not hesitate to contact the webmaster
-            </p>
-            
-            <div class="form-group">
-                <button mat-raised-button color="primary" id="submit">
-                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                    Register
-                </button>
-                <a routerLink="/login" mat-raised-button color="primary" role="button">Cancel</a>
+        </mat-form-field>
+        <br>
+        <mat-form-field >
+            <mat-label for="password">Password</mat-label>
+            <input matInput type="password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+            <div *ngIf="submitted && f.password.errors" >
+                <mat-error *ngIf="f.password.errors.required">Password is required</mat-error>
+                <mat-error *ngIf="f.password.errors.minlength">Password must be at least 8 characters</mat-error>
             </div>
-             <div *ngIf="submitted">
-                 <div *ngFor="let err of backenderror" class="invalid-feedback">
-                      {{err}}
-                 </div>
-             </div>
-             
-        </form>
-    </div>
-    <div *ngIf="success">
-      <p class="content">You submitted successfully! An activation e-mail was sent to your mailbox.</p>
-      <a routerLink="/login" mat-raised-button color="primary" role="button">Login</a>
-    </div>
+        </mat-form-field>
+        <br>
+        <mat-form-field >
+            <mat-label for="confirmPass">Confirm password</mat-label>
+            <input matInput type="password" formControlName="confirmPass" [ngClass]="{ 'is-invalid': submitted && f.confirmPass.errors }" />
+            <mat-error *ngIf="submitted && registerForm.errors?.notSame" >Password confirmation differs from password</mat-error>
+            <div *ngIf="submitted && f.confirmPass.errors" >
+                <mat-error *ngIf="f.confirmPass.errors.required">Password confirmation is required</mat-error>
+            </div>
+        </mat-form-field>      
+        
+        <p>No further data are collected. This website does not use cookies. For any question related to privacy, do not hesitate to contact the webmaster.
+        </p>
+        
+        <div >
+            <button mat-raised-button color="primary" id="submit">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Register
+            </button>
+            <a routerLink="/login" mat-raised-button color="primary" role="button">Cancel</a>
+        </div>
+            <div *ngIf="submitted">
+                <mat-error *ngFor="let err of backenderror" >
+                    {{err}}
+                </mat-error>
+            </div>
+
+    </form>
+</div>
+<div *ngIf="success">
+    <p class="content">You submitted successfully! An activation e-mail was sent to your mailbox.</p>
+    <a routerLink="/login" mat-raised-button color="primary" role="button">Login</a>
 </div>
