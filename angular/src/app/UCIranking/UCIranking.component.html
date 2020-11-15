@@ -1,5 +1,6 @@
 <h3>Import yearly final UCI ranking</h3>
-<p>The ranking will be added to the corresponding calendar, to the corresponding teams and riders</p>
+<p>The ranking - it can be UCI ranking, World Tour or continental ranking - will be added to the corresponding calendar, to the corresponding teams and riders</p>
+<p>Note: as this function modify many pages and a correction afterwards is difficult, I made it mandatory that ALL riders and ALL teams of the ranking are found before wikidata is modified. So create and adapt the necessary elements to use this function</p>
 <div >
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <mat-form-field >
@@ -26,6 +27,21 @@
                   <mat-error *ngIf="f.year.errors.required">Field required</mat-error>
                   </div>
             </mat-form-field >
+       <br><br>
+       <mat-form-field >
+            <mat-label for="gender">Man or woman ranking?</mat-label>
+            <mat-hint>Used to fill the team ranking</mat-hint>
+            <mat-select  disableOptionCentering  formControlName="gender"
+            [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
+                <mat-option *ngFor="let gender of genders" [value]="gender.value">
+                  {{gender.viewValue}}
+                </mat-option>
+              </mat-select>
+              <div *ngIf="submitted && f.gender.errors" >
+                  <mat-error *ngIf="f.gender.errors.required">Field required</mat-error>
+              </div>
+       </mat-form-field >
+          
       <br/><br/>
 
       <label>Excel or csv file from UCI web site</label>

@@ -11,6 +11,7 @@ import { catchError, last, map, tap } from 'rxjs/operators';
 import {AuthenticationService } from '@ser/authentication.service';
 import {MonitoringService } from '@ser/monitoring.service';
 import { BotRequest, User, FileUploadModel} from '@app/models/models';
+import { genders} from '@app/models/lists';
 
 import { environment } from '@env/environment';
 
@@ -35,7 +36,8 @@ export class UCIrankingComponent implements OnInit {
   success = false;
   lastname: string;
   years:Array<any> = [];
-  
+  genders=genders;
+    
   botrequest: BotRequest = new BotRequest();
   files: Array<FileUploadModel> = [];
   private baseUrl = environment.apiUrl +'bot_requests';
@@ -58,6 +60,7 @@ export class UCIrankingComponent implements OnInit {
         this.registerForm = this.formBuilder.group({
             item_id: ['', [Validators.required, Validators.pattern(/^[Q].*$/)]],
             year: ['', Validators.required],
+            gender: ['',Validators.required],
             file: [null, Validators.required]
             });
   }

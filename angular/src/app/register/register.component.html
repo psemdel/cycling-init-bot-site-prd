@@ -1,7 +1,7 @@
 <h2 style="align-text: center">Register</h2>
 <div *ngIf="!success">
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <mat-form-field class="form-group" color="primary">
+        <mat-form-field>
             <mat-label for="first_name">First Name</mat-label>
             <input matInput type="text" formControlName="first_name"  [ngClass]="{ 'is-invalid': submitted && f.first_name.errors }" />
             <div *ngIf="submitted && f.first_name.errors" >

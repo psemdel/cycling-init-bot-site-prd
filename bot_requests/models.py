@@ -68,6 +68,7 @@ class StartListRequest(BotRequestWithFile):
 
 class UCIrankingRequest(BotRequestWithFile):
    year = models.IntegerField(blank=False)
+   gender =models.CharField(max_length=5, blank=True)#for champ
      
    def __str__(self):
         return self.routine + " "+ self.item_id
