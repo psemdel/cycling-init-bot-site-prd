@@ -207,9 +207,10 @@ def run_bot(rq_id, rq_routine):
             year=rq.year
             filename=rq.result_file_name
             man_or_woman=rq.gender
+            UCIranking=rq.UCIranking
             cleaner=False 
             if not test_site:
-                status, log=uci_classification.f(pywikibot,site,repo,year,id_master_UCI, filename,cleaner,test,man_or_woman)
+                status, log=uci_classification.f(pywikibot,site,repo,year,id_master_UCI, filename,cleaner,test,man_or_woman,UCIranking)
             
         elif rq_routine=="start_list":
             from bot_src.src import startlist_importer

@@ -41,7 +41,18 @@
                   <mat-error *ngIf="f.gender.errors.required">Field required</mat-error>
               </div>
        </mat-form-field >
-          
+        <br>
+          <mat-form-field> 
+        <mat-label for="UCIranking">Is it the UCI ranking?</mat-label>
+        <mat-hint>
+            Will fill the property P3494 of the teams</mat-hint>
+        <mat-select disableOptionCentering formControlName="UCIranking"
+          [ngClass]="{ 'is-invalid': submitted && f.create_stages.errors }">
+          <mat-option *ngFor="let yesno of yesnos" [value]="yesno.value">
+            {{yesno.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field >
       <br/><br/>
 
       <label>Excel or csv file from UCI web site</label>
