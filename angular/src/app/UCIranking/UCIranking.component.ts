@@ -63,7 +63,8 @@ export class UCIrankingComponent implements OnInit {
             year: [2020, Validators.required],
             gender: ['',Validators.required],
             UCIranking: [false,Validators.required],
-            file: [null, Validators.required]
+            file: [null, Validators.required],
+            bypass: [false,Validators.required],
             });
   }
   

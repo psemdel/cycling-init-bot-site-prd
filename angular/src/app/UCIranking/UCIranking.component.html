@@ -1,6 +1,6 @@
 <h3>Import yearly final UCI ranking</h3>
 <p>The ranking - it can be UCI ranking, World Tour or continental ranking - will be added to the corresponding calendar, to the corresponding teams and riders</p>
-<p>Note: as this function modify many pages and a correction afterwards is difficult, I made it mandatory that ALL riders and ALL teams of the ranking are found before wikidata is modified. So create and adapt the necessary elements to use this function</p>
+
 <div >
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <mat-form-field >
@@ -52,6 +52,19 @@
             {{yesno.viewValue}}
           </mat-option>
         </mat-select>
+      </mat-form-field >
+      <br>
+      <p>As this function modify many pages and a correction afterwards is difficult, by default, it is mandatory that ALL riders and ALL teams of the ranking are found before wikidata is modified. So create and adapt the necessary elements to use this function</p>
+      <p>As it is not always possible, as too many unimportant riders are present in the ranking, then it is possible to bypass this check.</p>
+      <p>My piece of advice: perform once without bypass, look at the log file and correct the obvious mistake. When it is done, and only then, run with bypass.</p>
+      <mat-form-field> 
+    <mat-label for="bypass">Bypass the obligation to have all riders and teams?</mat-label>
+    <mat-select disableOptionCentering formControlName="bypass"
+      [ngClass]="{ 'is-invalid': submitted && f.bypass.errors }">
+      <mat-option *ngFor="let yesno of yesnos" [value]="yesno.value">
+        {{yesno.viewValue}}
+      </mat-option>
+    </mat-select>
       </mat-form-field >
       <br/><br/>
 

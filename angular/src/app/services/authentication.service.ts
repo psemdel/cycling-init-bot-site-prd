@@ -12,7 +12,7 @@ export class AuthenticationService {
     private authUrl = environment.authUrl;
     private readonly JWT_TOKEN = 'JWT_TOKEN'; //their name
     private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
- 
+
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>; //save other information about user
 
@@ -78,6 +78,7 @@ export class AuthenticationService {
          {'refresh': this.getRefreshToken() } 
          )
          .pipe(tap(ans => {
+         console.log("token refreshed");
          this.storeJwtToken(ans.access);
     }));
     }
