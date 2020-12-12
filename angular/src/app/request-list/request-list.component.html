@@ -6,15 +6,15 @@
     </button></h4>
 </div>
 
-<request-details [tbotrequests]="create_rider_botrequests" [column]="'name'" [title]="'Rider creation'" [admin]="false" (refresh)="reloadData()"></request-details >
-<request-details [tbotrequests]="import_classification_botrequests" [column]="'id'" [title]="'Import classification'" [admin]="false" (refresh)="reloadData()"></request-details >
-<request-details [tbotrequests]="national_all_champs_botrequests" [title]="'Championships creation'" [column]="'year'" [admin]="false" (refresh)="reloadData()"></request-details >
-<request-details [tbotrequests]="national_one_champ_botrequests" [title]="'One championship creation'" [column]="'year_begin'" [admin]="false" (refresh)="reloadData()"></request-details >
-<request-details [tbotrequests]="start_list_botrequests" [title]="'Start list'" [column]="'id'" [admin]="false" (refresh)="reloadData()"></request-details >
-<request-details [tbotrequests]="race_botrequests" [title]="'Race creation'" [column]="'name'" [admin]="false" (refresh)="reloadData()"></request-details >
-<request-details [tbotrequests]="stages_botrequests" [title]="'Stage creation'" [column]="'id'" [admin]="false" (refresh)="reloadData()"></request-details >
-<request-details [tbotrequests]="team_botrequests" [title]="'Team season'" [column]="'name'" [admin]="false" (refresh)="reloadData()"></request-details >
-<request-details [tbotrequests]="national_team_botrequests" [title]="'National team season'" [column]="'name'" [admin]="false" (refresh)="reloadData()"></request-details >
-<request-details [tbotrequests]="UCIranking_botrequests" [title]="'UCI ranking'" [column]="'id'" [admin]="false" (refresh)="reloadData()"></request-details >
-<request-details [tbotrequests]="sort_date_botrequests" [title]="'Sort date'" [column]="'id'" [admin]="false" (refresh)="reloadData()"></request-details >
-<request-details [tbotrequests]="sort_name_botrequests" [title]="'Sort name'" [column]="'id'" [admin]="false" (refresh)="reloadData()"></request-details >
+<request-details [tbotrequests]="create_rider_botrequests" [routine]="'create_rider'" [title]="'Rider creation'" [admin]="false" (refresh)="reloadData()"></request-details >
+<request-details [tbotrequests]="import_classification_botrequests" [routine]="'import_classification'" [title]="'Import classification'" [admin]="false" (refresh)="reloadData()"></request-details >
+<request-details [tbotrequests]="national_all_champs_botrequests" [routine]="'national_all_champs'" [title]="'Championships creation'" [admin]="false" (refresh)="reloadData()"></request-details >
+<request-details [tbotrequests]="national_one_champ_botrequests" [routine]="'national_one_champ'" [title]="'One championship creation'" [admin]="false" (refresh)="reloadData()"></request-details >
+<request-details [tbotrequests]="start_list_botrequests" [routine]="'start_list'" [title]="'Start list'" [admin]="false" (refresh)="reloadData()"></request-details >
+<request-details [tbotrequests]="race_botrequests"  [routine]="'race'" [title]="'Race creation'"  [admin]="false" (refresh)="reloadData()"></request-details >
+<request-details [tbotrequests]="stages_botrequests"  [routine]="'stages'" [title]="'Stage creation'" [admin]="false" (refresh)="reloadData()"></request-details >
+<request-details [tbotrequests]="team_botrequests"  [routine]="'team'" [title]="'Team season'"  [admin]="false" (refresh)="reloadData()"></request-details >
+<request-details [tbotrequests]="national_team_botrequests"  [routine]="'national_team'" [title]="'National team season'"  [admin]="false" (refresh)="reloadData()"></request-details >
+<request-details [tbotrequests]="UCIranking_botrequests" [routine]="'UCIranking'" [title]="'UCI ranking'" [admin]="false" (refresh)="reloadData()"></request-details >
+<request-details [tbotrequests]="sort_date_botrequests" [routine]="'sort_date'" [title]="'Sort date'" [admin]="false" (refresh)="reloadData()"></request-details >
+<request-details [tbotrequests]="sort_name_botrequests" [routine]="'sort_name'" [title]="'Sort name'" [admin]="false" (refresh)="reloadData()"></request-details >

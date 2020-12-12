@@ -23,6 +23,7 @@
             <td *ngIf="year_begin_col">{{botrequest.nationality}}</td>
             <td *ngIf="year_col">{{botrequest.year}}</td>
             <td *ngIf="name_col">{{botrequest.name}}</td>
+            <td *ngIf="nameyear_col">{{botrequest.name}} {{botrequest.year}}</td>
             <td *ngIf="id_col">{{botrequest.item_id}}</td>
             <td >{{botrequest.status}}</td>
             <td><log [txt]="botrequest.log"></log></td>

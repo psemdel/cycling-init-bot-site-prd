@@ -205,6 +205,21 @@ dic_of_routines['UCIranking']="importation of UCI ranking";
 dic_of_routines['sort_date']="sorting";
 dic_of_routines['sort_name']="sorting";
 
+export var dic_of_display: {[id :string] :string;} = {};
+dic_of_routines['create_rider']="name only";
+dic_of_routines['import_classification']="id";
+dic_of_routines['national_all_champs']="year";
+dic_of_routines['national_one_champ']="year_begin";
+dic_of_routines['start_list']="id";
+dic_of_routines['race']="name";
+dic_of_routines['stages']="id";
+dic_of_routines['team']="name";
+dic_of_routines['national_team']="name";
+dic_of_routines['UCIranking']="id";
+dic_of_routines['sort_date']="id";
+dic_of_routines['sort_name']="id";
+
+
 export interface Message {
   type: string;
   text: string;

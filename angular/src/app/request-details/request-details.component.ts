@@ -5,6 +5,7 @@ import {MonitoringService } from '@ser/monitoring.service';
 import { Observable } from 'rxjs';
 
 import { BotRequest} from '@app/models/models';
+import {dic_of_display} from '@app/models/lists';
 
 @Component({
   selector: 'request-details',
@@ -14,24 +15,25 @@ import { BotRequest} from '@app/models/models';
 export class RequestDetailsComponent implements OnInit {
    @Input() tbotrequests: Observable<BotRequest[]>;
    @Input() title: string;
-   @Input() column: string;
+   @Input() routine: string;
    @Input() admin: boolean;
    
    @Output() refresh = new EventEmitter<any>();
    
-   result_id_col=false;
-   name_col=false;
-   id_col=false;
-   year_col=false;
-   year_begin_col=false;
+   result_id_col=false; name_col=false; nameyear_col=false; id_col=false;
+   year_col=false; year_begin_col=false;
+   column: string;
  
   constructor(private botRequestService: BotRequestService,
               private monitoringService: MonitoringService
    ) { }
 
   ngOnInit() {
+   this.column=dic_of_display[this.routine];
+
    switch(this.column){
-    case "name": {this.name_col=true; this.result_id_col=true; break;}
+    case "name only": {this.name_col=true; this.result_id_col=true; break;}
+    case "name": {this.nameyear_col=true; this.result_id_col=true; break;}
     case "id":{this.id_col=true; break;}
     case "year": {this.year_col=true; break;}
     case "year_begin": {this.year_begin_col=true; break;}

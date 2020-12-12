@@ -6,7 +6,7 @@ import {AuthenticationService } from '@ser/authentication.service';
 import {AlertService } from '@ser/alert.service';
 
 import {BotRequest, User} from '@app/models/models';
-import {dic_of_routines} from '@app/models/lists';
+import {dic_of_routines, dic_of_display} from '@app/models/lists';
 import { IntervalObservable } from "rxjs/observable/IntervalObservable";
 
 @Injectable({
@@ -42,12 +42,12 @@ export class MonitoringService    {
    }
     
   startChecking() {
-    console.log("checking set to true");
+    //console.log("checking set to true");
     this.checking$.next(true);
   }
 
   stopChecking() {
-    console.log("checking set to false");
+    //console.log("checking set to false");
     this.checking$.next(false);
   }
   
@@ -86,7 +86,7 @@ export class MonitoringService    {
   
   remove(routine: string, rq: BotRequest,success: boolean){
     if (success){
-        this.event_completed(routine);
+        this.event_completed(routine, rq);
     }
     else{
         this.event_failed(routine);
@@ -121,8 +121,18 @@ export class MonitoringService    {
     return res_array;
   }
   
-  event_completed(routine: string){
-      this.alertService.success("request " + dic_of_routines[routine] + " completed");
+  event_completed(routine: string, rq: BotRequest){
+      var sup_info: string;
+
+      switch(dic_of_display[routine]){
+        case "name only": {sup_info="name: "+rq.name; break;}
+        case "name": {sup_info="name: "+rq.name + " " + rq.year; break;}
+        case "id":{sup_info="id: "+rq.id; break;}
+        case "year": {sup_info="year: "+rq.year; break;}
+        case "year_begin": {sup_info="start year: "+rq.year_begin; break;}
+       }
+      
+      this.alertService.success("request " + dic_of_routines[routine]  + " completed" + ", " + sup_info);
   }
   
   event_failed(routine: string){
