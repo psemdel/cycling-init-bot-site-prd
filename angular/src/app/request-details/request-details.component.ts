@@ -30,13 +30,12 @@ export class RequestDetailsComponent implements OnInit {
 
   ngOnInit() {
    this.column=dic_of_display[this.routine];
-
    switch(this.column){
-    case "name only": {this.name_col=true; this.result_id_col=true; break;}
     case "name": {this.nameyear_col=true; this.result_id_col=true; break;}
     case "id":{this.id_col=true; break;}
     case "year": {this.year_col=true; break;}
     case "year_begin": {this.year_begin_col=true; break;}
+    case "name only": {this.name_col=true; this.result_id_col=true; break;}
    }
   }
   

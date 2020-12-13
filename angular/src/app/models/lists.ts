@@ -206,18 +206,18 @@ dic_of_routines['sort_date']="sorting";
 dic_of_routines['sort_name']="sorting";
 
 export var dic_of_display: {[id :string] :string;} = {};
-dic_of_routines['create_rider']="name only";
-dic_of_routines['import_classification']="id";
-dic_of_routines['national_all_champs']="year";
-dic_of_routines['national_one_champ']="year_begin";
-dic_of_routines['start_list']="id";
-dic_of_routines['race']="name";
-dic_of_routines['stages']="id";
-dic_of_routines['team']="name";
-dic_of_routines['national_team']="name";
-dic_of_routines['UCIranking']="id";
-dic_of_routines['sort_date']="id";
-dic_of_routines['sort_name']="id";
+dic_of_display['create_rider']="name only";
+dic_of_display['import_classification']="id";
+dic_of_display['national_all_champs']="year";
+dic_of_display['national_one_champ']="year_begin";
+dic_of_display['start_list']="id";
+dic_of_display['race']="name";
+dic_of_display['stages']="id";
+dic_of_display['team']="name";
+dic_of_display['national_team']="year_begin";
+dic_of_display['UCIranking']="id";
+dic_of_display['sort_date']="id";
+dic_of_display['sort_name']="id";
 
 
 export interface Message {
