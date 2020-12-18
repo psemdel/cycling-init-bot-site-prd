@@ -36,8 +36,8 @@ export class NationalOneChampComponent implements OnInit {
   ngOnInit() {
         this.lastname="";
         this.registerForm = this.formBuilder.group({
-            year_begin: ['', Validators.required],
-            year_end: ['', [Validators.required]],
+            year_begin: ['2020', Validators.required],
+            year_end: ['2020', [Validators.required]],
             nationality: ['', Validators.required],
             category: ['', Validators.required],
             },{validators: this.checkYear});

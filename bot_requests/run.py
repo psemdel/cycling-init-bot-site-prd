@@ -242,7 +242,7 @@ def run_bot(rq_id, rq_routine):
             man_or_woman=u'both' 
             option=u'clmon' #'clmoff'
             start_year=rq.year
-            end_year=rq.year+1
+            end_year=rq.year
             #no CC
             
             if not test_site:

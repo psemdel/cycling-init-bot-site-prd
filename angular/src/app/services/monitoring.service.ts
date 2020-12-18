@@ -6,7 +6,7 @@ import {AuthenticationService } from '@ser/authentication.service';
 import {AlertService } from '@ser/alert.service';
 
 import {BotRequest, User} from '@app/models/models';
-import {dic_of_routines, dic_of_display} from '@app/models/lists';
+import {dic_of_routines, dic_of_display_alert} from '@app/models/lists';
 import { IntervalObservable } from "rxjs/observable/IntervalObservable";
 
 @Injectable({
@@ -124,7 +124,7 @@ export class MonitoringService    {
   event_completed(routine: string, rq: BotRequest){
       var sup_info: string;
 
-      switch(dic_of_display[routine]){
+      switch(dic_of_display_alert[routine]){
         case "name only": {sup_info="name: "+rq.name; break;}
         case "name": {sup_info="name: "+rq.name + " " + rq.year; break;}
         case "id":{sup_info="id: "+rq.id; break;}

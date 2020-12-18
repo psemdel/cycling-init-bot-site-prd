@@ -219,6 +219,20 @@ dic_of_display['UCIranking']="id";
 dic_of_display['sort_date']="id";
 dic_of_display['sort_name']="id";
 
+export var dic_of_display_alert: {[id :string] :string;} = {};
+dic_of_display_alert['create_rider']="id";
+dic_of_display_alert['import_classification']="id";
+dic_of_display_alert['national_all_champs']="year";
+dic_of_display_alert['national_one_champ']="year_begin";
+dic_of_display_alert['start_list']="id";
+dic_of_display_alert['race']="id";
+dic_of_display_alert['stages']="id";
+dic_of_display_alert['team']="id";
+dic_of_display_alert['national_team']="year_begin";
+dic_of_display_alert['UCIranking']="id";
+dic_of_display_alert['sort_date']="id";
+dic_of_display_alert['sort_name']="id";
+
 
 export interface Message {
   type: string;
