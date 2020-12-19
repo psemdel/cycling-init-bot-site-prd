@@ -66,7 +66,7 @@ class NationalTeamRequestSerializer(serializers.ModelSerializer):
         model = NationalTeamRequest
         fields ='__all__'    
 
-class NationalTeamRequestAllSerializer(serializers.ModelSerializer):
+class NationalTeamAllRequestSerializer(serializers.ModelSerializer):
     author_name = serializers.CharField(source='author.username', read_only=True)
     
     class Meta:
