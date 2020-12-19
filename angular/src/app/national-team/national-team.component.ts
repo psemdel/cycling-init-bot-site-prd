@@ -36,8 +36,8 @@ export class NationalTeamComponent implements OnInit {
   ngOnInit() {
         this.lastname="";
         this.registerForm = this.formBuilder.group({
-            year_begin: ['', Validators.required],
-            year_end: ['', [Validators.required]],
+            year_begin: [2021, Validators.required],
+            year_end: [2021, [Validators.required]],
             nationality: ['', Validators.required],
             gender: ['woman', Validators.required],
             },{validators: this.checkYear});

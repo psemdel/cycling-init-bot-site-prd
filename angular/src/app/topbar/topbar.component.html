@@ -18,7 +18,12 @@
              <ul>
                  <li *ngIf="nb_started_routines!=0" class="rq">
                  <p><small>Requests:  </small><span class="rq"> {{nb_completed_routines}}/{{nb_started_routines}}</span></p>  
-                 </li>       
+                 </li>  
+                 <li>
+                    <button mat-raised-button color="primary" (click)='reset()'>
+                        <mat-icon>close</mat-icon>
+                    </button>
+                 </li>     
                  <li>
                  <app-menu-pers></app-menu-pers>
                  </li>

@@ -66,6 +66,14 @@ class NationalTeamRequestSerializer(serializers.ModelSerializer):
         model = NationalTeamRequest
         fields ='__all__'    
 
+class NationalTeamRequestAllSerializer(serializers.ModelSerializer):
+    author_name = serializers.CharField(source='author.username', read_only=True)
+    
+    class Meta:
+        model = NationalTeamAllRequest
+        fields ='__all__'    
+
+
 class UCIrankingRequestSerializer(serializers.ModelSerializer):
     author_name = serializers.CharField(source='author.username', read_only=True)
     

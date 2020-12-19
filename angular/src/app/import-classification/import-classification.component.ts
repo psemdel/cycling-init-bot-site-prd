@@ -79,7 +79,7 @@ export class ImportClassificationComponent implements OnInit {
             item_id: ['', [Validators.required, Validators.pattern(/^[Q].*$/)]],
             classification_type: [0, Validators.required],
             file: [null, Validators.required],
-            year: [2020],
+            year: [2021, Validators.required],
             gender: ['woman'],
             });
         

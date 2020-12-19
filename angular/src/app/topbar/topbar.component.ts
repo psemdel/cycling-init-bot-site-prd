@@ -53,4 +53,8 @@ export class TopbarComponent implements OnInit {
       } //otherwise it starts infinitely
  
  }
+
+ reset(){
+    this.monitoringService.reset();
+ }
 }    

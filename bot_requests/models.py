@@ -123,6 +123,14 @@ class NationalTeamRequest(BotRequest):
 
    def __str__(self):
         return self.routine + " "+ self.nationality
+    
+class NationalTeamAllRequest(BotRequest):
+   year_begin = models.IntegerField(blank=False)
+   year_end = models.IntegerField(blank=False)
+   gender =models.CharField(max_length=5, blank=False)#for champ
+
+   def __str__(self):
+        return self.routine + " "+ self.year_begin
    
 class SortDateRequest(BotRequest):
    prop = models.IntegerField(blank=False)

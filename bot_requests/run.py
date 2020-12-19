@@ -187,6 +187,18 @@ def run_bot(rq_id, rq_routine):
                                 country=rq.nationality)
                 rq.result_id=result_id
                 rq.save()
+
+        elif rq_routine=="national_team_all":
+            from bot_src.src import national_team_creator
+            
+            if not test_site:
+                status, log, result_id=national_team_creator.f(pywikibot,site,repo,time,nation_table,
+                                rq.gender,
+                                rq.year_begin,
+                                rq.year_end,
+                                country=False)
+                rq.result_id=result_id
+                rq.save()
                 
         elif rq_routine=="sort_date":
             from bot_src.src import sorter

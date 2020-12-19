@@ -37,7 +37,7 @@ export class TeamComponent implements OnInit {
         this.registerForm = this.formBuilder.group({
             name: ['', Validators.required],
             item_id: ['', [Validators.required, Validators.pattern(/^[Q].*$/)]],
-            year: ['2021', Validators.required],
+            year: [2021, Validators.required],
             UCIcode: [''], //pattern
             nationality: ['', Validators.required],
             });

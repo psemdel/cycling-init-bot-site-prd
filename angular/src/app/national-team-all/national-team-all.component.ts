@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { BotRequestService} from '@ser/bot-request.service';
+import { BotRequestService} from '@app/services/bot-request.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import {AuthenticationService } from '@ser/authentication.service';
 import {MonitoringService } from '@ser/monitoring.service';
 import { BotRequest, User} from '@app/models/models';
-import { nationalities,  categories} from '@app/models/lists';
+import { genders} from '@app/models/lists';
 
 @Component({
-  selector: 'national-one-champ',
-  templateUrl: './national-one-champ.component.html',
-  styleUrls: ['./national-one-champ.component.css']
+  selector: 'national-team-all',
+  templateUrl: './national-team-all.component.html',
+  styleUrls: ['./national-team-all.component.css']
 })
 
-export class NationalOneChampComponent implements OnInit {
+export class NationalTeamAllComponent implements OnInit {
   currentUser: User;
   registerForm: FormGroup;
   botrequest: BotRequest = new BotRequest();
@@ -21,16 +21,15 @@ export class NationalOneChampComponent implements OnInit {
   success = false;
   lastname: string;
   years:Array<any> = [];
-  nationalities= nationalities;
-  categories=categories;
-  
+  genders=genders;
+
   constructor(private botRequestService: BotRequestService,
               private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
               private monitoringService: MonitoringService
     ) { 
               this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-              this.years = Array(30).fill(0).map((x,i)=>2000+i);
+              this.years = Array(80).fill(0).map((x,i)=>2030-i);
    }
 
   ngOnInit() {
@@ -38,10 +37,9 @@ export class NationalOneChampComponent implements OnInit {
         this.registerForm = this.formBuilder.group({
             year_begin: [2021, Validators.required],
             year_end: [2021, [Validators.required]],
-            nationality: ['', Validators.required],
-            category: ['', Validators.required],
+            gender: ['woman', Validators.required],
             },{validators: this.checkYear});
-     }
+  }
 
   get f() { return this.registerForm.controls; }
 
@@ -62,9 +60,9 @@ export class NationalOneChampComponent implements OnInit {
        return;
     }
     //display in the interface
-    this.lastname=this.f.nationality.value;  
+    this.lastname=this.f.year_begin.value;  
     
-   Object.keys(this.registerForm.controls).forEach(key => {
+    Object.keys(this.registerForm.controls).forEach(key => {
       this.botrequest[key]=this.registerForm.controls[key].value;
     });
 
@@ -73,19 +71,20 @@ export class NationalOneChampComponent implements OnInit {
   }
 
   save() {
-    this.botRequestService.createRq('national_one_champ',this.botrequest)
+    this.botRequestService.createRq('national_team_all',this.botrequest)
       .subscribe(
         data => {
-          console.log('national one champ request success');
+          console.log('creater national team all request success');
           this.success = true;
-          this.monitoringService.start('national_one_champ');
+          this.monitoringService.start('national_team_all');
         },
         error => {
             console.log(error);
         });
      this.botrequest = new BotRequest();
+        
   }
-  
+
   checkYear(group: FormGroup) { 
       let year_begin = group.get('year_begin').value;
       let year_end = group.get('year_end').value;

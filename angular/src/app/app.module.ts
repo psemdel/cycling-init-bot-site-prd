@@ -51,6 +51,7 @@ import {LogContentComponent} from '@app/logcontent/logcontent.component';
 import {AlertComponent} from '@app/alert/alert.component';
 import {RequestDetailsComponent } from '@app/request-details/request-details.component';
 import {ResendActivationEmailComponent} from '@app/resend-activation-email/resend-activation-email.component';
+import {NationalTeamAllComponent} from 'app/national-team-all/national-team-all.component';
 
 import { NotFoundComponent } from './not-found/not-found.component';
 
@@ -92,7 +93,8 @@ const appearance: MatFormFieldDefaultOptions = {
                 SortDateComponent, SortNameComponent, LoadingComponent,
                 ForgottenPassComponent, UserSettingsComponent, 
                 LogComponent, LogContentComponent, AlertComponent, 
-                RequestDetailsComponent, NotFoundComponent, NationalTeamComponent
+                RequestDetailsComponent, NotFoundComponent, NationalTeamComponent,
+                NationalTeamAllComponent
                 ],
   bootstrap:    [ AppComponent ],
   providers: [
