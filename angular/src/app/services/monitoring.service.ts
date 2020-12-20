@@ -127,7 +127,7 @@ export class MonitoringService    {
       switch(dic_of_display_alert[routine]){
         case "name only": {sup_info="name: "+rq.name; break;}
         case "name": {sup_info="name: "+rq.name + " " + rq.year; break;}
-        case "id":{sup_info="id: "+rq.id; break;}
+        case "id":{sup_info="id: "+rq.result_id; break;}
         case "year": {sup_info="year: "+rq.year; break;}
         case "year_begin": {sup_info="start year: "+rq.year_begin; break;}
        }
