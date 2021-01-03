@@ -65,6 +65,8 @@ export class MonitoringService    {
                  this.running_routine.push(routine);
             }
         })
+        console.log(this.running_rq)
+        this.save_local();
     })
   }
   
@@ -77,10 +79,9 @@ export class MonitoringService    {
   }
   
   start(routine: string){
-    this.get_status(routine);
-    this.nb_started_routines=this.nb_started_routines+1;
+    this.nb_started_routines=this.nb_started_routines+1;  
     this.startChecking();
-    this.save_local();
+    this.get_status(routine);
   }
   //this.periodic_check(); //started from topbar
   
@@ -128,6 +129,7 @@ export class MonitoringService    {
         case "name only": {sup_info="name: "+rq.name; break;}
         case "name": {sup_info="name: "+rq.name + " " + rq.year; break;}
         case "id":{sup_info="id: "+rq.result_id; break;}
+        case "origin_id":{sup_info="id: "+rq.item_id; break;}
         case "year": {sup_info="year: "+rq.year; break;}
         case "year_begin": {sup_info="start year: "+rq.year_begin; break;}
        }
@@ -187,6 +189,10 @@ export class MonitoringService    {
   }
 
   save_local(){
+      console.log("saving")
+      console.log(this.running_routine)
+      console.log(this.running_routine.join(","))
+
       localStorage.setItem('NB_STARTED_ROUTINES', this.nb_started_routines.toString());
       localStorage.setItem('NB_COMPLETED_ROUTINES', this.nb_completed_routines.toString());
       localStorage.setItem('STARTED_ROUTINES', this.running_routine.join(","));
@@ -218,7 +224,10 @@ export class MonitoringService    {
           this.running_routine=[]; 
       }
       else{
+          console.log("splitting")
+          console.log(this.started_routines_str)
           this.running_routine=this.started_routines_str.split(",");
+          console.log(this.running_routine)
       }
       
       if (!this.started_routines_id_str){

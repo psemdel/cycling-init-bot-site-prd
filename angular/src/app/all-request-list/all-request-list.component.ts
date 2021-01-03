@@ -63,10 +63,10 @@ export class AllRequestListComponent implements OnInit {
       this.botRequestService.getAllRq('team',this.currentUser.id);   
       
     this.national_team_botrequests =
-      this.botRequestService.getRq('national_team',this.currentUser.id);  
+      this.botRequestService.getAllRq('national_team',this.currentUser.id);  
       
     this.national_team_all_botrequests =
-      this.botRequestService.getRq('national_team_all',this.currentUser.id); 
+      this.botRequestService.getAllRq('national_team_all',this.currentUser.id); 
 
     this.UCIranking_botrequests =
       this.botRequestService.getAllRq('UCIranking',this.currentUser.id);  

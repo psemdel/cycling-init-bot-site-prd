@@ -56,5 +56,6 @@ export class TopbarComponent implements OnInit {
 
  reset(){
     this.monitoringService.reset();
+    this.init();
  }
 }    

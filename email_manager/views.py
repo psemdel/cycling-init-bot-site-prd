@@ -67,14 +67,17 @@ def activate_user(request, uid, token):
 @api_view(['GET'])    
 @permission_classes((IsAdminUser,)) 
 def test(request):
-    send_mail(
-    'Cycling-init-bot test email',
-    'This is a test.',
-    'cyclinginitbot@gmail.com',
-    ['maxime.delzenne@gmail.com'],
-    fail_silently=False,
-    )
-    return HttpResponse("ok")
+    try:
+        send_mail(
+        'Cycling-init-bot test email',
+        'This is a test.',
+        'cyclinginitbot@gmail.com',
+        ['maxime.delzenne@gmail.com'],
+        fail_silently=False,
+        )
+        return HttpResponse("ok")
+    except:
+        return HttpResponse("email sending failed")
 #@api_view(['GET'])       
 #@permission_classes([AllowAny])    
 #def resend_activation(request, email):

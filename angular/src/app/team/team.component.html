@@ -14,6 +14,7 @@
       <mat-label for=" item_id">Id of the parent team item on wikidata</mat-label>
       <mat-hint>for instance Q645032 for Deceuninck-Quick Step<br/>
         note: if this parent iteam does not exist, create it manually first</mat-hint>
+      <br/>
       <input matInput type="text"  id="item_id" formControlName="item_id"
             [ngClass]="{ 'is-invalid': submitted && f.item_id.errors }" />
           <div *ngIf="submitted && f.item_id.errors" >

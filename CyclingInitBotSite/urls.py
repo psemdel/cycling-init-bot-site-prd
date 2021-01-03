@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.views.generic.base import RedirectView
+from django.conf.urls import handler404
 
 #app
 from . import views
@@ -38,3 +39,5 @@ urlpatterns = [
     path('auth/', include('djoser.urls.jwt')),
     path('sentry-debug/', trigger_error),
 ]
+
+handler404='CyclingInitBotSite.views.view_404'

@@ -233,8 +233,8 @@ dic_of_display_alert['team']="id";
 dic_of_display_alert['national_team']="year_begin";
 dic_of_display_alert['national_team_all']="year_begin";
 dic_of_display_alert['UCIranking']="id";
-dic_of_display_alert['sort_date']="id";
-dic_of_display_alert['sort_name']="id";
+dic_of_display_alert['sort_date']="origin_id";
+dic_of_display_alert['sort_name']="origin_id";
 
 
 export interface Message {
