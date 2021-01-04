@@ -8,7 +8,7 @@ Created on Wed Apr  1 09:37:08 2020
 #django
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from django.shortcuts import redirect
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 class HomePageView(TemplateView):
@@ -16,4 +16,4 @@ class HomePageView(TemplateView):
             return render(request, 'CyclingInitBotSite/index.html', context=None)   
 
 def view_404(request, *args, **kwargs):
-    return redirect('')
+    return HttpResponseRedirect("home")
