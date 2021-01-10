@@ -120,6 +120,7 @@ class NationalTeamRequest(BotRequest):
    year_begin = models.IntegerField(blank=False)
    year_end = models.IntegerField(blank=False)
    gender =models.CharField(max_length=5, blank=False)#for champ
+   category =models.CharField(max_length=10, blank=True)   
 
    def __str__(self):
         return self.routine + " "+ self.nationality
@@ -128,6 +129,7 @@ class NationalTeamAllRequest(BotRequest):
    year_begin = models.IntegerField(blank=False)
    year_end = models.IntegerField(blank=False)
    gender =models.CharField(max_length=5, blank=False)#for champ
+   category =models.CharField(max_length=10, blank=True)   
 
    def __str__(self):
         return self.routine + " "+ self.year_begin

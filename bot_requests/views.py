@@ -117,7 +117,8 @@ def async_run_bot(rq_id, rq_routine):
 def run_autocheck(rq_data, request, rq_id):
     print("check if autocheck")
     user=User.objects.get(pk=rq_data["author"])
-    no_autocheck_run_routines=["national_all_champs","national_one_champ","UCIranking"] #to have a double check
+    no_autocheck_run_routines=["national_all_champs",] #"national_one_champ","UCIranking"
+    #to have a double check
     
     if (user.has_perm('bot_requests.can_run_requests') and 
     rq_data["routine"] and rq_data["routine"] not in  no_autocheck_run_routines):
@@ -143,7 +144,7 @@ def check_if_failed(rq_id, routine):
 def run(request):
     if request.method == 'POST':
         run_data=JSONParser().parse(request)
-        
+       
         if run_data["routine"]:
             if run_data["id"]:
                 if IsAdminUser or check_if_failed(run_data["id"],run_data["routine"]):

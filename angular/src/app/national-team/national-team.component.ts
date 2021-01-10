@@ -5,7 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {AuthenticationService } from '@ser/authentication.service';
 import {MonitoringService } from '@ser/monitoring.service';
 import { BotRequest, User} from '@app/models/models';
-import { nationalities, genders} from '@app/models/lists';
+import { nationalities, categories} from '@app/models/lists';
 
 @Component({
   selector: 'national-team',
@@ -22,7 +22,7 @@ export class NationalTeamComponent implements OnInit {
   lastname: string;
   years:Array<any> = [];
   nationalities= nationalities;
-  genders=genders;
+  categories=categories; //was gender in the beginning
 
   constructor(private botRequestService: BotRequestService,
               private formBuilder: FormBuilder,
@@ -39,7 +39,7 @@ export class NationalTeamComponent implements OnInit {
             year_begin: [2021, Validators.required],
             year_end: [2021, [Validators.required]],
             nationality: ['', Validators.required],
-            gender: ['woman', Validators.required],
+            category: ['woman', Validators.required],
             },{validators: this.checkYear});
   }
 

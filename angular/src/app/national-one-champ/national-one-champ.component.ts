@@ -62,7 +62,7 @@ export class NationalOneChampComponent implements OnInit {
        return;
     }
     //display in the interface
-    this.lastname=this.f.nationality.value;  
+    this.lastname=this.f.nationality.value + ' ' + String(this.f.year_begin.value);  
     
    Object.keys(this.registerForm.controls).forEach(key => {
       this.botrequest[key]=this.registerForm.controls[key].value;

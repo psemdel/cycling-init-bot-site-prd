@@ -4,7 +4,7 @@ djangorestframework
 djangorestframework_simplejwt
 djoser
 #whitenoise
-xlrd 
+openpyxl
 django-ratelimit
 django-cors-headers
 celery[redis]

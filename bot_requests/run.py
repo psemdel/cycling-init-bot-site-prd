@@ -181,7 +181,7 @@ def run_bot(rq_id, rq_routine):
             
             if not test_site:
                 status, log, result_id=national_team_creator.f(pywikibot,site,repo,time,nation_table,
-                                rq.gender,
+                                rq.category,
                                 rq.year_begin,
                                 rq.year_end,
                                 country=rq.nationality)
@@ -193,7 +193,7 @@ def run_bot(rq_id, rq_routine):
             
             if not test_site:
                 status, log, result_id=national_team_creator.f(pywikibot,site,repo,time,nation_table,
-                                rq.gender,
+                                rq.category,
                                 rq.year_begin,
                                 rq.year_end,
                                 country=False)

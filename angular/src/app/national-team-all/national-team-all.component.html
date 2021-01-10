@@ -33,19 +33,19 @@
         </div>
       </mat-form-field>
     <br>
-      <mat-form-field >
-      <mat-label for="gender">Gender of the team (only man or woman)</mat-label>
-      <mat-select disableOptionCentering formControlName="gender"
-      [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
-          <mat-option *ngFor="let gender of genders" [value]="gender.value">
-            {{gender.viewValue}}
+    <mat-form-field >
+      <mat-label for="category">Category</mat-label>
+      <mat-select disableOptionCentering formControlName="category"
+      [ngClass]="{ 'is-invalid': submitted && f.category.errors }">
+          <mat-option *ngFor="let category of categories" [value]="category.value">
+            {{category.viewValue}}
           </mat-option>
         </mat-select>
-        <div *ngIf="submitted && f.gender.errors" >
-          <mat-error *ngIf="f.gender.errors.required">Field required</mat-error>
+        <div *ngIf="submitted && f.category.errors">
+          <mat-error *ngIf="f.category.errors.required">Field required</mat-error>
         </div>
       </mat-form-field>
-    <br/>
+    <br>
     <button mat-raised-button color="primary" type="submit">Submit</button>
   </form>
 </div>
