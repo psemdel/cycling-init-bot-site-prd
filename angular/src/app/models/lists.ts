@@ -58,19 +58,25 @@ export const nationalities: Nationality[] = [
     {value: 'DEN', viewValue: 'Danemark'},
     {value: 'DOM', viewValue: 'Dominican Republic'},
     {value: 'ECU', viewValue: 'Ecuador'},
+    {value: 'EGY', viewValue: 'Egypt'},
     {value: 'ESA', viewValue: 'El Salvador'},
     {value: 'ERI', viewValue: 'Eritrea'},
     {value: 'EST', viewValue: 'Estonia'},
     {value: 'ETH', viewValue: 'Ethiopia'},
     {value: 'FIN', viewValue: 'Finland'},
     {value: 'FRA', viewValue: 'France'},
+    {value: 'GEO', viewValue: 'Georgia'},
     {value: 'GER', viewValue: 'Germany'},
     {value: 'GBR', viewValue: 'Great-Britain'},
     {value: 'GRE', viewValue: 'Greece'},
     {value: 'GUA', viewValue: 'Guatemala'},
+    {value: 'HON', viewValue: 'Honduras'},
     {value: 'HKG', viewValue: 'Hong Kong'},
     {value: 'HUN', viewValue: 'Hungary'},
     {value: 'ISL', viewValue: 'Iceland'},
+    {value: 'IND', viewValue: 'India'},
+    {value: 'INA', viewValue: 'Indonesia'},
+    {value: 'IRQ', viewValue: 'Irak'},
     {value: 'IRI', viewValue: 'Iran'},
     {value: 'IRL', viewValue: 'Irland'},
     {value: 'ISR', viewValue: 'Israel'},
@@ -80,7 +86,8 @@ export const nationalities: Nationality[] = [
     {value: 'LAT', viewValue: 'Latvia'},
     {value: "LTU", viewValue: 'Lithuania'},
     {value: 'LUX', viewValue: 'Luxembourg'},
-    {value: 'MAS', viewValue: 'Malaisia'}, 
+    {value: 'MAS', viewValue: 'Malaisia'},
+    {value: 'MGL', viewValue: 'Mongolia'},  
     {value: 'MAR', viewValue: 'Morocco'}, 
     {value: 'MEX', viewValue: 'Mexico'}, 
     {value: 'MKD', viewValue: 'North Macedonia'}, 
@@ -88,7 +95,9 @@ export const nationalities: Nationality[] = [
     {value: 'NAM', viewValue: 'Namibia'}, 
     {value: 'NED', viewValue: 'Netherlands'},
     {value: 'NZL', viewValue: 'New-Zealand'},
+    {value: 'NCA', viewValue: 'Nicaragua'},
     {value: 'NOR', viewValue: 'Norway'},
+    {value: 'PAK', viewValue: 'Pakistan'},
     {value: 'PAN', viewValue: 'Panama'},
     {value: 'PAR', viewValue: 'Paraguay'},
     {value: 'PER', viewValue: 'Peru'},
@@ -99,6 +108,7 @@ export const nationalities: Nationality[] = [
     {value: 'ROM', viewValue: 'Romania'},
     {value: 'RUS', viewValue: 'Russia'},
     {value: 'RWA', viewValue: 'Rwanda'},
+    {value: "KSA", viewValue: 'Saudi Arabia'},
     {value: "SRB", viewValue: 'Serbia'},
     {value: "SGP", viewValue: 'Singapore'},
     {value: "SVK", viewValue: 'Slovakia'},
@@ -114,9 +124,11 @@ export const nationalities: Nationality[] = [
     {value: 'TUN', viewValue: 'Tunisia'},
     {value: 'TUR', viewValue: 'Turkey'},
     {value: 'UKR', viewValue: 'Ukraine'},
+    {value: 'URU', viewValue: 'Uruguay'},
     {value: 'USA', viewValue: 'USA'},
     {value: 'UZB', viewValue: 'Uzbekistan'},
     {value: 'VEN', viewValue: 'Venezuela'},
+    {value: 'VIE', viewValue: 'Vietnam'},
   ];
 
 interface Gender {
@@ -137,11 +149,11 @@ interface Category {
 export const categories: Category[] = [
     {value: 'man', viewValue: 'Man Elite'},
     {value: 'woman', viewValue: 'Woman Elite'},
-    {value: 'manU', viewValue: 'Man U23 (not implemented yet)'},
-    {value: 'womanU', viewValue: 'Woman U23 (not implemented yet)'},   
-    {value: 'manJ', viewValue: 'Man juniors (not implemented yet)'},
-    {value: 'womanJ', viewValue: 'Woman juniors (not implemented yet)'},  
-    {value: 'all', viewValue: 'All (not implemented yet)'},   
+    {value: 'manU', viewValue: 'Man U23'},
+    {value: 'womanU', viewValue: 'Woman U23'},   
+    {value: 'manJ', viewValue: 'Man juniors'},
+    {value: 'womanJ', viewValue: 'Woman juniors'},  
+    {value: 'all', viewValue: 'All'},   
     {value: 'both', viewValue: 'Man and Woman Elite'},     
   ];  
   
@@ -191,7 +203,7 @@ export const race_2x_classes: RaceClass[] = [
     {value: "WWT.2", viewValue: 'WWT 2'},
   ];
   
-export var dic_of_routines: {[id :string] :string;} = {};
+export var dic_of_routines: {[id :string] :string;} = {}; //for the alert, begining of the message
 dic_of_routines['create_rider']="rider creation";
 dic_of_routines['import_classification']="import of a classification";
 dic_of_routines['national_all_champs']="creation of all championships";
@@ -206,7 +218,7 @@ dic_of_routines['UCIranking']="importation of UCI ranking";
 dic_of_routines['sort_date']="sorting";
 dic_of_routines['sort_name']="sorting";
 
-export var dic_of_display: {[id :string] :string;} = {};
+export var dic_of_display: {[id :string] :string;} = {}; //for request list, which column to display
 dic_of_display['create_rider']="name only";
 dic_of_display['import_classification']="id";
 dic_of_display['national_all_champs']="year";
@@ -221,12 +233,12 @@ dic_of_display['UCIranking']="id";
 dic_of_display['sort_date']="id";
 dic_of_display['sort_name']="id";
 
-export var dic_of_display_alert: {[id :string] :string;} = {};
-dic_of_display_alert['create_rider']="id";
-dic_of_display_alert['import_classification']="id";
+export var dic_of_display_alert: {[id :string] :string;} = {}; //for the alert, end of the message
+dic_of_display_alert['create_rider']="id"; //id of the created item
+dic_of_display_alert['import_classification']="origin_id"; //id of the item as origin
 dic_of_display_alert['national_all_champs']="year";
 dic_of_display_alert['national_one_champ']="year_begin";
-dic_of_display_alert['start_list']="id";
+dic_of_display_alert['start_list']="origin_id";
 dic_of_display_alert['race']="id";
 dic_of_display_alert['stages']="id";
 dic_of_display_alert['team']="id";

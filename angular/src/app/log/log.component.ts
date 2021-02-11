@@ -18,7 +18,7 @@ export class LogComponent implements OnInit {
      if (this.name || this.name==""){
          this.display=this.name;
       }else{
-        this.display="Log";
+        this.display="Log"; //icon
      }
   }
 

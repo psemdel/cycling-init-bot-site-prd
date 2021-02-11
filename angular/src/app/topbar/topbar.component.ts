@@ -38,7 +38,7 @@ export class TopbarComponent implements OnInit {
  periodic_update(){
      this.periodic_bool=true;
      this.monitoringService.periodic_check(); 
-     IntervalObservable.create(5000)
+     IntervalObservable.create(10000)
           .subscribe(
               data => {
               this.init(); //reload nb_started_routines

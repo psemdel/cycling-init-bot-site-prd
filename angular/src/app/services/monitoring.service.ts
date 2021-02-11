@@ -42,12 +42,10 @@ export class MonitoringService    {
    }
     
   startChecking() {
-    //console.log("checking set to true");
     this.checking$.next(true);
   }
 
   stopChecking() {
-    //console.log("checking set to false");
     this.checking$.next(false);
   }
   
@@ -65,7 +63,6 @@ export class MonitoringService    {
                  this.running_routine.push(routine);
             }
         })
-        console.log(this.running_rq)
         this.save_local();
     })
   }
@@ -92,7 +89,6 @@ export class MonitoringService    {
     else{
         this.event_failed(routine);
     }
-    
     this.nb_completed_routines=this.nb_completed_routines+1;
     const index =this.running_rq.indexOf(rq.id, 0);
     if (index > -1) {
@@ -163,7 +159,6 @@ export class MonitoringService    {
   
   check() {
     if (this.running_routine){
-        //console.log("checking data");
         let res_array=this.unique(this.running_routine);
     
         for (var routine of res_array){
@@ -189,10 +184,6 @@ export class MonitoringService    {
   }
 
   save_local(){
-      console.log("saving")
-      console.log(this.running_routine)
-      console.log(this.running_routine.join(","))
-
       localStorage.setItem('NB_STARTED_ROUTINES', this.nb_started_routines.toString());
       localStorage.setItem('NB_COMPLETED_ROUTINES', this.nb_completed_routines.toString());
       localStorage.setItem('STARTED_ROUTINES', this.running_routine.join(","));
@@ -218,14 +209,13 @@ export class MonitoringService    {
       }
       else{
           this.nb_completed_routines=parseInt(this.nb_completed_routines_str);
+          console.log(this.nb_completed_routines)
       }
       
       if (!this.started_routines_str){
           this.running_routine=[]; 
       }
       else{
-          console.log("splitting")
-          console.log(this.started_routines_str)
           this.running_routine=this.started_routines_str.split(",");
           console.log(this.running_routine)
       }
@@ -240,6 +230,7 @@ export class MonitoringService    {
          for(var i=0; i<this.temp.length;i++) {
              this.running_rq.push(parseInt(this.temp[i]));
          }
+         console.log(this.running_rq)
       }
       
   }

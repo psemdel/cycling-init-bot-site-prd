@@ -9,6 +9,7 @@ import pywikibot #avoid confusion
 from bot_src.src import nation_team_table
 import time, os
 
+from django.utils import timezone
 from sentry_sdk import capture_message
 from .dic import routine_to_model
 from .log import save_log #log to the user
@@ -22,6 +23,7 @@ def load_request(rq_id, routine):
     table=routine_to_model(routine)
     rq=table.objects.get(pk=rq_id)
     rq.status = "started"
+    rq.process_start_time=timezone.now()
     rq.save()
     return rq 
 
@@ -55,6 +57,8 @@ def run_bot(rq_id, rq_routine):
         log=None
         status=10
         rq=load_request(rq_id, rq_routine)
+        rq.log=""
+        rq.save()
         save_log(rq_id, rq_routine, "request loaded")
         save_log(rq_id, rq_routine, rq_routine + " routine selected")
         nation_table= nation_team_table.load()
@@ -290,6 +294,7 @@ def run_bot(rq_id, rq_routine):
         table=routine_to_model(rq_routine)
         rq=table.objects.get(pk=rq_id)
         routine_with_file=["import_classification","start_list","UCIranking"]
+        rq.process_end_time=timezone.now()
         
         if status==0:
             save_log(rq_id, rq_routine, "request completed")
@@ -313,6 +318,7 @@ def run_bot(rq_id, rq_routine):
         rq=table.objects.get(pk=rq_id)
         save_log(rq_id, rq_routine, "request failed, most probably max lag of wikidata, retry in 10 minutes" )
         rq.status = "failed"
+        rq.process_end_time=timezone.now()
         rq.save() 
         return 11   
     except:
@@ -323,6 +329,7 @@ def run_bot(rq_id, rq_routine):
         save_log(rq_id, rq_routine, "request failed, total")
 
         rq.status = "failed"
+        rq.process_end_time=timezone.now()
         rq.save() 
         return 10
     
