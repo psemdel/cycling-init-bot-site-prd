@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
-DEBUG=False
+DEBUG=True
 
 #if DEBUG:
 with open('CyclingInitBotSite/etc/secret_key.txt') as f:
@@ -266,6 +266,7 @@ if not DEBUG:
     CELERY_BROKER_CONNECTION_TIMEOUT = 30 # May require a long timeout due to Linux DNS timeouts etc
     CELERY_RESULT_BACKEND = None 
     CELERY_WORKER_PREFETCH_MULTIPLIER = 1
+    CELERY_EVENT_QUEUE_PREFIX="cyclinginitbot_"
 #CELERY_RESULT_BACKEND = 'pyamqp://guest@localhost//'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
