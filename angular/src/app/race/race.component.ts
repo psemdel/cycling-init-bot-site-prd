@@ -37,6 +37,8 @@ export class RaceComponent implements OnInit {
   yesnos=yesnos;
   temp1: boolean;
   temp2: string;
+  datetemp;
+  datetemp2;
   
   constructor(private botRequestService: BotRequestService,
               private formBuilder: FormBuilder,
@@ -121,7 +123,10 @@ export class RaceComponent implements OnInit {
     this.botrequest.item_id=this.f.item_id.value;
     this.botrequest.nationality=this.f.nationality.value;
     this.botrequest.time_of_race=this.f.time_of_race.value;
-    this.botrequest.year=this.f.time_of_race.value.getFullYear(); //for display in list of requests
+
+    this.datetemp=this.f.time_of_race.value;
+    this.datetemp2=new Date(this.datetemp);
+    this.botrequest.year=this.datetemp2.getFullYear(); //for display in list of requests
     this.botrequest.race_type=this.f.race_type.value;
     this.botrequest.edition_nr=this.f.edition_nr.value;
     this.botrequest.gender=this.f.gender.value;
