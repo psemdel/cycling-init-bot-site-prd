@@ -14,6 +14,7 @@ social-auth-app-django
 sentry-sdk
 setuptools
 pywikibot
+gevent
 
 ####pywikibot
 

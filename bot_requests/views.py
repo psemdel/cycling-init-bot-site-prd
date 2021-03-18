@@ -93,8 +93,10 @@ def create_file_rq(request,routine):
             print("plantage by file")  
             return JsonResponse({'file':'failed'}, status=status.HTTP_400_BAD_REQUEST)    
 
-@shared_task
-def async_run_bot(rq_id, rq_routine):
+@shared_task(bind=True)
+def async_run_bot(self, rq_id, rq_routine):
+    self.backend.task_keyprefix = b'cyclinginitbot' 
+   
     res=11
     max_iter=2
     kk=0

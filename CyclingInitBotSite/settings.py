@@ -263,10 +263,9 @@ CELERY_BROKER_URL = 'redis://'+REDIS_URL #redis://:password@hostname:port/db_num
 if not DEBUG:
     CELERY_BROKER_POOL_LIMIT= 1
     CELERY_BROKER_HEARTBEAT = None # We're using TCP keep-alive instead
-    CELERY_BROKER_CONNECTION_TIMEOUT = 30 # May require a long timeout due to Linux DNS timeouts etc
+    CELERY_BROKER_CONNECTION_TIMEOUT = 120 # May require a long timeout due to Linux DNS timeouts etc
     CELERY_RESULT_BACKEND = None 
     CELERY_WORKER_PREFETCH_MULTIPLIER = 1
-    CELERY_EVENT_QUEUE_PREFIX="cyclinginitbot_"
 #CELERY_RESULT_BACKEND = 'pyamqp://guest@localhost//'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
