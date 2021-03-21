@@ -89,7 +89,7 @@ export class MonitoringService    {
     else{
         this.event_failed(routine);
     }
-    this.nb_completed_routines=this.nb_completed_routines+1;
+    //this.nb_completed_routines=this.nb_completed_routines+1;
     const index =this.running_rq.indexOf(rq.id, 0);
     if (index > -1) {
        this.running_rq.splice(index, 1);
@@ -103,6 +103,8 @@ export class MonitoringService    {
     if (this.running_rq.length==0){
         this.stopChecking();
     }
+
+    this.nb_completed_routines=this.nb_started_routines-this.running_rq.length;
     this.save_local();
   }
   
