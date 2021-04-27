@@ -153,7 +153,7 @@ def run_bot(rq_id, rq_routine):
             if not test_site:
                 status, log=race_creator.f(pywikibot,site,repo,time,
                                   nation_table,
-                                  rq.name,
+                                  None, #rq.name
                                   single_race,
                                   man_or_woman,
                                   stage_race_id=rq.item_id, 
