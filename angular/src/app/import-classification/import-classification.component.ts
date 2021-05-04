@@ -57,6 +57,7 @@ export class ImportClassificationComponent implements OnInit {
     {value: 1, viewValue: 'Stage classification'},
     {value: 2, viewValue: 'Points'},
     {value: 3, viewValue: 'Mountain'},  
+    {value: 8, viewValue: 'Sprints'},  
     {value: 4, viewValue: 'Youth by time'},
     {value: 7, viewValue: 'Youth by points'},    
     {value: 5, viewValue: 'Team by time'}, 

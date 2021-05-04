@@ -58,7 +58,7 @@ export class MonitoringService    {
     .subscribe(
           rqs => {
           rqs.forEach(rq=>{
-            if (rq.status =="started"){ 
+            if (rq.status =="started" || rq.status =="pending"){ 
                  this.running_rq.push(rq.id);
                  this.running_routine.push(routine);
             }
