@@ -65,6 +65,7 @@
   </mat-form-field >
 
   <mat-form-field *ngIf="f.race_type.value===true">
+    <br>
     <mat-label for="end_of_race">End of the race</mat-label>
         <input matInput [matDatepicker]="picker2" formControlName="end_of_race">
         <mat-datepicker-toggle matSuffix [for]="picker2">
@@ -149,6 +150,7 @@
         </mat-select>
       </mat-form-field >
   <mat-form-field  *ngIf="f.create_stages.value==true && f.race_type.value==true"> 
+      <br>
       <mat-label for="last_stage">
           Number of the last stage</mat-label>
         <mat-hint>For instance: end stage is stage 4, then write 4<br/>

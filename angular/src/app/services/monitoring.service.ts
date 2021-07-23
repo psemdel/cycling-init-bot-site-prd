@@ -6,7 +6,7 @@ import {AuthenticationService } from '@ser/authentication.service';
 import {AlertService } from '@ser/alert.service';
 
 import {BotRequest, User} from '@app/models/models';
-import {dic_of_routines, dic_of_display_alert} from '@app/models/lists';
+import {all_routines, dic_of_routines, dic_of_display_alert} from '@app/models/lists';
 import { IntervalObservable } from "rxjs/observable/IntervalObservable";
 
 @Injectable({
@@ -49,22 +49,25 @@ export class MonitoringService    {
     this.checking$.next(false);
   }
   
-  get_status(routine: string){
+  get_status(){  //check running rq, without a priori
     //init
     this.running_rq=[]; 
     this.running_routine=[]; 
-  
-    this.botRequestService.getRq(routine,this.currentUser.id) 
-    .subscribe(
-          rqs => {
-          rqs.forEach(rq=>{
-            if (rq.status =="started" || rq.status =="pending"){ 
-                 this.running_rq.push(rq.id);
-                 this.running_routine.push(routine);
-            }
+
+    //must check all routines
+    for (var routine of all_routines){  //all routines otherwise for all running_routine actualize running_routine...
+         this.botRequestService.getRq(routine,this.currentUser.id) 
+        .subscribe(
+            rqs => {
+            rqs.forEach(rq=>{
+                if (rq.status =="started" || rq.status =="pending"){ 
+                    this.running_rq.push(rq.id);
+                    this.running_routine.push(routine);
+                }
+            })
+            this.save_local();
         })
-        this.save_local();
-    })
+    }
   }
   
   reset(){
@@ -78,7 +81,7 @@ export class MonitoringService    {
   start(routine: string){
     this.nb_started_routines=this.nb_started_routines+1;  
     this.startChecking();
-    this.get_status(routine);
+    this.get_status();
   }
   //this.periodic_check(); //started from topbar
   
@@ -90,16 +93,16 @@ export class MonitoringService    {
         this.event_failed(routine);
     }
     //this.nb_completed_routines=this.nb_completed_routines+1;
-    const index =this.running_rq.indexOf(rq.id, 0);
-    if (index > -1) {
-       this.running_rq.splice(index, 1);
-    }
+    //const index =this.running_rq.indexOf(rq.id, 0);
+    //if (index > -1) {
+    //   this.running_rq.splice(index, 1);
+    //}
     
-    const index2 =this.running_routine.indexOf(routine, 0);
-    if (index2 > -1) {
-       this.running_routine.splice(index2, 1);
-    } 
-
+    //const index2 =this.running_routine.indexOf(routine, 0);
+    //if (index2 > -1) {
+    //   this.running_routine.splice(index2, 1);
+    //} 
+    this.get_status(); //without a priori
     if (this.running_rq.length==0){
         this.stopChecking();
     }
@@ -188,16 +191,16 @@ export class MonitoringService    {
   save_local(){
       localStorage.setItem('NB_STARTED_ROUTINES', this.nb_started_routines.toString());
       localStorage.setItem('NB_COMPLETED_ROUTINES', this.nb_completed_routines.toString());
-      localStorage.setItem('STARTED_ROUTINES', this.running_routine.join(","));
-      localStorage.setItem('STARTED_ROUTINES_ID', this.running_rq.join(","));
+      //localStorage.setItem('STARTED_ROUTINES', this.running_routine.join(","));
+      //localStorage.setItem('STARTED_ROUTINES_ID', this.running_rq.join(","));
   }
   
   get_local(){
       this.nb_started_routines_str=localStorage.getItem('NB_STARTED_ROUTINES');
       this.nb_completed_routines_str=localStorage.getItem('NB_COMPLETED_ROUTINES');
       //this.checking_str=localStorage.getItem('CHECKING');
-      this.started_routines_str=localStorage.getItem('STARTED_ROUTINES');
-      this.started_routines_id_str=localStorage.getItem('STARTED_ROUTINES_ID');
+      //this.started_routines_str=localStorage.getItem('STARTED_ROUTINES');
+      //this.started_routines_id_str=localStorage.getItem('STARTED_ROUTINES_ID');
       
       if (!this.nb_started_routines_str){
           this.nb_started_routines=0;
@@ -214,26 +217,27 @@ export class MonitoringService    {
           console.log(this.nb_completed_routines)
       }
       
-      if (!this.started_routines_str){
-          this.running_routine=[]; 
-      }
-      else{
-          this.running_routine=this.started_routines_str.split(",");
-          console.log(this.running_routine)
-      }
+     // if (!this.started_routines_str){
+     //     this.running_routine=[]; 
+     // }
+     // else{
+     //     this.running_routine=this.started_routines_str.split(",");
+     //     console.log(this.running_routine)
+     // }
       
-      if (!this.started_routines_id_str){
-          this.running_rq=[]; 
-      }
-      else{
-         this.temp=this.started_routines_id_str.split(",");
-         this.running_rq=[];
-          
-         for(var i=0; i<this.temp.length;i++) {
-             this.running_rq.push(parseInt(this.temp[i]));
-         }
-         console.log(this.running_rq)
-      }
+     // if (!this.started_routines_id_str){
+     //     this.running_rq=[]; 
+     // }
+     // else{
+     //    this.temp=this.started_routines_id_str.split(",");
+     //    this.running_rq=[];
+     //     
+     //    for(var i=0; i<this.temp.length;i++) {
+     //       this.running_rq.push(parseInt(this.temp[i]));
+     //    }
+     //    console.log(this.running_rq)
+     // }
+     this.get_status(); //without a priori 
       
   }
   

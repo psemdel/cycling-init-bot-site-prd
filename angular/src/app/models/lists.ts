@@ -44,10 +44,11 @@ export const nationalities: Nationality[] = [
     {value: 'BEL', viewValue: 'Belgium'},
     {value: 'BIZ', viewValue: 'Belize'},
     {value: 'BOL', viewValue: 'Bolivia'},
+    {value: 'BIH', viewValue: 'Bosnia'},
     {value: 'BRA', viewValue: 'Brasil'},
     {value: 'BUL', viewValue: 'Bulgaria'},
     {value: 'CAN', viewValue: 'Canada'},
-    {value: 'CHI', viewValue: 'Chili'},
+    {value: 'CHI', viewValue: 'Chile'},
     {value: 'CHN', viewValue: 'China'},
     {value: 'COL', viewValue: 'Colombia'},
     {value: 'CRC', viewValue: 'Costa Rica'},
@@ -79,6 +80,7 @@ export const nationalities: Nationality[] = [
     {value: 'IRQ', viewValue: 'Irak'},
     {value: 'IRI', viewValue: 'Iran'},
     {value: 'IRL', viewValue: 'Irland'},
+    {value: 'ISL', viewValue: 'Iceland'},
     {value: 'ISR', viewValue: 'Israel'},
     {value: 'ITA', viewValue: 'Italy'},
     {value: 'JAP', viewValue: 'Japan'},
@@ -203,6 +205,22 @@ export const race_2x_classes: RaceClass[] = [
     {value: "WWT.2", viewValue: 'WWT 2'},
   ];
   
+export var all_routines: string[]= [
+  'create_rider',
+  'import_classification',
+  'national_all_champs',
+  'national_one_champ',
+  'start_list',
+  'race',
+  'stages',
+  'team',
+  'national_team',
+  'national_team_all',
+  'UCIranking',
+  'sort_date',
+  'sort_name'
+];
+
 export var dic_of_routines: {[id :string] :string;} = {}; //for the alert, begining of the message
 dic_of_routines['create_rider']="rider creation";
 dic_of_routines['import_classification']="import of a classification";
