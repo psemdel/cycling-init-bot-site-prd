@@ -1,20 +1,19 @@
 ####Cycling init site
-django
-djangorestframework
-djangorestframework_simplejwt
-djoser
+django>=3.2.7
+djangorestframework>=3.12
+djangorestframework_simplejwt>=4.8
+djoser>=2.0
 #whitenoise
-openpyxl
+openpyxl>=3.8
 django-ratelimit
-django-cors-headers
-celery[redis]
-mysqlclient
-uwsgi
-social-auth-app-django
-sentry-sdk
-setuptools
-pywikibot
-gevent
+django-cors-headers>=3.8
+celery[redis]>=5.1
+mysqlclient>=2.0
+uwsgi>=2.0
+#social-auth-app-django
+sentry-sdk>=1.4.2
+pywikibot==6.6.0
+gevent>=1.4
 
 ####pywikibot
 
