@@ -87,7 +87,7 @@ else:
           # Django REST framework 
         'rest_framework',
         'rest_framework.authtoken',
-        'djoser',
+        #'djoser_local',
         'bot_requests.apps.BotRequestsConfig',
         'email_manager.apps.EmailManagerConfig',
         'users.apps.UsersConfig',
