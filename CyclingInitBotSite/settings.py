@@ -69,7 +69,7 @@ if DEBUG:
           # Django REST framework 
         'rest_framework',
         'rest_framework.authtoken',
-        'djoser',
+        #'djoser',
         'bot_requests.apps.BotRequestsConfig',
         'users.apps.UsersConfig',
         'home_infos.apps.HomeInfosConfig',
@@ -161,13 +161,17 @@ if not DEBUG:
 if DEBUG:
     DATABASES = {
     'default': {
-         'ENGINE': 'django.db.backends.mysql',
-         'NAME': 'cyclingdb', 
-         'USER': DB_USER,
-         'PASSWORD': DB_SECRET_KEY,
-         'HOST': 'localhost',
-         'PORT': '',
-     }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mydatabase',
+    }
+   # 'default': {
+  #       'ENGINE': 'django.db.backends.mysql',
+  #       'NAME': 'cyclingdb', 
+  #       'USER': DB_USER,
+  #       'PASSWORD': DB_SECRET_KEY,
+  #       'HOST': 'localhost',
+  #       'PORT': '',
+  #   }
     }
 else:
     replica_path=HOME + '/replica.my.cnf'
@@ -291,3 +295,5 @@ if DEBUG==False:
         # django.contrib.auth) you may enable sending PII data.
         send_default_pii=True
     )
+    
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
