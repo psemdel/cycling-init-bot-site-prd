@@ -4,7 +4,7 @@ from django.test.signals import setting_changed
 from django.utils.functional import LazyObject
 from django.utils.module_loading import import_string
 
-DJOSER_SETTINGS_NAMESPACE = "DJOSER"
+DJOSER_SETTINGS_NAMESPACE = "DJOSER_LOCAL"
 
 auth_module, user_model = django_settings.AUTH_USER_MODEL.rsplit(".", 1)
 

@@ -87,7 +87,7 @@ else:
           # Django REST framework 
         'rest_framework',
         'rest_framework.authtoken',
-        #'djoser_local',
+        'djoser_local.apps.DjoserInfosConfig',
         'bot_requests.apps.BotRequestsConfig',
         'email_manager.apps.EmailManagerConfig',
         'users.apps.UsersConfig',
@@ -141,7 +141,7 @@ SIMPLE_JWT = {
    'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
-DJOSER = {
+DJOSER_LOCAL = {
     'SEND_ACTIVATION_EMAIL': True,
     'ACTIVATION_URL': 'api/email/activate/{uid}/{token}',
     'PASSWORD_RESET_CONFIRM_URL': 'api/email/password-reset/{uid}/{token}',
