@@ -60,7 +60,7 @@ mwparserfromhell>=0.5.0
 # OAuth support
 # mwoauth 0.2.4 is needed because it supports getting identity information
 # about the user
-mwoauth>=0.2.4,!=0.3.1
+#mwoauth>=0.2.4,!=0.3.1   #Note Mwoauth is not compatible with JWT --> skip
 
 # core interwiki_graph.py:
 pydot >= 1.2
