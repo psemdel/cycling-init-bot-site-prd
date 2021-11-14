@@ -19,9 +19,7 @@ uwsgi==2.0.19.1
 sentry-sdk>=1.4.2
 pywikibot==6.6.0
 gevent>=21.1
-
-##Needed only local
-#mysqlclient>=2.0.2
+mysqlclient>=2.0.2
 
 
 # This is a PIP 6+ requirements file for using Pywikibot and scripts
