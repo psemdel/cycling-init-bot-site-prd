@@ -2,18 +2,18 @@
 django>=3.2.7
 djangorestframework>=3.12
 djangorestframework_simplejwt>=4.8
-djoser>=2.0
+##djoser>=2.1 ###problem
 #whitenoise
-openpyxl>=3.8
-django-ratelimit
+openpyxl>=3.0.7
+django-ratelimit==3.0
 django-cors-headers>=3.8
 celery[redis]>=5.1
-mysqlclient>=2.0
-uwsgi>=2.0
+#mysqlclient>=2.0.2
+uwsgi==2.0.19.1
 #social-auth-app-django
 sentry-sdk>=1.4.2
 pywikibot==6.6.0
-gevent>=1.4
+gevent>=21.1
 
 ####pywikibot
 
@@ -48,12 +48,12 @@ setuptools>=20.8.1, !=50.0.0, <50.2.0 ; python_version < '3.6'
 # mwparserfromhell is default, wikitextparser can be used instead
 # mwparserfromhell is still required for commons_information.py and patrol.py
 # wikitextparser>=0.47.5
-mwparserfromhell>=0.5.0
+mwparserfromhell>=0.6.2
 
 # OAuth support
 # mwoauth 0.2.4 is needed because it supports getting identity information
 # about the user
-mwoauth>=0.2.4,!=0.3.1
+mwoauth>=0.3.6
 
 # core interwiki_graph.py:
 pydot >= 1.2

@@ -17,7 +17,14 @@ export class AuthenticationService {
     public currentUser: Observable<User>; //save other information about user
 
     constructor(private http: HttpClient) {
-        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser'))); 
+       let defaultUser=new User();
+       if(localStorage.getItem('currentUser')){
+            defaultUser = JSON.parse(localStorage.getItem('currentUser'));
+       }else{
+            defaultUser.id=1;
+            defaultUser.level=false;
+        }
+        this.currentUserSubject = new BehaviorSubject<User>(defaultUser)
         this.currentUser = this.currentUserSubject.asObservable();
     }
 

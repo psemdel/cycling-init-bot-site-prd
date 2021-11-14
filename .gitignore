@@ -8,6 +8,7 @@
 **/node_modules
 **/uploads
 **/pywikibot
+**/mychart
 user-password.py
 config
 

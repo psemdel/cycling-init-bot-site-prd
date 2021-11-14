@@ -57,7 +57,7 @@ export class RaceComponent implements OnInit {
             time_of_race: ['', Validators.required],
             end_of_race: [''],
             race_type: [false, Validators.required],
-            race_class1: ['',],
+            race_class1: [''],
             race_class2: [''],
             edition_nr: [''],
             create_stages: [true],

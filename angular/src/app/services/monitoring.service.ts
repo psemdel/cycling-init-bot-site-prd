@@ -33,11 +33,13 @@ export class MonitoringService    {
   checking$: Subject<boolean> = new Subject();
   periodic:Subscription;
 
-   constructor(private botRequestService: BotRequestService,
-               private authenticationService: AuthenticationService,
+   constructor(//private botRequestService: BotRequestService,
+               //private authenticationService: AuthenticationService,
                private alertService: AlertService
    ) {
-   this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+   //this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+   this.currentUser= new User();
+   this.currentUser.id=1;
    this.get_local();
    }
     
@@ -55,6 +57,7 @@ export class MonitoringService    {
     this.running_routine=[]; 
 
     //must check all routines
+    /*
     for (var routine of all_routines){  //all routines otherwise for all running_routine actualize running_routine...
          this.botRequestService.getRq(routine,this.currentUser.id) 
         .subscribe(
@@ -67,7 +70,7 @@ export class MonitoringService    {
             })
             this.save_local();
         })
-    }
+    }*/
   }
   
   reset(){
@@ -165,7 +168,7 @@ export class MonitoringService    {
   check() {
     if (this.running_routine){
         let res_array=this.unique(this.running_routine);
-    
+        /*
         for (var routine of res_array){
              this.botRequestService.getRq(routine,this.currentUser.id)
               .subscribe(
@@ -181,7 +184,7 @@ export class MonitoringService    {
                      }
               })
            })
-          }
+          }*/
    }
    else{
          console.log("no routine to check!");
