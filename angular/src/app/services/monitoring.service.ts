@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BotRequestService} from '@ser/bot-request.service';
 import { Subject, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import {AuthenticationService } from '@ser/authentication.service';
 import {AlertService } from '@ser/alert.service';
@@ -33,14 +34,12 @@ export class MonitoringService    {
   checking$: Subject<boolean> = new Subject();
   periodic:Subscription;
 
-   constructor(//private botRequestService: BotRequestService,
-               //private authenticationService: AuthenticationService,
+   constructor(private botRequestService: BotRequestService,
+               private authenticationService: AuthenticationService,
                private alertService: AlertService
    ) {
-   //this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-   this.currentUser= new User();
-   this.currentUser.id=1;
-   this.get_local();
+    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    this.get_local();
    }
     
   startChecking() {
@@ -55,23 +54,38 @@ export class MonitoringService    {
     //init
     this.running_rq=[]; 
     this.running_routine=[]; 
-
     //must check all routines
-    /*
+    const cId=this.currentUser.id;
+    
     for (var routine of all_routines){  //all routines otherwise for all running_routine actualize running_routine...
-         this.botRequestService.getRq(routine,this.currentUser.id) 
-        .subscribe(
-            rqs => {
+         this.botRequestService.getRq(routine,cId) 
+         .pipe(
+            map(
+                rqs => {
+                rqs.forEach(rq=>{
+                    if (rq.status =="started" || rq.status =="pending"){ 
+                        console.log(rq.id);
+                        console.log(routine)
+                        this.running_rq.push(rq.id);
+                        this.running_routine.push(routine);
+                    }
+                })
+            })
+         )
+
+       // .subscribe(
+       /*     rqs => {
             rqs.forEach(rq=>{
                 if (rq.status =="started" || rq.status =="pending"){ 
                     this.running_rq.push(rq.id);
                     this.running_routine.push(routine);
                 }
             })
-            this.save_local();
-        })
-    }*/
-  }
+            //this.save_local();
+        })*/
+    
+    }
+    }
   
   reset(){
     this.nb_started_routines=0;
@@ -168,7 +182,7 @@ export class MonitoringService    {
   check() {
     if (this.running_routine){
         let res_array=this.unique(this.running_routine);
-        /*
+        
         for (var routine of res_array){
              this.botRequestService.getRq(routine,this.currentUser.id)
               .subscribe(
@@ -184,7 +198,7 @@ export class MonitoringService    {
                      }
               })
            })
-          }*/
+          }
    }
    else{
          console.log("no routine to check!");
