@@ -98,7 +98,7 @@ default_settings = {
     ),
 }
 
-SETTINGS_TO_IMPORT = ["TOKEN_MODEL", "SOCIAL_AUTH_TOKEN_STRATEGY"]
+SETTINGS_TO_IMPORT = [] #["TOKEN_MODEL", "SOCIAL_AUTH_TOKEN_STRATEGY"]
 
 
 class Settings:
