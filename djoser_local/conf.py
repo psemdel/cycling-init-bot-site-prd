@@ -4,7 +4,7 @@ from django.test.signals import setting_changed
 from django.utils.functional import LazyObject
 from django.utils.module_loading import import_string
 
-DJOSER_SETTINGS_NAMESPACE = "DJOSER_LOCAL"
+djoser_local_SETTINGS_NAMESPACE = "DJOSER_LOCAL"
 
 auth_module, user_model = django_settings.AUTH_USER_MODEL.rsplit(".", 1)
 
@@ -43,40 +43,40 @@ default_settings = {
     "TOKEN_MODEL": "rest_framework.authtoken.models.Token",
     "SERIALIZERS": ObjDict(
         {
-            "activation": "djoser.serializers.ActivationSerializer",
-            "password_reset": "djoser.serializers.SendEmailResetSerializer",
-            "password_reset_confirm": "djoser.serializers.PasswordResetConfirmSerializer",
-            "password_reset_confirm_retype": "djoser.serializers.PasswordResetConfirmRetypeSerializer",
-            "set_password": "djoser.serializers.SetPasswordSerializer",
-            "set_password_retype": "djoser.serializers.SetPasswordRetypeSerializer",
-            "set_username": "djoser.serializers.SetUsernameSerializer",
-            "set_username_retype": "djoser.serializers.SetUsernameRetypeSerializer",
-            "username_reset": "djoser.serializers.SendEmailResetSerializer",
-            "username_reset_confirm": "djoser.serializers.UsernameResetConfirmSerializer",
-            "username_reset_confirm_retype": "djoser.serializers.UsernameResetConfirmRetypeSerializer",
-            "user_create": "djoser.serializers.UserCreateSerializer",
-            "user_create_password_retype": "djoser.serializers.UserCreatePasswordRetypeSerializer",
-            "user_delete": "djoser.serializers.UserDeleteSerializer",
-            "user": "djoser.serializers.UserSerializer",
-            "current_user": "djoser.serializers.UserSerializer",
-            "token": "djoser.serializers.TokenSerializer",
-            "token_create": "djoser.serializers.TokenCreateSerializer",
+            "activation": "djoser_local.serializers.ActivationSerializer",
+            "password_reset": "djoser_local.serializers.SendEmailResetSerializer",
+            "password_reset_confirm": "djoser_local.serializers.PasswordResetConfirmSerializer",
+            "password_reset_confirm_retype": "djoser_local.serializers.PasswordResetConfirmRetypeSerializer",
+            "set_password": "djoser_local.serializers.SetPasswordSerializer",
+            "set_password_retype": "djoser_local.serializers.SetPasswordRetypeSerializer",
+            "set_username": "djoser_local.serializers.SetUsernameSerializer",
+            "set_username_retype": "djoser_local.serializers.SetUsernameRetypeSerializer",
+            "username_reset": "djoser_local.serializers.SendEmailResetSerializer",
+            "username_reset_confirm": "djoser_local.serializers.UsernameResetConfirmSerializer",
+            "username_reset_confirm_retype": "djoser_local.serializers.UsernameResetConfirmRetypeSerializer",
+            "user_create": "djoser_local.serializers.UserCreateSerializer",
+            "user_create_password_retype": "djoser_local.serializers.UserCreatePasswordRetypeSerializer",
+            "user_delete": "djoser_local.serializers.UserDeleteSerializer",
+            "user": "djoser_local.serializers.UserSerializer",
+            "current_user": "djoser_local.serializers.UserSerializer",
+            "token": "djoser_local.serializers.TokenSerializer",
+            "token_create": "djoser_local.serializers.TokenCreateSerializer",
         }
     ),
     "EMAIL": ObjDict(
         {
-            "activation": "djoser.email.ActivationEmail",
-            "confirmation": "djoser.email.ConfirmationEmail",
-            "password_reset": "djoser.email.PasswordResetEmail",
-            "password_changed_confirmation": "djoser.email.PasswordChangedConfirmationEmail",
-            "username_changed_confirmation": "djoser.email.UsernameChangedConfirmationEmail",
-            "username_reset": "djoser.email.UsernameResetEmail",
+            "activation": "djoser_local.email.ActivationEmail",
+            "confirmation": "djoser_local.email.ConfirmationEmail",
+            "password_reset": "djoser_local.email.PasswordResetEmail",
+            "password_changed_confirmation": "djoser_local.email.PasswordChangedConfirmationEmail",
+            "username_changed_confirmation": "djoser_local.email.UsernameChangedConfirmationEmail",
+            "username_reset": "djoser_local.email.UsernameResetEmail",
         }
     ),
-    "CONSTANTS": ObjDict({"messages": "djoser.constants.Messages"}),
+    "CONSTANTS": ObjDict({"messages": "djoser_local.constants.Messages"}),
     "LOGOUT_ON_PASSWORD_CHANGE": False,
     "CREATE_SESSION_ON_LOGIN": False,
-    "SOCIAL_AUTH_TOKEN_STRATEGY": "djoser.social.token.jwt.TokenStrategy",
+    "SOCIAL_AUTH_TOKEN_STRATEGY": "djoser_local.social.token.jwt.TokenStrategy",
     "SOCIAL_AUTH_ALLOWED_REDIRECT_URIS": [],
     "HIDE_USERS": True,
     "PERMISSIONS": ObjDict(
@@ -84,14 +84,14 @@ default_settings = {
             "activation": ["rest_framework.permissions.AllowAny"],
             "password_reset": ["rest_framework.permissions.AllowAny"],
             "password_reset_confirm": ["rest_framework.permissions.AllowAny"],
-            "set_password": ["djoser.permissions.CurrentUserOrAdmin"],
+            "set_password": ["djoser_local.permissions.CurrentUserOrAdmin"],
             "username_reset": ["rest_framework.permissions.AllowAny"],
             "username_reset_confirm": ["rest_framework.permissions.AllowAny"],
-            "set_username": ["djoser.permissions.CurrentUserOrAdmin"],
+            "set_username": ["djoser_local.permissions.CurrentUserOrAdmin"],
             "user_create": ["rest_framework.permissions.AllowAny"],
-            "user_delete": ["djoser.permissions.CurrentUserOrAdmin"],
-            "user": ["djoser.permissions.CurrentUserOrAdmin"],
-            "user_list": ["djoser.permissions.CurrentUserOrAdmin"],
+            "user_delete": ["djoser_local.permissions.CurrentUserOrAdmin"],
+            "user": ["djoser_local.permissions.CurrentUserOrAdmin"],
+            "user_list": ["djoser_local.permissions.CurrentUserOrAdmin"],
             "token_create": ["rest_framework.permissions.AllowAny"],
             "token_destroy": ["rest_framework.permissions.IsAuthenticated"],
         }
@@ -107,7 +107,7 @@ class Settings:
             explicit_overriden_settings = {}
 
         overriden_settings = (
-            getattr(django_settings, DJOSER_SETTINGS_NAMESPACE, {})
+            getattr(django_settings, djoser_local_SETTINGS_NAMESPACE, {})
             or explicit_overriden_settings
         )
 
@@ -143,11 +143,11 @@ class LazySettings(LazyObject):
 settings = LazySettings()
 
 
-def reload_djoser_settings(*args, **kwargs):
+def reload_djoser_local_settings(*args, **kwargs):
     global settings
     setting, value = kwargs["setting"], kwargs["value"]
-    if setting == DJOSER_SETTINGS_NAMESPACE:
+    if setting == djoser_local_SETTINGS_NAMESPACE:
         settings._setup(explicit_overriden_settings=value)
 
 
-setting_changed.connect(reload_djoser_settings)
+setting_changed.connect(reload_djoser_local_settings)
