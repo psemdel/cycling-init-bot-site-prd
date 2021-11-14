@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class DjoserInfosConfig(AppConfig):
-    name = 'djoser_infos'
+    name = 'djoser_local'
