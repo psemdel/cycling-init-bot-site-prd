@@ -1,42 +1,18 @@
-# -*- coding: utf-8 -*-
-# This is an automatically generated file. You can find more configuration
-# parameters in 'config.py' file.
+# This is an automatically generated file. You can find more
+# configuration parameters in 'config.py' file or refer
+# https://doc.wikimedia.org/pywikibot/master/api_ref/pywikibot.config.html
 
-# The family of sites to work on by default.
-#
-# ‘site.py’ imports ‘families/xxx_family.py’, so if you want to change
-# this variable, you need to use the name of one of the existing family files
-# in that folder or write your own, custom family file.
-#
-# For ‘site.py’ to be able to read your custom family file, you must
-# save it to ‘families/xxx_family.py’, where ‘xxx‘ is the codename of the
-# family that your custom ‘xxx_family.py’ family file defines.
-#
-# You can also save your custom family files to a different folder. As long
-# as you follow the ‘xxx_family.py’ naming convention, you can register your
-# custom folder in this configuration file with the following global function:
-#
-#   register_families_folder(folder_path)
-#
-# Alternatively, you can register particular family files that do not need
-# to follow the ‘xxx_family.py’ naming convention using the following
-# global function:
-#
-#   register_family_file(family_name, file_path)
-#
-# Where ‘family_name’ is the family code (the ‘xxx’ in standard family file
-# names) and ‘file_path’ is the absolute path to the target family file.
-#
-# If you use either of these functions to define the family to work on by
-# default (the ‘family’ variable below), you must place the function call
-# before the definition of the ‘family’ variable.
+# The family of sites to be working on.
+# Pywikibot will import families/xxx_family.py so if you want to change
+# this variable, you have to ensure that such a file exists. You may use
+# generate_family_file to create one.
 family = 'wikidata'
 
-# The language code of the site we're working on.
+# The site code (language) of the site to be working on.
 mylang = 'wikidata'
 
 # The dictionary usernames should contain a username for each site where you
-# have a bot account. If you have a unique username for all languages of a
+# have a bot account. If you have a unique username for all sites of a
 # family , you can use '*'
 usernames['wikidata']['wikidata'] = 'CyclingInitBot'
 
@@ -51,17 +27,16 @@ password_file = "user-password.py"
 # saved in the 'logs' subdirectory.
 #
 # Example:
-#     log = ['interwiki', 'weblinkchecker', 'table2wiki']
+#     log = ['redirect', 'replace', 'weblinkchecker']
 # It is also possible to enable logging for all scripts, using this line:
 #     log = ['*']
 # To disable all logging, use this:
 #     log = []
-# Per default, logging of interwiki.py is enabled because its logfiles can
-# be used to generate so-called warnfiles.
+# Per default, no logging is enabled.
 # This setting can be overridden by the -log or -nolog command-line arguments.
-log = ['interwiki']
+log = []  # type: List[str]
 # filename defaults to modulename-bot.log
-logfilename = None
+logfilename = None  # type: Optional[str]
 # maximal size of a logfile in kilobytes. If the size reached that limit the
 # logfile will be renamed (if logfilecount is not 0) and the old file is filled
 # again. logfilesize must be an integer value
@@ -79,24 +54,42 @@ verbose_output = 0
 log_pywiki_repo_version = False
 # if True, include a lot of debugging info in logfile
 # (overrides log setting above)
-debug_log = []
+debug_log = []  # type: List[str]
 
 # ############# EXTERNAL SCRIPT PATH SETTINGS ##############
 # Set your own script path to lookup for your script files.
 #
-# Your private script path must be located inside the
-# framework folder, subfolders must be delimited by '.'.
-# every folder must contain an (empty) __init__.py file.
+# Your private script path is relative to your base directory.
+# Subfolders must be delimited by '.'. every folder must contain
+# an (empty) __init__.py file.
 #
 # The search order is
 # 1. user_script_paths in the given order
 # 2. scripts/userscripts
 # 3. scripts
 # 4. scripts/maintenance
+# 5. pywikibot/scripts
+#
+# 2. - 4. are available in directory mode only
 #
 # sample:
 # user_script_paths = ['scripts.myscripts']
-user_script_paths = []
+user_script_paths = []  # type: List[str]
+
+# ############# EXTERNAL FAMILIES SETTINGS ##############
+# Set your own family path to lookup for your family files.
+#
+# Your private family path may be either an absolute or a relative path.
+# You may have multiple paths defined in user_families_paths list.
+#
+# You may also define various family files stored directly in
+# family_files dict. Use the family name as dict key and the path or an
+# url as value.
+#
+# samples:
+# family_files['mywiki'] = 'https://de.wikipedia.org'
+# user_families_paths = ['data/families']
+user_families_paths = []  # type: List[str]
 
 # ############# INTERWIKI SETTINGS ##############
 
@@ -174,14 +167,14 @@ maxthrottle = 60
 
 # Slow down the robot such that it never makes a second page edit within
 # 'put_throttle' seconds.
-put_throttle = 10
+put_throttle = 10  # type: Union[int, float]
 
 # Sometimes you want to know when a delay is inserted. If a delay is larger
 # than 'noisysleep' seconds, it is logged on the screen.
 noisysleep = 3.0
 
 # Defer bot edits during periods of database server lag. For details, see
-# https://www.mediawiki.org/wiki/Maxlag_parameter
+# https://www.mediawiki.org/wiki/Manual:Maxlag_parameter
 # You can set this variable to a number of seconds, or to None (or 0) to
 # disable this behavior. Higher values are more aggressive in seeking
 # access to the wiki.
@@ -195,20 +188,11 @@ maxlag = 5
 step = -1
 
 # Maximum number of times to retry an API request before quitting.
-max_retries = 1000
+max_retries = 15
 # Minimum time to wait before resubmitting a failed API request.
-retry_wait = 1000
+retry_wait = 5
 # Maximum time to wait before resubmitting a failed API request.
-retry_max = 1000
-
-# ############# TABLE CONVERSION BOT SETTINGS ##############
-
-# Will split long paragraphs for better reading the source.
-# Only table2wiki.py use it by now.
-splitLongParagraphs = False
-# sometimes HTML-tables are indented for better reading.
-# That can do very ugly results.
-deIndentTables = True
+retry_max = 120
 
 # ############# WEBLINK CHECKER SETTINGS ##############
 
@@ -226,11 +210,11 @@ weblink_dead_days = 7
 # Setting to connect the database or replica of the database of the wiki.
 # db_name_format can be used to manipulate the dbName of site.
 #
-# Example for a pywikibot running on wmflabs:
-# db_hostname = 'enwiki.analytics.db.svc.eqiad.wmflabs'
+# Example for a pywikibot running on Wikimedia Cloud (Toolforge):
+# db_hostname_format = '{0}.analytics.db.svc.wikimedia.cloud'
 # db_name_format = '{0}_p'
 # db_connect_file = user_home_path('replica.my.cnf')
-db_hostname = 'localhost'
+db_hostname_format = 'localhost'
 db_username = ''
 db_password = ''
 db_name_format = '{0}'
@@ -240,88 +224,7 @@ db_connect_file = user_home_path('.my.cnf')
 #     user@login.toolforge.org
 db_port = 3306
 
-# ############# SEARCH ENGINE SETTINGS ##############
-# Live search web service appid settings.
-#
-# Yahoo! Search Web Services are not operational.
-# See https://phabricator.wikimedia.org/T106085
-yahoo_appid = ''
-
-# To use Windows Live Search web service you must get an AppID from
-# http://www.bing.com/dev/en-us/dev-center
-msn_appid = ''
-
-# ############# FLICKR RIPPER SETTINGS ##############
-
-# Using the Flickr api
-flickr = {
-    'api_key': '',  # Provide your key!
-    'api_secret': '',  # Api secret of your key (optional)
-    'review': False,  # Do we use automatically make our uploads reviewed?
-    'reviewer': '',  # If so, under what reviewer name?
-}
-
-# ############# COPYRIGHT SETTINGS ##############
-
-# Enable/disable search engine in copyright.py script
-copyright_google = True
-copyright_yahoo = True
-copyright_msn = False
-
-# Perform a deep check, loading URLs to search if 'Wikipedia' is present.
-# This may be useful to increase the number of correct results. If you haven't
-# a fast connection, you might want to keep them disabled.
-copyright_check_in_source_google = False
-copyright_check_in_source_yahoo = False
-copyright_check_in_source_msn = False
-
-# Web pages may contain a Wikipedia text without the word 'Wikipedia' but with
-# the typical '[edit]' tag as a result of a copy & paste procedure. You want
-# no report for this kind of URLs, even if they are copyright violations.
-# However, when enabled, these URLs are logged in a file.
-copyright_check_in_source_section_names = False
-
-# Limit number of queries for page.
-copyright_max_query_for_page = 25
-
-# Skip a specified number of queries
-copyright_skip_query = 0
-
-# Number of attempts on connection error.
-copyright_connection_tries = 10
-
-# Behavior if an exceeded error occur.
-#
-# Possibilities:
-#
-#    0 = None
-#    1 = Disable search engine
-#    2 = Sleep (default)
-#    3 = Stop
-copyright_exceeded_in_queries = 2
-copyright_exceeded_in_queries_sleep_hours = 6
-
-# Append last modified date of URL to script result
-copyright_show_date = True
-
-# Append length of URL to script result
-copyright_show_length = True
-
-# By default the script tries to identify and skip text that contains a large
-# comma separated list or only numbers. But sometimes that might be the
-# only part unmodified of a slightly edited and not otherwise reported
-# copyright violation. You can disable this feature to try to increase the
-# number of results.
-copyright_economize_query = True
-
 # ############# HTTP SETTINGS ##############
-# Use a persistent http connection. An http connection has to be established
-# only once per site object, making stuff a whole lot faster. Do NOT EVER
-# use this if you share Site objects across threads without proper locking.
-#
-# DISABLED FUNCTION. Setting this variable will not have any effect.
-persistent_http = False
-
 # Default socket timeout in seconds.
 # DO NOT set to None to disable timeouts. Otherwise this may freeze your
 # script.
@@ -332,7 +235,7 @@ socket_timeout = (6.05, 45)
 
 # ############# COSMETIC CHANGES SETTINGS ##############
 # The bot can make some additional changes to each page it edits, e.g. fix
-# whitespace or positioning of interwiki and category links.
+# whitespace or positioning of category links.
 
 # This is an experimental feature; handle with care and consider re-checking
 # each bot edit if enabling this!
@@ -351,7 +254,7 @@ cosmetic_changes_mylang_only = True
 # (if cosmetic_changes_mylang_only is set)
 # Please set your dictionary by adding such lines to your user-config.py:
 # cosmetic_changes_enable['wikipedia'] = ('de', 'en', 'fr')
-cosmetic_changes_enable = {}
+cosmetic_changes_enable = {}  # type: Dict[str, Tuple[str, ...]]
 
 # The dictionary cosmetic_changes_disable should contain a tuple of languages
 # for each site where you wish to disable cosmetic changes. You may use it with
@@ -359,7 +262,7 @@ cosmetic_changes_enable = {}
 # language. This also overrides the settings in the cosmetic_changes_enable
 # dictionary. Please set your dict by adding such lines to your user-config.py:
 # cosmetic_changes_disable['wikipedia'] = ('de', 'en', 'fr')
-cosmetic_changes_disable = {}
+cosmetic_changes_disable = {}  # type: Dict[str, Tuple[str, ...]]
 
 # cosmetic_changes_deny_script is a list of scripts for which cosmetic changes
 # are disabled. You may add additional scripts by appending script names in
@@ -381,7 +284,7 @@ cosmetic_changes_deny_script = ['category_redirect', 'cosmetic_changes',
 #
 # to replace all occurrences of 'Hoofdpagina' with 'Veurblaad' when writing to
 # liwiki. Note that this does not take the origin wiki into account.
-replicate_replace = {}
+replicate_replace = {}  # type: Dict[str, Dict[str, str]]
 
 # ############# FURTHER SETTINGS ##############
 
@@ -391,11 +294,11 @@ replicate_replace = {}
 # on the wiki server. Allows simulation runs of bots to be carried out without
 # changing any page on the server side. Use this setting to add more actions
 # in user-config.py for wikis with extra write actions.
-actions_to_block = []
+actions_to_block = []  # type: List[str]
 
 # Set simulate to True or use -simulate option to block all actions given
 # above.
-simulate = False
+simulate = False  # type: Union[bool, str]
 
 # How many pages should be put to a queue in asynchronous mode.
 # If maxsize is <= 0, the queue size is infinite.
