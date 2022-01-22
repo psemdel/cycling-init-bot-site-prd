@@ -271,3 +271,18 @@ export interface Message {
   type: string;
   text: string;
 }
+
+interface TeamCategory {
+  value: string;
+  viewValue: string;
+}
+
+export const teamCategories: TeamCategory[] = [
+    {value: 'Q6154783', viewValue: 'WorldTeam'},
+    {value: 'Q78464255', viewValue: 'UCI ProTeam'},
+    {value: 'Q1756006', viewValue: 'UCI Continental Team'},
+    {value: 'Q20652655', viewValue: 'Amateur cycling team'},   
+    {value: 'Q80425135', viewValue: 'UCI Women’s WorldTeam'},
+    {value: 'Q2466826', viewValue: 'UCI Women Continental Team'},  
+    {value: 'Q26849121', viewValue: 'Female amateur cycling team'},   
+  ];  

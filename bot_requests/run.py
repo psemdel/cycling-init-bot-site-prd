@@ -167,7 +167,7 @@ def run_bot(rq_id, rq_routine):
             
             team_table = [[0 for x in range(7)] for y in range(2)]
             team_table[1][1] = rq.name
-            team_table[1][2] = rq.item_id
+            team_table[1][2] = rq.item_id #master
             team_table[1][3] = rq.nationality
             team_table[1][4] = rq.UCIcode
             team_table[1][5] = 2 
@@ -176,7 +176,7 @@ def run_bot(rq_id, rq_routine):
             
             if not test_site:
                 status, log, result_id=team_creator.f(pywikibot,site,repo,time,team_table,nation_table,
-                                   team_dic,rq.year)
+                                   team_dic,rq.year, category_id=rq.category_id)
                 rq.result_id=result_id
                 rq.save()
 

@@ -111,6 +111,7 @@ class TeamRequest(BotRequest):
    nationality = models.CharField(max_length=3, blank=True)
    UCIcode = models.CharField(max_length=3, blank=True)
    result_id=models.CharField(max_length=30, blank=True)
+   category_id=models.CharField(max_length=30, blank=True)
     
    def __str__(self):
         return self.routine + " "+ self.name 

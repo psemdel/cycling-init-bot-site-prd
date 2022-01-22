@@ -5,7 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {AuthenticationService } from '@ser/authentication.service';
 import {MonitoringService } from '@ser/monitoring.service';
 import { BotRequest, User} from '@app/models/models';
-import { nationalities} from '@app/models/lists';
+import { nationalities, teamCategories} from '@app/models/lists';
 
 @Component({
   selector: 'team',
@@ -22,6 +22,7 @@ export class TeamComponent implements OnInit {
   lastname: string;
   years:Array<any> = [];
   nationalities= nationalities;
+  teamCategories=teamCategories;
   
   constructor(private botRequestService: BotRequestService,
               private formBuilder: FormBuilder,
@@ -39,7 +40,8 @@ export class TeamComponent implements OnInit {
             item_id: ['', [Validators.required, Validators.pattern(/^[Q].*$/)]],
             year: [2021, Validators.required],
             UCIcode: [''], //pattern
-            nationality: ['', Validators.required],
+            nationality: ['', Validators.required],  
+            teamCategory: ['Q6154783', Validators.required],
             });
   }
 

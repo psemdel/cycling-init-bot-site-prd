@@ -23,6 +23,7 @@
         </div>
       </mat-form-field >
 <br>
+<br>
 <mat-form-field >
               <mat-label for="name">Year </mat-label>
               <mat-select disableOptionCentering id="year" formControlName="year"
@@ -36,6 +37,19 @@
             </div>
           </mat-form-field >
   <br>
+  <mat-form-field >
+    <mat-label for="teamCategory">Category of the team</mat-label>
+    <mat-select disableOptionCentering  formControlName="teamCategory"
+    [ngClass]="{ 'is-invalid': submitted && f.teamCategory.errors }" >
+        <mat-option *ngFor="let teamCategory of teamCategories" [value]="teamCategory.value">
+          {{teamCategory.viewValue}}
+        </mat-option>
+      </mat-select>
+  <div *ngIf="submitted && f.teamCategory.errors" >
+      <mat-error *ngIf="f.teamCategory.errors.required">Field required</mat-error>
+  </div>
+</mat-form-field >
+<br>
   <mat-form-field >
       <mat-label for="nationality">Country of nationality</mat-label>
       <mat-hint>Listed by UCI nation ranking men 2019 up to rank 20</mat-hint>
