@@ -65,11 +65,11 @@ export class TeamComponent implements OnInit {
     }
     //display in the interface
     this.lastname=this.f.name.value;  
-    
+    console.log(this.registerForm.controls['teamCategory'].value)
     Object.keys(this.registerForm.controls).forEach(key => {
       this.botrequest[key]=this.registerForm.controls[key].value;
     });
-
+    console.log(this.botrequest['teamCategory'])
     this.botrequest.author=this.currentUser.id;
     this.save();
   }
