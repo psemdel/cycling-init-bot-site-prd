@@ -175,7 +175,6 @@ def run_bot(rq_id, rq_routine):
             [_, team_dic]=pro_team_table.load()
             
             if not test_site:
-                print("cat " + str(rq.category_id) )
                 status, log, result_id=team_creator.f(pywikibot,site,repo,time,team_table,nation_table,
                                    team_dic,rq.year, category_id=rq.category_id)
                 rq.result_id=result_id

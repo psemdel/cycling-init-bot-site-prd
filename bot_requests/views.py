@@ -67,8 +67,6 @@ def create_rq(request,routine):
                 rq_data.update(item_id="Q1")
             
             request_serializer =serializer(data=rq_data)
-            print(rq_data)
-            print(request_serializer)
             return serial_save(request_serializer, request, rq_data)
         else:
             return JsonResponse({'error':'no POST request'}, status=status.HTTP_400_BAD_REQUEST)   

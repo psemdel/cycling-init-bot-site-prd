@@ -41,7 +41,7 @@ export class TeamComponent implements OnInit {
             year: [2021, Validators.required],
             UCIcode: [''], //pattern
             nationality: ['', Validators.required],  
-            teamCategory: ['Q6154783', Validators.required],
+            category_id: ['Q6154783', Validators.required],
             });
   }
 

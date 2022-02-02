@@ -15,7 +15,6 @@ export class BotRequestService {
   ) {}
 
   createRq(routine: string, botrequest: BotRequest): Observable<Object> {
-    console.log(botrequest)
     return this.http.post(`${this.baseUrl}/create/${routine}/`, botrequest);
   } 
   

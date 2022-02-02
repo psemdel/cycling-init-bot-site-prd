@@ -39,7 +39,7 @@ export class BotRequest {
     //team
     UCIcode: string;
     result_id: string;
-    teamCategory: string;
+    category_id: string;
     //sort
     prop: number; //property may be protected word
     
