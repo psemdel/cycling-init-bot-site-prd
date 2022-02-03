@@ -38,15 +38,15 @@
           </mat-form-field >
   <br>
   <mat-form-field >
-    <mat-label for="teamCategory">Category of the team</mat-label>
-    <mat-select disableOptionCentering  formControlName="teamCategory"
-    [ngClass]="{ 'is-invalid': submitted && f.teamCategory.errors }" >
+    <mat-label for="category_id">Category of the team</mat-label>
+    <mat-select disableOptionCentering  formControlName="category_id"
+    [ngClass]="{ 'is-invalid': submitted && f.category_id.errors }" >
         <mat-option *ngFor="let teamCategory of teamCategories" [value]="teamCategory.value">
           {{teamCategory.viewValue}}
         </mat-option>
       </mat-select>
-  <div *ngIf="submitted && f.teamCategory.errors" >
-      <mat-error *ngIf="f.teamCategory.errors.required">Field required</mat-error>
+  <div *ngIf="submitted && f.category_id.errors" >
+      <mat-error *ngIf="f.category_id.errors.required">Field required</mat-error>
   </div>
 </mat-form-field >
 <br>
@@ -81,4 +81,4 @@
   <h4>You submitted successfully {{lastname}}!</h4>
   <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
 </div>
-
+<p>03/02/2022</p>
