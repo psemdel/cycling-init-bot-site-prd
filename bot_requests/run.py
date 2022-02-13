@@ -6,7 +6,7 @@ Created on Thu Apr 23 18:03:01 2020
 @author: maxime
 """
 import pywikibot #avoid confusion
-from bot_src.src import nation_team_table
+from bot_src.data import nation_team_table
 import time, os
 
 from django.utils import timezone
@@ -164,7 +164,7 @@ def run_bot(rq_id, rq_routine):
 
         elif rq_routine=="team":
             from bot_src.src import team_creator
-            from bot_src.src import pro_team_table
+            from bot_src.data import pro_team_table
             
             team_table = [[0 for x in range(7)] for y in range(2)]
             team_table[1][1] = rq.name
@@ -254,7 +254,7 @@ def run_bot(rq_id, rq_routine):
             
         elif rq_routine=="national_all_champs":
             from bot_src.src import national_championship_creator
-            from bot_src.src import cc_table
+            from bot_src.data import cc_table
             
             man_or_woman=u'both' 
             option=u'clmon' #'clmoff'
