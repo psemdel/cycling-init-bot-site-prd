@@ -45,7 +45,60 @@ export class RequestListComponent implements OnInit {
         })
   }
  
- reloadData() {
+ reloadData(routine?: string) {
+  if (routine=='create_rider'){
+    this.create_rider_botrequests = 
+    this.botRequestService.getRq('create_rider',this.currentUser.id);
+  }
+  else if(routine=='import_classification'){
+    this.import_classification_botrequests = 
+    this.botRequestService.getRq('import_classification',this.currentUser.id);
+  }
+  else if(routine=='national_all_champs'){
+    this.national_all_champs_botrequests= 
+    this.botRequestService.getRq('national_all_champs',this.currentUser.id);
+  }
+  else if(routine=='national_one_champ'){
+    this.national_one_champ_botrequests= 
+    this.botRequestService.getRq('national_one_champ',this.currentUser.id);
+  }
+  else if(routine=='start_list'){
+    this.start_list_botrequests =
+    this.botRequestService.getRq('start_list',this.currentUser.id);
+  }
+  else if(routine=='race'){
+    this.race_botrequests =
+    this.botRequestService.getRq('race',this.currentUser.id);
+  }
+  else if(routine=='stages'){
+    this.stages_botrequests =
+    this.botRequestService.getRq('stages',this.currentUser.id); 
+  }
+  else if(routine=='team'){
+    this.team_botrequests =
+    this.botRequestService.getRq('team',this.currentUser.id);  
+  } 
+  else if(routine=='national_team'){
+    this.national_team_botrequests =
+    this.botRequestService.getRq('national_team',this.currentUser.id);  
+  }
+  else if(routine=='national_team_all'){
+    this.national_team_all_botrequests =
+    this.botRequestService.getRq('national_team_all',this.currentUser.id); 
+  }
+  else if(routine=='UCIranking'){
+    this.UCIranking_botrequests =
+    this.botRequestService.getRq('UCIranking',this.currentUser.id);  
+  }
+  else if(routine=='sort_date'){
+    this.sort_date_botrequests =
+    this.botRequestService.getRq('sort_date',this.currentUser.id); 
+  }
+  else if(routine=='sort_name'){
+    this.sort_name_botrequests =
+    this.botRequestService.getRq('sort_name',this.currentUser.id); 
+  }
+  else{
     this.create_rider_botrequests=
       this.botRequestService.getRq('create_rider',this.currentUser.id);
 
@@ -84,7 +137,7 @@ export class RequestListComponent implements OnInit {
      
     this.sort_name_botrequests =
       this.botRequestService.getRq('sort_name',this.currentUser.id); 
-    
+  }
     this.all_botrequests=concat(
          this.create_rider_botrequests,
          this.import_classification_botrequests,
@@ -122,6 +175,7 @@ export class RequestListComponent implements OnInit {
          this.reloadData()
     })
   }
+
   
   
 }
