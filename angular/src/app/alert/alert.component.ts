@@ -35,10 +35,8 @@ export class AlertComponent implements OnInit, OnDestroy {
                     }else{
                        this.success=false;
                     }
-                //window.alert(message);
                }else{
                  this.message=null;
-                 //this.success=true;
                }
             });
     }

@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 
 import {AuthenticationService } from '@ser/authentication.service';
 import {AlertService } from '@ser/alert.service';
-import {MonitoringService } from '@ser/monitoring.service';
+//import {MonitoringService } from '@ser/monitoring.service';
 
 @Injectable()
 
@@ -18,7 +18,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     constructor(private authenticationService: AuthenticationService,
                 private alertService: AlertService,
-                private monitoringService: MonitoringService,
+                //private monitoringService: MonitoringService,
                 private router: Router,
     ) {}
 

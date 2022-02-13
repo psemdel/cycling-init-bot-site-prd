@@ -64,6 +64,7 @@ def run_bot(rq_id, rq_routine):
         nation_table= nation_team_table.load()
         test=False #run the functions but make no change to wikidata
         test_site=False #don't run the functions
+        print("author: " +str(rq.author))
         
         if rq_routine=="create_rider":
             from bot_src.src import rider_fast_init

@@ -42,6 +42,9 @@ class DetailView(generics.ListCreateAPIView):
 def serial_save(request_serializer, request, rq_data):
     if request_serializer.is_valid():
         rq=request_serializer.save()
+        rq.status = "pending" #for restart
+        rq.save() 
+
         return run_autocheck(rq_data, request, rq.id)
     else:
         print('serializer error: ')

@@ -9,7 +9,9 @@
 **/uploads
 **/pywikibot
 **/mychart
+**/redis-stable/
 user-password.py
 config
+pywikibot.lwp
 
 
