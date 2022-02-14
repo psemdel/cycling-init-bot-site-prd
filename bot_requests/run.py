@@ -6,13 +6,13 @@ Created on Thu Apr 23 18:03:01 2020
 @author: maxime
 """
 import pywikibot #avoid confusion
-from bot_src.data import nation_team_table
-import time, os
+import os
 
 from django.utils import timezone
 from sentry_sdk import capture_message
 from .dic import routine_to_model
 from .log import save_log #log to the user
+from bot_src.src.data import nation_team_table
 from bot_src.src import bot_log
 
 site = pywikibot.Site("wikidata", "wikidata")
@@ -65,12 +65,10 @@ def run_bot(rq_id, rq_routine):
         test=False #run the functions but make no change to wikidata
         test_site=False #don't run the functions
         print("author: " +str(rq.author))
-        
         if rq_routine=="create_rider":
             from bot_src.src import rider_fast_init
-
             if not test_site:
-                status, log, result_id=rider_fast_init.f(pywikibot,site,repo,time,nation_table, rq.name,rq.nationality,
+                status, log, result_id=rider_fast_init.f(pywikibot,site,repo,nation_table, rq.name,rq.nationality,
                                   rq.gender)
                 rq.result_id=result_id
                 rq.save()
@@ -105,7 +103,7 @@ def run_bot(rq_id, rq_routine):
                 end_of_race=datetime_to_Wbtime(site, rq.end_of_race)
                 
                 if not test_site:
-                    status, log, result_id=race_creator.f(pywikibot,site,repo,time,
+                    status, log, result_id=race_creator.f(pywikibot,site,repo,
                                   nation_table,
                                   rq.name,
                                   single_race,
@@ -126,7 +124,7 @@ def run_bot(rq_id, rq_routine):
                 time_of_race=datetime_to_Wbtime(site, rq.time_of_race)
        
                 if not test_site:
-                    status, log, result_id=race_creator.f(pywikibot,site,repo,time,
+                    status, log, result_id=race_creator.f(pywikibot,site,repo,
                                   nation_table,
                                   rq.name,
                                   single_race,
@@ -152,7 +150,7 @@ def run_bot(rq_id, rq_routine):
                 first_stage=1 
 
             if not test_site:
-                status, log=race_creator.f(pywikibot,site,repo,time,
+                status, log=race_creator.f(pywikibot,site,repo,
                                   nation_table,
                                   None, #rq.name
                                   single_race,
@@ -164,7 +162,7 @@ def run_bot(rq_id, rq_routine):
 
         elif rq_routine=="team":
             from bot_src.src import team_creator
-            from bot_src.data import pro_team_table
+            from bot_src.src.data import pro_team_table
             
             team_table = [[0 for x in range(7)] for y in range(2)]
             team_table[1][1] = rq.name
@@ -176,7 +174,7 @@ def run_bot(rq_id, rq_routine):
             [_, team_dic]=pro_team_table.load()
             
             if not test_site:
-                status, log, result_id=team_creator.f(pywikibot,site,repo,time,team_table,nation_table,
+                status, log, result_id=team_creator.f(pywikibot,site,repo,team_table,nation_table,
                                    team_dic,rq.year, category_id=rq.category_id)
                 rq.result_id=result_id
                 rq.save()
@@ -185,7 +183,7 @@ def run_bot(rq_id, rq_routine):
             from bot_src.src import national_team_creator
             
             if not test_site:
-                status, log, result_id=national_team_creator.f(pywikibot,site,repo,time,nation_table,
+                status, log, result_id=national_team_creator.f(pywikibot,site,repo,nation_table,
                                 rq.category,
                                 rq.year_begin,
                                 rq.year_end,
@@ -197,7 +195,7 @@ def run_bot(rq_id, rq_routine):
             from bot_src.src import national_team_creator
             
             if not test_site:
-                status, log, result_id=national_team_creator.f(pywikibot,site,repo,time,nation_table,
+                status, log, result_id=national_team_creator.f(pywikibot,site,repo,nation_table,
                                 rq.category,
                                 rq.year_begin,
                                 rq.year_end,
@@ -209,13 +207,13 @@ def run_bot(rq_id, rq_routine):
             from bot_src.src import sorter
             
             if not test_site:
-                status, log=sorter.date_sorter(pywikibot,site,repo,time,rq.item_id,rq.prop,test )
+                status, log=sorter.date_sorter(pywikibot,site,repo,rq.item_id,rq.prop,test )
 
         elif rq_routine=="sort_name":
             from bot_src.src import sorter
             
             if not test_site:
-                status, log=sorter.name_sorter( pywikibot,site,repo,time,rq.item_id, rq.prop, test)
+                status, log=sorter.name_sorter( pywikibot,site,repo,rq.item_id, rq.prop, test)
             
         elif rq_routine=="UCIranking":
             from bot_src.src import uci_classification
@@ -254,7 +252,7 @@ def run_bot(rq_id, rq_routine):
             
         elif rq_routine=="national_all_champs":
             from bot_src.src import national_championship_creator
-            from bot_src.data import cc_table
+            from bot_src.src.data import cc_table
             
             man_or_woman=u'both' 
             option=u'clmon' #'clmoff'
@@ -263,12 +261,12 @@ def run_bot(rq_id, rq_routine):
             #no CC
             
             if not test_site:
-                status, log=national_championship_creator.f(pywikibot,site,repo,time,nation_table,
+                status, log=national_championship_creator.f(pywikibot,site,repo,nation_table,
                                     man_or_woman,option, start_year,end_year,False) 
             ##with CC
             cc_table=cc_table.load()
             if not test_site:
-                status, log=national_championship_creator.f(pywikibot,site,repo,time,cc_table,
+                status, log=national_championship_creator.f(pywikibot,site,repo,cc_table,
                                     man_or_woman,option,start_year,end_year,True) 
 
             
@@ -281,7 +279,7 @@ def run_bot(rq_id, rq_routine):
             end_year=rq.year_end
             country=rq.nationality
             if not test_site:
-                status, log=national_championship_creator.f(pywikibot,site,repo,time,nation_table,
+                status, log=national_championship_creator.f(pywikibot,site,repo,nation_table,
                                     man_or_woman,option, start_year,end_year,False,country=country)  
         else:
             capture_message("rq_id: "+ rq_id + "rq_routine: "+ rq_routine + " routine not managed", level="info")
