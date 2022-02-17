@@ -150,7 +150,7 @@ def run_bot(rq_id, rq_routine):
                 first_stage=1 
 
             if not test_site:
-                status, log=race_creator.f(pywikibot,site,repo,
+                status, log, _=race_creator.f(pywikibot,site,repo,
                                   nation_table,
                                   None, #rq.name
                                   single_race,
