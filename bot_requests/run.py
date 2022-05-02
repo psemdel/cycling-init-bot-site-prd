@@ -64,82 +64,87 @@ def run_bot(rq_id, rq_routine):
         nation_table= nation_team_table.load()
         test=False #run the functions but make no change to wikidata
         test_site=False #don't run the functions
+        
         print("author: " +str(rq.author))
         if rq_routine=="create_rider":
-            from bot_src.src import rider_fast_init
+            from bot_src.src.rider_fast_init import RiderFastInit 
+            
             if not test_site:
-                status, log, result_id=rider_fast_init.f(pywikibot,site,repo,nation_table, rq.name,rq.nationality,
-                                  rq.gender)
+                f=RiderFastInit(rq.name,rq.nationality,rq.gender)
+                status, log, result_id=f.main()
+                
                 rq.result_id=result_id
                 rq.save()
         
         elif rq_routine=="import_classification":
-             from bot_src.src import classification_importer
-             id_race=rq.item_id
-             stage_or_general=rq.classification_type
+             from bot_src.src.classification_importer import ClassificationImporter
              final=False
              maxkk=10
-             startliston=True
-             file=rq.result_file_name
-             year=rq.year
              
              if not test_site:
-                 status, log=classification_importer.f(pywikibot,site,repo,stage_or_general,id_race,final,
-                                   maxkk,test,startliston=startliston,file=file, year=year,
-                                   man_or_woman=rq.gender)
+                 f=ClassificationImporter(rq.classification_type,
+                                          rq.item_id,
+                                          final,
+                                          maxkk, 
+                                          test=test ,
+                                          file=rq.result_file_name,
+                                          year=rq.year,
+                                          startliston=True,
+                                          man_or_woman=rq.gender)
+                 status, log=f.main()
+                 
         elif rq_routine=="race":
-            from bot_src.src import race_creator
+            from bot_src.src.race_creator import RaceCreator
             
+            man_or_woman=rq.gender
+            time_of_race=datetime_to_Wbtime(site, rq.time_of_race)
             if rq.race_type: #stage race
                 single_race=False
-                man_or_woman=rq.gender
                 
                 if rq.prologue:
                    first_stage=0
                 else:
                    first_stage=1 
                 
-                time_of_race=datetime_to_Wbtime(site, rq.time_of_race)
                 end_of_race=datetime_to_Wbtime(site, rq.end_of_race)
                 
                 if not test_site:
-                    status, log, result_id=race_creator.f(pywikibot,site,repo,
-                                  nation_table,
-                                  rq.name,
-                                  single_race,
-                                  man_or_woman,
-                                  id_race_master=rq.item_id,
-                                  race_begin=time_of_race,
-                                  countryCIO=rq.nationality,
-                                  classe=rq.race_class,
-                                  edition_nr=rq.edition_nr,
-                                  end_date=end_of_race,
-                                  only_stages=False,
-                                  create_stages=rq.create_stages, 
-                                  first_stage=first_stage,
-                                  last_stage=rq.last_stage)
+                    f=RaceCreator(
+                        race_name=rq.name,
+                        single_race=single_race,
+                        man_or_woman=man_or_woman,
+                        id_race_master=rq.item_id,
+                        countryCIO=rq.nationality,
+                        classe=rq.race_class,
+                        race_begin=time_of_race,
+                        edition_nr=rq.edition_nr,
+                        end_date=end_of_race,
+                        only_stages=False,
+                        create_stages=rq.create_stages, 
+                        first_stage=first_stage,
+                        last_stage=rq.last_stage,
+                        )
+                    status, log, result_id=f.main()
             else:
                 single_race=True
-                man_or_woman=rq.gender
-                time_of_race=datetime_to_Wbtime(site, rq.time_of_race)
-       
+                
                 if not test_site:
-                    status, log, result_id=race_creator.f(pywikibot,site,repo,
-                                  nation_table,
-                                  rq.name,
-                                  single_race,
-                                  man_or_woman,
-                                  id_race_master=rq.item_id,
-                                  race_begin=time_of_race,
-                                  countryCIO=rq.nationality,
-                                  classe=rq.race_class,
-                                  edition_nr=rq.edition_nr,
-                                  )
+                    f=RaceCreator(
+                           race_name=rq.name,
+                           single_race=single_race,
+                           man_or_woman=man_or_woman,
+                           race_begin=time_of_race,
+                           edition_nr=rq.edition_nr,
+                           id_race_master=rq.item_id,
+                           countryCIO=rq.nationality,
+                           classe=rq.race_class)
+                    status, log, result_id=f.main()
+
             rq.result_id=result_id
             rq.save()
                     
         elif rq_routine=="stages":
-            from bot_src.src import race_creator
+            from bot_src.src.race_creator import RaceCreator
 
             single_race=False
             man_or_woman=rq.gender
@@ -150,88 +155,89 @@ def run_bot(rq_id, rq_routine):
                 first_stage=1 
 
             if not test_site:
-                status, log, _=race_creator.f(pywikibot,site,repo,
-                                  nation_table,
-                                  None, #rq.name
-                                  single_race,
-                                  man_or_woman,
-                                  stage_race_id=rq.item_id, 
-                                  only_stages=True,
-                                  first_stage=first_stage,
-                                  last_stage=rq.last_stage)
+                f= RaceCreator(
+                    stage_race_id=rq.item_id, 
+                    first_stage=first_stage,
+                    last_stage=rq.last_stage,
+                    man_or_woman=man_or_woman,
+                    only_stages=True
+                    )
+                status, log, _=f.main()
 
         elif rq_routine=="team":
-            from bot_src.src import team_creator
-            from bot_src.src.data import pro_team_table
-            
-            team_table = [[0 for x in range(7)] for y in range(2)]
-            team_table[1][1] = rq.name
-            team_table[1][2] = rq.item_id #master
-            team_table[1][3] = rq.nationality
-            team_table[1][4] = rq.UCIcode
-            team_table[1][5] = 2 
-            team_table[1][6] = 1 
-            [_, team_dic]=pro_team_table.load()
+            from bot_src.src.team_creator import TeamCreator
             
             if not test_site:
-                status, log, result_id=team_creator.f(pywikibot,site,repo,team_table,nation_table,
-                                   team_dic,rq.year, category_id=rq.category_id)
+                f=TeamCreator(rq.name,
+                              rq.item_id,
+                              rq.nationality,
+                              rq.UCIcode,
+                              rq.year,
+                              category_id=rq.category_id)
+                status, log, result_id=f.main() 
+
                 rq.result_id=result_id
                 rq.save()
 
         elif rq_routine=="national_team":
-            from bot_src.src import national_team_creator
+            from bot_src.src.national_team_creator import NationalTeamCreator
             
             if not test_site:
-                status, log, result_id=national_team_creator.f(pywikibot,site,repo,nation_table,
-                                rq.category,
-                                rq.year_begin,
-                                rq.year_end,
-                                country=rq.nationality)
+                f=NationalTeamCreator( rq.category,
+                                       rq.year_begin,
+                                       rq.year_end,
+                                       country=rq.nationality)
+                status, log, result_id=f.main()    
+
                 rq.result_id=result_id
                 rq.save()
 
         elif rq_routine=="national_team_all":
-            from bot_src.src import national_team_creator
-            
+            from bot_src.src.national_team_creator import NationalTeamCreator
+
             if not test_site:
-                status, log, result_id=national_team_creator.f(pywikibot,site,repo,nation_table,
-                                rq.category,
-                                rq.year_begin,
-                                rq.year_end,
-                                country=False)
+                f=NationalTeamCreator( rq.category,
+                                       rq.year_begin,
+                                       rq.year_end,
+                                       country=False)
+                status, log, result_id=f.main()    
+
                 rq.result_id=result_id
                 rq.save()
                 
         elif rq_routine=="sort_date":
-            from bot_src.src import sorter
-            
+            from bot_src.src.sorter import DateSorter
+
             if not test_site:
-                status, log=sorter.date_sorter(pywikibot,site,repo,rq.item_id,rq.prop,test )
+                f= DateSorter(rq.item_id,rq.prop,test=test)
+                status, log=f.main()   
+
 
         elif rq_routine=="sort_name":
-            from bot_src.src import sorter
+            from bot_src.src.sorter import NameSorter
             
             if not test_site:
-                status, log=sorter.name_sorter( pywikibot,site,repo,rq.item_id, rq.prop, test)
+                f= NameSorter(rq.item_id, rq.prop,test=test)
+                status, log=f.main()   
             
         elif rq_routine=="UCIranking":
-            from bot_src.src import uci_classification
-            
-            id_master_UCI=rq.item_id
-            year=rq.year
-            filename=rq.result_file_name
-            man_or_woman=rq.gender
-            UCIranking=rq.UCIranking
-            bypass=rq.bypass
-            cleaner=False 
+            from bot_src.src.uci_classification import UCIClassification
+
             if not test_site:
-                status, log=uci_classification.f(pywikibot,site,repo,year,id_master_UCI, filename,cleaner,test,man_or_woman,UCIranking,bypass)
+                f=UCIClassification(
+                    UCIranking=rq.UCIranking,
+                    id_master_UCI=rq.item_id,
+                    filename=rq.result_file_name,
+                    cleaner=False,
+                    man_or_woman=rq.gender,
+                    bypass=rq.bypass,
+                    year=rq.year,
+                    test=test)
+                status, log=f.main()
             
         elif rq_routine=="start_list":
-            from bot_src.src import startlist_importer
+            from bot_src.src.startlist_importer import StartlistImporter
             
-            id_race=rq.item_id
             if rq.race_type: #stage race
                 if rq.moment:
                     prologue_or_final=1 #0=prologue, 1=final, 2=one day race
@@ -239,20 +245,19 @@ def run_bot(rq_id, rq_routine):
                     prologue_or_final=0
             else:
                 prologue_or_final=2
-            chrono=rq.chrono  
-            time_of_race=datetime_to_Wbtime(site, rq.time_of_race)
-            #time_of_race=rq.time_of_race
-            man_or_woman=rq.gender
-            file=rq.result_file_name
-            force_nation_team=rq.force_nation_team
-            
+
             if not test_site:
-                status, log=startlist_importer.f(pywikibot,site,repo, prologue_or_final, id_race, 
-                                   time_of_race,chrono,test,nation_table,man_or_woman,force_nation_team,file=file) 
+                f=StartlistImporter(prologue_or_final, 
+                                    rq.item_id, 
+                                    rq.chrono,
+                                    rq.gender, 
+                                    rq.force_nation_team,
+                                    test=test)
+                status, log=f.main()
+
             
         elif rq_routine=="national_all_champs":
-            from bot_src.src import national_championship_creator
-            from bot_src.src.data import cc_table
+            from bot_src.src.national_championship_creator import NationalChampionshipCreator
             
             man_or_woman=u'both' 
             option=u'clmon' #'clmoff'
@@ -261,26 +266,25 @@ def run_bot(rq_id, rq_routine):
             #no CC
             
             if not test_site:
-                status, log=national_championship_creator.f(pywikibot,site,repo,nation_table,
-                                    man_or_woman,option, start_year,end_year,False) 
+                f=NationalChampionshipCreator(man_or_woman,option, start_year,end_year,False)
+                status, log=f.main()   
             ##with CC
-            cc_table=cc_table.load()
             if not test_site:
-                status, log=national_championship_creator.f(pywikibot,site,repo,cc_table,
-                                    man_or_woman,option,start_year,end_year,True) 
-
+                f=NationalChampionshipCreator(man_or_woman,option, start_year,end_year,True)
+                status, log=f.main() 
             
         elif rq_routine=="national_one_champ":
-            from bot_src.src import national_championship_creator
+            from bot_src.src.national_championship_creator import NationalChampionshipCreator
             
             man_or_woman=rq.category
             option=u'clmon' #'clmoff'
             start_year=rq.year_begin
             end_year=rq.year_end
-            country=rq.nationality
             if not test_site:
-                status, log=national_championship_creator.f(pywikibot,site,repo,nation_table,
-                                    man_or_woman,option, start_year,end_year,False,country=country)  
+                f=NationalChampionshipCreator(man_or_woman,option, start_year,end_year,False,
+                                              country=rq.nationality)
+                status, log=f.main()
+ 
         else:
             capture_message("rq_id: "+ rq_id + "rq_routine: "+ rq_routine + " routine not managed", level="info")
             save_log(rq_id, rq_routine,"routine not managed")
