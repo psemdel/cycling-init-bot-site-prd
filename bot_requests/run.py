@@ -12,8 +12,7 @@ from django.utils import timezone
 from sentry_sdk import capture_message
 from .dic import routine_to_model
 from .log import save_log #log to the user
-from bot_src.src.data import nation_team_table
-from bot_src.src import bot_log
+from bot_src.src.base import Log
 
 site = pywikibot.Site("wikidata", "wikidata")
 repo = site.data_repository()
@@ -61,7 +60,6 @@ def run_bot(rq_id, rq_routine):
         rq.save()
         save_log(rq_id, rq_routine, "request loaded")
         save_log(rq_id, rq_routine, rq_routine + " routine selected")
-        nation_table= nation_team_table.load()
         test=False #run the functions but make no change to wikidata
         test_site=False #don't run the functions
         
@@ -291,7 +289,7 @@ def run_bot(rq_id, rq_routine):
             return 1
         
         if log is None:
-             log=bot_log.Log()
+             log=Log()
              log.concat("log not found at the end of run")
         save_log(rq_id, rq_routine,log.txt,display=False)
         table=routine_to_model(rq_routine)
@@ -316,7 +314,7 @@ def run_bot(rq_id, rq_routine):
     except Exception as msg:
         print(msg)
         if log is None:
-            log=bot_log.Log()
+            log=Log()
         table=routine_to_model(rq_routine)
         rq=table.objects.get(pk=rq_id)
         save_log(rq_id, rq_routine, "request failed, most probably max lag of wikidata, retry in 10 minutes" )
@@ -328,7 +326,7 @@ def run_bot(rq_id, rq_routine):
         table=routine_to_model(rq_routine)
         rq=table.objects.get(pk=rq_id)
         if log is None:
-            log=bot_log.Log()
+            log=Log()
         save_log(rq_id, rq_routine, "request failed, total")
 
         rq.status = "failed"
