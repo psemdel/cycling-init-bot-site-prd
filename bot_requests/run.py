@@ -250,6 +250,7 @@ def run_bot(rq_id, rq_routine):
                                     rq.chrono,
                                     rq.gender, 
                                     rq.force_nation_team,
+                                    file=rq.result_file_name,
                                     test=test)
                 status, log=f.main()
 
