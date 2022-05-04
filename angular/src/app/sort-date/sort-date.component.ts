@@ -7,7 +7,7 @@ import {MonitoringService } from '@ser/monitoring.service';
 import { BotRequest, User} from '@app/models/models';
 
 interface Property {
-  value: number;
+  value: string;
   viewValue: string;
 }
 
@@ -26,8 +26,8 @@ export class SortDateComponent implements OnInit {
   lastname: string;
   
   properties: Property[] = [
-    {value: 527, viewValue: 'has part (P527)'},
-    {value: 2522, viewValue: 'victory (P2522)'},
+    {value: "P527", viewValue: 'has part (P527)'},
+    {value: "P2522", viewValue: 'victory (P2522)'},
   ];
   
   constructor(private botRequestService: BotRequestService,

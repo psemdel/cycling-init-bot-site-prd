@@ -1,6 +1,7 @@
 ####Cycling init site
 django>=3.2.7
 djangorestframework>=3.12
+pandas
 
 ##djoser>=2.1 ###problem
 #For djoser_local
