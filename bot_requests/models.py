@@ -135,13 +135,13 @@ class NationalTeamAllRequest(BotRequest):
         return self.routine + " "+ self.year_begin
    
 class SortDateRequest(BotRequest):
-   prop = models.IntegerField(blank=False)
+   prop = models.CharField(max_length=10, blank=True,default="P527")   
     
    def __str__(self):
         return self.routine + " "+ self.item_id
     
 class SortNameRequest(BotRequest):
-   prop = models.IntegerField(blank=False)
+   prop =  models.CharField(max_length=10, blank=True,default="P527")   
     
    def __str__(self):
         return self.routine + " "+ self.item_id
