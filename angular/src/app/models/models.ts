@@ -41,7 +41,7 @@ export class BotRequest {
     result_id: string;
     category_id: string;
     //sort
-    prop: number; //property may be protected word
+    prop: string; //property may be protected word
     
 }
 

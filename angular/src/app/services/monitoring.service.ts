@@ -132,7 +132,7 @@ export class MonitoringService    {
     if (this.running_rq.length==0){
         this.stopChecking();
     }
-
+    console.log("this.running_rq" + this.running_rq)
     console.log("this.running_rq.length "+ this.running_rq.length)
 
     this.nb_completed_routines=this.nb_started_routines-this.running_rq.length; //ensure consistency
