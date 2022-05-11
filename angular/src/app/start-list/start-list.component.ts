@@ -83,7 +83,7 @@ export class StartListComponent implements OnInit {
         this.registerForm = this.formBuilder.group({
             item_id: ['', [Validators.required, Validators.pattern(/^[Q].*$/)]],
             race_type: [false, Validators.required],
-            time_of_race: [{date: {year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate()}}, Validators.required],
+            //time_of_race: [{date: {year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate()}}, Validators.required],
             moment: [false],
             chrono: [false, Validators.required],
             force_nation_team: [false, Validators.required],

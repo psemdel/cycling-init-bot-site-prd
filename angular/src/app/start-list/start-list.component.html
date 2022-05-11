@@ -27,15 +27,6 @@
           </mat-form-field >
           <br>
           <mat-form-field >
-              <mat-label for="time_of_race">Begin of the race</mat-label>
-                  <input matInput [matDatepicker]="picker1" formControlName="time_of_race">
-                  <mat-datepicker-toggle matSuffix [for]="picker1">
-                  <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                </mat-datepicker-toggle>
-                <mat-datepicker #picker1></mat-datepicker>
-          </mat-form-field >
-          <br>
-          <mat-form-field >
             <mat-label for="race_type">Type of race</mat-label>
             <mat-select  disableOptionCentering  formControlName="race_type"
               [ngClass]="{ 'is-invalid': submitted && f.race_type.errors }">

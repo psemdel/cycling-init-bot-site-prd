@@ -56,7 +56,7 @@ class ImportClassificationRequest(BotRequestWithFile):
         return self.routine + " "+ self.item_id
     
 class StartListRequest(BotRequestWithFile):
-   time_of_race=models.DateTimeField(null=False,blank=False)
+   #time_of_race=models.DateTimeField(null=True,blank=True)
    race_type= models.BooleanField(blank=False)
    chrono= models.BooleanField(blank=False)
    moment= models.BooleanField(blank=False)
