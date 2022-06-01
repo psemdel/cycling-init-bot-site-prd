@@ -253,7 +253,7 @@ def run_bot(rq_id, rq_routine):
                                     file=rq.result_file_name,
                                     test=test)
                 status, log=f.main()
-
+                print("startlist in run finished")
             
         elif rq_routine=="national_all_champs":
             from bot_src.src.national_championship_creator import NationalChampionshipCreator
