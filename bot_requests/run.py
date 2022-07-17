@@ -13,6 +13,7 @@ from sentry_sdk import capture_message
 from .dic import routine_to_model
 from .log import save_log #log to the user
 from bot_src.src.base import Log
+from django.db import connection
 
 site = pywikibot.Site("wikidata", "wikidata")
 repo = site.data_repository()
@@ -161,6 +162,7 @@ def run_bot(rq_id, rq_routine):
                     only_stages=True
                     )
                 status, log, _=f.main()
+                connection.close() #otherwise connection lost
 
         elif rq_routine=="team":
             from bot_src.src.team_creator import TeamCreator
@@ -254,6 +256,7 @@ def run_bot(rq_id, rq_routine):
                                     test=test)
                 status, log=f.main()
                 print("startlist in run finished")
+                connection.close() #otherwise connection lost
             
         elif rq_routine=="national_all_champs":
             from bot_src.src.national_championship_creator import NationalChampionshipCreator

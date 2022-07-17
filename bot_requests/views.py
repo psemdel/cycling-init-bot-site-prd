@@ -25,6 +25,8 @@ from .run import run_bot
 from .dic import routine_to_model, routine_to_serializer
 from .log import save_log
 
+from django.db import connection
+
 if settings.DEBUG:
     RATELIMRQ='200000/h'
 else:
@@ -112,6 +114,7 @@ def async_run_bot(self, rq_id, rq_routine):
                 print("waiting 10 min")
                 time.sleep(600) #wait 10 minutes before retrying
         except:
+            connection.close()
             table=routine_to_model(rq_routine)
             rq=table.objects.get(pk=rq_id)
             save_log(rq_id, rq_routine, "run_bot crashed")
