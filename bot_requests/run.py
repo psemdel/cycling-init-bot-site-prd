@@ -146,8 +146,7 @@ def run_bot(rq_id, rq_routine):
             from bot_src.src.race_creator import RaceCreator
 
             single_race=False
-            man_or_woman=rq.gender
-            
+                        
             if rq.prologue:
                 first_stage=0
             else:
@@ -158,7 +157,6 @@ def run_bot(rq_id, rq_routine):
                     stage_race_id=rq.item_id, 
                     first_stage=first_stage,
                     last_stage=rq.last_stage,
-                    man_or_woman=man_or_woman,
                     only_stages=True
                     )
                 status, log, _=f.main()

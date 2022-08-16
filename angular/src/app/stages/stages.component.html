@@ -13,18 +13,6 @@
         </div>
       </mat-form-field >
   <br>
-  <mat-form-field >
-          <mat-label for="gender">Man or woman race?</mat-label>
-          <mat-select  formControlName="gender"
-          [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
-              <mat-option *ngFor="let gender of genders" [value]="gender.value">
-                {{gender.viewValue}}
-              </mat-option>
-            </mat-select>
-            <div *ngIf="submitted && f.gender.errors" >
-                <mat-error *ngIf="f.gender.errors.required">Field required</mat-error>
-            </div>
-          </mat-form-field >
   <p>Check that the begin and end dates are given in the item of the race edition!</p>
   <mat-form-field >
         <mat-label for="prologue">Is there a prologue?</mat-label>

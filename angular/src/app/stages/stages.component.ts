@@ -37,7 +37,6 @@ export class StagesComponent implements OnInit {
             item_id: ['', [Validators.required, Validators.pattern(/^[Q].*$/)]],
             prologue: [true, Validators.required],
             last_stage: [0, Validators.required],
-            gender: ['',Validators.required],
             });
   }
 
