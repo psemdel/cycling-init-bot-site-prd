@@ -108,6 +108,7 @@ def async_run_bot(self, rq_id, rq_routine):
     
     while res==11 and kk<max_iter:
         try:
+            print("run bot")
             res=run_bot(rq_id, rq_routine)
             if res==11:
                 kk=kk+1
@@ -131,6 +132,7 @@ def run_autocheck(rq_data, request, rq_id):
     if (user.has_perm('bot_requests.can_run_requests') and 
     rq_data["routine"] and rq_data["routine"] not in  no_autocheck_run_routines):
         print("run autocheck")
+        print(rq_data["routine"])
         async_run_bot.delay(rq_id,rq_data["routine"])
         #not required
         #if run_error==0:
