@@ -124,6 +124,8 @@ export class RaceComponent implements OnInit {
     this.botrequest.nationality=this.f.nationality.value;
     this.botrequest.time_of_race=this.f.time_of_race.value;
 
+    console.log(this.botrequest.time_of_race)
+    
     this.datetemp=this.f.time_of_race.value;
     this.datetemp2=new Date(this.datetemp);
     this.botrequest.year=this.datetemp2.getFullYear(); //for display in list of requests
