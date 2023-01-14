@@ -63,7 +63,7 @@
               <mat-error *ngIf="f.time_of_race.errors.required">Field required</mat-error>
     </div>
   </mat-form-field >
-
+  <br>
   <mat-form-field *ngIf="f.race_type.value===true">
     <br>
     <mat-label for="end_of_race">End of the race</mat-label>
@@ -148,7 +148,8 @@
             {{yesno.viewValue}}
           </mat-option>
         </mat-select>
-      </mat-form-field >
+  </mat-form-field >
+  <br>
   <mat-form-field  *ngIf="f.create_stages.value==true && f.race_type.value==true"> 
       <br>
       <mat-label for="last_stage">

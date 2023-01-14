@@ -131,6 +131,9 @@ export class RaceComponent implements OnInit {
     this.botrequest.edition_nr=this.f.edition_nr.value;
     this.botrequest.gender=this.f.gender.value;
     
+    console.log(this.registerForm.value.race_type)
+    console.log(this.registerForm.value.race_type=='true')
+    
     if (this.registerForm.value.race_type=='true')
     {
         this.botrequest.end_of_race=this.f.end_of_race.value;
@@ -141,6 +144,7 @@ export class RaceComponent implements OnInit {
     }
     else
     {
+        console.log("single race")
         this.botrequest.race_class=this.f.race_class1.value;
         this.botrequest.create_stages=false;
         this.botrequest.prologue=false;
