@@ -77,13 +77,11 @@ def run_bot(rq_id, rq_routine):
         
         elif rq_routine=="import_classification":
              from bot_src.src.classification_importer import ClassificationImporter
-             final=False
              maxkk=10
              
              if not test_site:
                  f=ClassificationImporter(rq.classification_type,
                                           rq.item_id,
-                                          final,
                                           maxkk, 
                                           test=test ,
                                           file=rq.result_file_name,
