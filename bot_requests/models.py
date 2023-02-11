@@ -49,7 +49,6 @@ class CreateRiderRequest(BotRequest):
    
 class ImportClassificationRequest(BotRequestWithFile):
    classification_type= models.IntegerField(blank=False)
-   year = models.IntegerField(blank=False,default=2020)
    gender =models.CharField(max_length=5, blank=True)   
    
    def __str__(self):

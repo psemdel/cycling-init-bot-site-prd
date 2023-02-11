@@ -85,7 +85,6 @@ def run_bot(rq_id, rq_routine):
                                           maxkk, 
                                           test=test ,
                                           file=rq.result_file_name,
-                                          year=rq.year,
                                           startliston=True,
                                           man_or_woman=rq.gender)
                  status, log=f.main()
