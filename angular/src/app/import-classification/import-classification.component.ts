@@ -13,7 +13,6 @@ import {AuthenticationService } from '@ser/authentication.service';
 import {MonitoringService } from '@ser/monitoring.service';
 
 import { BotRequest, User, FileUploadModel} from '@app/models/models';
-import { genders} from '@app/models/lists';
 
 import { environment } from '@env/environment';
 
@@ -42,8 +41,6 @@ export class ImportClassificationComponent implements OnInit {
   submitted = false;
   success = false;
   lastname: string;
-  years:Array<any> = [];
-  genders=genders;
   
   botrequest: BotRequest = new BotRequest();
   files: Array<FileUploadModel> = [];
@@ -71,7 +68,6 @@ export class ImportClassificationComponent implements OnInit {
               private monitoringService: MonitoringService
   ) { 
               this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-              this.years = Array(30).fill(0).map((x,i)=>2000+i);
    }
    
   ngOnInit() {
@@ -79,29 +75,12 @@ export class ImportClassificationComponent implements OnInit {
         this.registerForm = this.formBuilder.group({
             item_id: ['', [Validators.required, Validators.pattern(/^[Q].*$/)]],
             classification_type: [0, Validators.required],
-            file: [null, Validators.required],
-            year: [2021, Validators.required],
-            gender: ['woman'],
+            file: [null],
+            fc_id: [0, [Validators.pattern(/^[0-9]*$/)]]
             });
-        
-        this.registerForm.get('classification_type').valueChanges
-            .subscribe(value => this.onClassificationTypeChanged());         
-            
+
   }
   
-  onClassificationTypeChanged()
-  {
-      if (this.registerForm.value.classification_type==5 || 
-          this.registerForm.value.classification_type==6){ //team
-          this.registerForm.controls.year.setValidators(Validators.required);
-          this.registerForm.controls.gender.setValidators(Validators.required);
-      }
-      else
-      {   
-          this.registerForm.controls.year.setValidators(null);
-          this.registerForm.controls.gender.setValidators(null);
-      }
- }
   
   get f() { return this.registerForm.controls; }
 
@@ -127,37 +106,53 @@ export class ImportClassificationComponent implements OnInit {
     }
     
      const fileUpload = document.getElementById('fileUpload') as HTMLInputElement;
-     if (!this.validateFile(fileUpload.files[0].name)) { //name
-        console.log('Selected file format is not supported');
-        this.exterror=true;
-        return;
-     }
-     
-     if (fileUpload.files[0].size>2000000) { //2 mb
-        console.log('File size exceeded');
-        this.sizeerror=true;
-        return;
-     }
-     
-     for (let index = 0; index < fileUpload.files.length; index++) {
-              const file = fileUpload.files[index];
-              this.files.push({ data: file, state: 'in', 
-                inProgress: false, progress: 0, canRetry: false, canCancel: true,
-                author: this.currentUser.id
-                 });
-     }
-
+     if (this.files[0]){
+            if (!this.validateFile(fileUpload.files[0].name)) { //name
+                  console.log('Selected file format is not supported');
+                  this.exterror=true;
+                  return;
+            }
+            
+            if (fileUpload.files[0].size>2000000) { //2 mb
+                  console.log('File size exceeded');
+                  this.sizeerror=true;
+                  return;
+            }
+            
+            for (let index = 0; index < fileUpload.files.length; index++) {
+                        const file = fileUpload.files[index];
+                        this.files.push({ data: file, state: 'in', 
+                        inProgress: false, progress: 0, canRetry: false, canCancel: true,
+                        author: this.currentUser.id
+                        });
+            }
+    }
     //display in the interface
     this.lastname=this.f.item_id.value;  
     
     this.botrequest.item_id=this.f.item_id.value;
+    this.botrequest.fc_id=this.f.fc_id.value;
     this.botrequest.classification_type=this.f.classification_type.value;
     this.botrequest.author=this.currentUser.id;
-    this.botrequest.gender=this.f.gender.value;
-    this.botrequest.year=this.f.year.value;
     
-    this.uploadFile(this.files[0], this.botrequest);
+    if (this.files[0]){
+      this.uploadFile(this.files[0], this.botrequest);
+    } else {
+
+      this.botRequestService.createRq('import_classification',this.botrequest)
+      .subscribe(
+        data => {
+          console.log('import_classification without file request success');
+          this.success = true;
+          this.monitoringService.start('import_classification');
+        },
+        error => {
+            console.log(error);
+        });
+    }
+
     this.botrequest = new BotRequest();
+
  //   this.save();
   }
 

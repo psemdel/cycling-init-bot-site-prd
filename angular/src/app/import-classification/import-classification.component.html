@@ -26,33 +26,6 @@
                   <mat-error *ngIf="f.classification_type.errors.required">Field required</mat-error>
                 </div>
               </mat-form-field >
-        <br>
-            <div *ngIf="(f.classification_type.value=='5'||f.classification_type.value=='6')"> 
-              <mat-form-field >
-                <mat-label for="year">
-                        Year of the race
-                    </mat-label>
-                    <mat-select disableOptionCentering id="year" formControlName="year"
-                    [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
-                        <mat-option *ngFor="let year of years" [value]="year">
-                                      {{year}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field >
-                <br/>
-                <mat-form-field >
-                      <mat-label for="gender">Man or woman race?</mat-label>
-                      <mat-select disableOptionCentering formControlName="gender"
-                      [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
-                          <mat-option *ngFor="let gender of genders" [value]="gender.value">
-                            {{gender.viewValue}}
-                          </mat-option>
-                        </mat-select>
-                        <div *ngIf="submitted && f.gender.errors" >
-                          <mat-error *ngIf="f.gender.errors.required">Field required</mat-error>
-                        </div>
-                  </mat-form-field >
-            </div>
           <br/>   
 
           <label>Excel or csv file from UCI web site</label>
@@ -65,6 +38,17 @@
           </li>
           <div *ngIf="submitted && sizeerror" class="invalid-feedback">Maximum size exceeded</div>
           <div *ngIf="submitted && exterror" class="invalid-feedback">Wrong file type</div>
+          <br>
+
+          <br/>
+          <mat-form-field >
+            <mat-label for="fc_id">Alternatively use firstcycling.com race id</mat-label>
+            <input matInput type="text"  id="fc_id" formControlName="fc_id"
+                  [ngClass]="{ 'is-invalid': submitted && f.fc_id.errors }" />
+                <div *ngIf="submitted && f.fc_id.errors" >
+                <mat-error *ngIf="f.fc_id.errors.pattern">First cycling id should be integer</mat-error>
+              </div>
+            </mat-form-field >
           <br>
           <button mat-raised-button color="primary" type="submit">Submit</button>
         </form>

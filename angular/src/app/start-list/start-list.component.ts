@@ -115,25 +115,27 @@ export class StartListComponent implements OnInit {
     }
     
      const fileUpload = document.getElementById('fileUpload') as HTMLInputElement;
-     if (!this.validateFile(fileUpload.files[0].name)) { //name
-        console.log('Selected file format is not supported');
-        this.exterror=true;
-        return;
-     }
-     
-     if (fileUpload.files[0].size>2000000) {
-        console.log('File size exceeded');
-        this.sizeerror=true;
-        return;
-     }
-     
-     for (let index = 0; index < fileUpload.files.length; index++) {
-              const file = fileUpload.files[index];
-              this.files.push({ data: file, state: 'in', 
-                inProgress: false, progress: 0, canRetry: false, canCancel: true,
-                author: this.currentUser.id
-                 });
-     }
+     if (this.files[0]){
+            if (!this.validateFile(fileUpload.files[0].name)) { //name
+                  console.log('Selected file format is not supported');
+                  this.exterror=true;
+                  return;
+            }
+            
+            if (fileUpload.files[0].size>2000000) {
+                  console.log('File size exceeded');
+                  this.sizeerror=true;
+                  return;
+            }
+            
+            for (let index = 0; index < fileUpload.files.length; index++) {
+                        const file = fileUpload.files[index];
+                        this.files.push({ data: file, state: 'in', 
+                        inProgress: false, progress: 0, canRetry: false, canCancel: true,
+                        author: this.currentUser.id
+                        });
+            }
+      }
 
     //display in the interface
     this.lastname=this.f.item_id.value;  
@@ -144,7 +146,22 @@ export class StartListComponent implements OnInit {
     
     this.botrequest.author=this.currentUser.id;
     
+    if (this.files[0]){
     this.uploadFile(this.files[0], this.botrequest);
+    } else {
+      this.botRequestService.createRq('start_list',this.botrequest)
+      .subscribe(
+        data => {
+          console.log('start_list without file request success');
+          this.success = true;
+          this.monitoringService.start('start_list');
+        },
+        error => {
+            console.log(error);
+        });
+
+    }
+
     this.botrequest = new BotRequest();
  //   this.save();
   }

@@ -22,6 +22,7 @@ export class NationalTeamAllComponent implements OnInit {
   lastname: string;
   years:Array<any> = [];
   categories=categories; //was gender in the beginning
+  init_year: Number;
 
   constructor(private botRequestService: BotRequestService,
               private formBuilder: FormBuilder,
@@ -34,9 +35,10 @@ export class NationalTeamAllComponent implements OnInit {
 
   ngOnInit() {
         this.lastname="";
+        this.init_year=new Date().getFullYear();
         this.registerForm = this.formBuilder.group({
-            year_begin: [2021, Validators.required],
-            year_end: [2021, [Validators.required]],
+            year_begin: [this.init_year, Validators.required],
+            year_end: [this.init_year, [Validators.required]],
             category: ['woman', Validators.required],
             },{validators: this.checkYear});
   }

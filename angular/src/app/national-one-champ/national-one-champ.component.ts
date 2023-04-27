@@ -23,6 +23,7 @@ export class NationalOneChampComponent implements OnInit {
   years:Array<any> = [];
   nationalities= nationalities;
   categories=categories;
+  init_year: Number;
   
   constructor(private botRequestService: BotRequestService,
               private formBuilder: FormBuilder,
@@ -36,8 +37,8 @@ export class NationalOneChampComponent implements OnInit {
   ngOnInit() {
         this.lastname="";
         this.registerForm = this.formBuilder.group({
-            year_begin: [2021, Validators.required],
-            year_end: [2021, [Validators.required]],
+            year_begin: [this.init_year, Validators.required],
+            year_end: [this.init_year, [Validators.required]],
             nationality: ['', Validators.required],
             category: ['', Validators.required],
             },{validators: this.checkYear});

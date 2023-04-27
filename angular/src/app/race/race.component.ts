@@ -123,9 +123,8 @@ export class RaceComponent implements OnInit {
     this.botrequest.item_id=this.f.item_id.value;
     this.botrequest.nationality=this.f.nationality.value;
     this.botrequest.time_of_race=this.f.time_of_race.value;
+    console.log(this.botrequest.time_of_race);
 
-    console.log(this.botrequest.time_of_race)
-    
     this.datetemp=this.f.time_of_race.value;
     this.datetemp2=new Date(this.datetemp);
     this.botrequest.year=this.datetemp2.getFullYear(); //for display in list of requests
@@ -135,7 +134,7 @@ export class RaceComponent implements OnInit {
     
     if (this.registerForm.value.race_type)
     {
-        console.log("stage race")
+      console.log("stage race"); 
         this.botrequest.end_of_race=this.f.end_of_race.value;
         this.botrequest.race_class=this.f.race_class2.value;
         this.botrequest.prologue=this.f.prologue.value;
@@ -144,7 +143,7 @@ export class RaceComponent implements OnInit {
     }
     else
     {
-        console.log("single race")
+        console.log("single race");
         this.botrequest.race_class=this.f.race_class1.value;
         this.botrequest.create_stages=false;
         this.botrequest.prologue=false;

@@ -15,7 +15,7 @@ class BotRequest(models.Model):
         abstract = True
 
 class BotRequestWithFile(BotRequest):
-    result_file_name = models.CharField(max_length=100, blank=False)
+    result_file_name = models.CharField(max_length=100, blank=True)
     
     class Meta:
         abstract = True
@@ -50,6 +50,7 @@ class CreateRiderRequest(BotRequest):
 class ImportClassificationRequest(BotRequestWithFile):
    classification_type= models.IntegerField(blank=False)
    gender =models.CharField(max_length=5, blank=True)   
+   fc_id= models.IntegerField(null=True, blank=True, default=0)
    
    def __str__(self):
         return self.routine + " "+ self.item_id
@@ -61,6 +62,7 @@ class StartListRequest(BotRequestWithFile):
    moment= models.BooleanField(blank=False)
    gender =models.CharField(max_length=5, blank=True)#for champ
    force_nation_team= models.BooleanField(blank=False, default=False)
+   fc_id= models.IntegerField(null=True, blank=True, default=0)
  
    def __str__(self):
         return self.routine + " "+ self.item_id

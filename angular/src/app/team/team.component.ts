@@ -23,7 +23,8 @@ export class TeamComponent implements OnInit {
   years:Array<any> = [];
   nationalities= nationalities;
   teamCategories=teamCategories;
-  
+  init_year: Number;
+
   constructor(private botRequestService: BotRequestService,
               private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
@@ -35,10 +36,11 @@ export class TeamComponent implements OnInit {
 
   ngOnInit() {
         this.lastname="";
+        this.init_year=new Date().getFullYear();
         this.registerForm = this.formBuilder.group({
             name: ['', Validators.required],
             item_id: ['', [Validators.required, Validators.pattern(/^[Q].*$/)]],
-            year: [2021, Validators.required],
+            year: [this.init_year, Validators.required],
             UCIcode: [''], //pattern
             nationality: ['', Validators.required],  
             category_id: ['Q6154783', Validators.required],

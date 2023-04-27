@@ -191,8 +191,8 @@ export const race_1x_classes: RaceClass[] = [
     {value: "1.1", viewValue: 'UCI 1.1'},
     {value: "1.2", viewValue: 'UCI 1.2'},
     {value: "1.5", viewValue: 'UCI 1.5 (old)'},
-    {value: "UWT.1", viewValue: 'UWT 1'},
-    {value: "WWT.1", viewValue: 'WWT 1'},
+    {value: "1.UWT", viewValue: 'UWT 1'},
+    {value: "1.WWT", viewValue: 'WWT 1'},
     
   ];
   
@@ -201,8 +201,8 @@ export const race_2x_classes: RaceClass[] = [
     {value: "2.HC", viewValue: 'UCI 2.HC'},
     {value: "2.1", viewValue: 'UCI 2.1'},
     {value: "2.2", viewValue: 'UCI 2.2'},
-    {value: "UWT.2", viewValue: 'UWT 2'},
-    {value: "WWT.2", viewValue: 'WWT 2'},
+    {value: "2.UWT", viewValue: 'UWT 2'},
+    {value: "2.WWT", viewValue: 'WWT 2'},
   ];
   
 export var all_routines: string[]= [

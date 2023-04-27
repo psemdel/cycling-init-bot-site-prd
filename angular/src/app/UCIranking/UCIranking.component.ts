@@ -38,7 +38,8 @@ export class UCIrankingComponent implements OnInit {
   years:Array<any> = [];
   genders=genders;
   yesnos=yesnos;
-    
+  init_year: Number;
+  
   botrequest: BotRequest = new BotRequest();
   files: Array<FileUploadModel> = [];
   private baseUrl = environment.apiUrl +'bot_requests';
@@ -57,10 +58,11 @@ export class UCIrankingComponent implements OnInit {
    }
    
   ngOnInit() {
+        this.init_year=new Date().getFullYear();
         this.lastname="";
         this.registerForm = this.formBuilder.group({
             item_id: ['', [Validators.required, Validators.pattern(/^[Q].*$/)]],
-            year: [2020, Validators.required],
+            year: [this.init_year, Validators.required],
             gender: ['',Validators.required],
             UCIranking: [false,Validators.required],
             file: [null, Validators.required],

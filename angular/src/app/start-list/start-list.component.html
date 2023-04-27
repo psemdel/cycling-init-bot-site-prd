@@ -94,6 +94,16 @@
           <div *ngIf="submitted && sizeerror" >Maximum size exceeded</div>
           <div *ngIf="submitted && exterror" >Wrong file type</div>
           <br>
+          <mat-form-field >
+            <mat-label for="item_id">Alternatively use firstcycling.com race id</mat-label>
+            <input matInput type="text"  id="fc_id" formControlName="fc_id"
+                  [ngClass]="{ 'is-invalid': submitted && f.fc_id.errors }" />
+                <div *ngIf="submitted && f.fc_id.errors" >
+                <mat-error *ngIf="f.fc_id.errors.required">Field required</mat-error>
+                <mat-error *ngIf="f.fc_id.errors.pattern">Race id should be integer</mat-error>
+              </div>
+            </mat-form-field >
+          <br>
           <button mat-raised-button color="primary" type="submit">Submit</button>
         </form>
   </div>

@@ -20,6 +20,7 @@ export class NationalAllChampsComponent implements OnInit {
   success = false;
   lastname: string;
   years:Array<any> = [];
+  init_year: Number;
 
   constructor(private botRequestService: BotRequestService,
               private formBuilder: FormBuilder,
@@ -32,8 +33,9 @@ export class NationalAllChampsComponent implements OnInit {
 
   ngOnInit() {
         this.lastname="";
+        this.init_year=new Date().getFullYear();
         this.registerForm = this.formBuilder.group({
-            year: [2021, Validators.required],
+            year: [this.init_year, Validators.required],
             });
      }
 

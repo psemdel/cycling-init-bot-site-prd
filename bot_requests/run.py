@@ -58,6 +58,7 @@ def run_bot(rq_id, rq_routine):
         status=10
         rq=load_request(rq_id, rq_routine)
         rq.log=""
+        
         rq.save()
         save_log(rq_id, rq_routine, "request loaded")
         save_log(rq_id, rq_routine, rq_routine + " routine selected")
@@ -85,6 +86,7 @@ def run_bot(rq_id, rq_routine):
                                           maxkk, 
                                           test=test ,
                                           file=rq.result_file_name,
+                                          fc=rq.fc_id,
                                           startliston=True,
                                           man_or_woman=rq.gender)
                  status, log=f.main()
@@ -222,7 +224,7 @@ def run_bot(rq_id, rq_routine):
                 f=UCIClassification(
                     UCIranking=rq.UCIranking,
                     id_master_UCI=rq.item_id,
-                    filename=rq.result_file_name,
+                    file=rq.result_file_name,
                     cleaner=False,
                     man_or_woman=rq.gender,
                     bypass=rq.bypass,
@@ -248,6 +250,7 @@ def run_bot(rq_id, rq_routine):
                                     rq.gender, 
                                     rq.force_nation_team,
                                     file=rq.result_file_name,
+                                    fc=rq.fc_id,
                                     test=test)
                 status, log=f.main()
                 print("startlist in run finished")

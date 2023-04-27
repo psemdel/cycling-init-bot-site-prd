@@ -70,6 +70,8 @@ def create_rq(request,routine):
                            "national_one_champ", "national_team",
                            "national_team_all"]:
                 rq_data.update(item_id="Q1")
+            if routine in ["start_list","import_classification"]:
+                rq_data.update(result_file_name="")           
             
             request_serializer =serializer(data=rq_data)
             return serial_save(request_serializer, request, rq_data)

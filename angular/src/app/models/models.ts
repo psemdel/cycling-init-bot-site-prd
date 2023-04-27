@@ -10,6 +10,7 @@ export class BotRequest {
     status: string;
     routine: string;
     item_id: string;
+    fc_id: string;
     request_text: string;
     log: string;
     //to be brought to CreateRiderRequest
