@@ -45,7 +45,7 @@ export const routes: Routes = [
     { path: 'UCIranking', component: UCIrankingComponent, canActivate: [AuthGuard] },
     { path: 'sort_date', component: SortDateComponent, canActivate: [AuthGuard] },
     { path: 'sort_name', component: SortNameComponent, canActivate: [AuthGuard] },
-    { path: 'import_classification', component: ImportClassificationComponent, canActivate: [AuthGuardStaff] },
+    { path: 'import_classification', component: ImportClassificationComponent, canActivate: [AuthGuard] },
     { path: 'request_list', component: RequestListComponent, canActivate: [AuthGuard] },
     { path: 'all_request_list', component: AllRequestListComponent, canActivate: [AuthGuardStaff] },
     { path: 'register', component: RegisterComponent },
