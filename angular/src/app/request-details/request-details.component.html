@@ -4,6 +4,7 @@
     <table>
         <thead>
         <tr> 
+            <th class="first_column" *ngIf="admin">Author</th>
             <th class="three_columns" *ngIf="year_begin_col">Begin year</th>
             <th class="three_columns" *ngIf="year_begin_col">End year</th>
             <th class="three_columns" *ngIf="year_begin_col">Country</th>
@@ -19,6 +20,7 @@
         </tr>
         </thead>
         <tr *ngFor="let botrequest of tbotrequests | async">
+            <th class="first_column" *ngIf="admin">{{botrequest.author}}</th>
             <td *ngIf="year_begin_col">{{botrequest.year_begin}}</td>
             <td *ngIf="year_begin_col">{{botrequest.year_end}}</td>
             <td *ngIf="year_begin_col">{{botrequest.nationality}}</td>

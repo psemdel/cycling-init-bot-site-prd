@@ -142,7 +142,7 @@ SIMPLE_JWT = {
 }
 
 DJOSER_LOCAL = {
-    'SEND_ACTIVATION_EMAIL': True,
+    'SEND_ACTIVATION_EMAIL': False,
     'ACTIVATION_URL': 'api/email/activate/{uid}/{token}',
     'PASSWORD_RESET_CONFIRM_URL': 'api/email/password-reset/{uid}/{token}',
     

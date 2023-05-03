@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-webservice --backend=kubernetes python3.7 restart
+webservice --backend=kubernetes python3.9 restart
 
 if [[ -x  $HOME/www/python/src/script/celery.sh ]]
 then
