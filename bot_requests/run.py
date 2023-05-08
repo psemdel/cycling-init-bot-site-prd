@@ -87,9 +87,14 @@ def run_bot(rq_id, rq_routine):
                                           test=test ,
                                           file=rq.result_file_name,
                                           fc=rq.fc_id,
+                                          stage_num=rq.stage_num,
                                           startliston=True,
                                           man_or_woman=rq.gender)
-                 status, log=f.main()
+                 
+                 if rq.classification_type==9:
+                     status, log=f.run_all()
+                 else:
+                     status, log=f.main()
                  
         elif rq_routine=="race":
             from bot_src.src.race_creator import RaceCreator

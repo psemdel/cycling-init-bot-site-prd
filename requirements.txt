@@ -3,6 +3,17 @@ django>=3.2.7
 djangorestframework>=3.12
 pandas
 
+## FC
+beautifulsoup4
+lxml
+numpy
+python-dateutil
+pytz
+slumber
+soupsieve
+urllib3
+
+
 ##djoser>=2.1 ###problem
 #For djoser_local
 django-templated-mail

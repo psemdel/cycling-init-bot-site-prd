@@ -19,6 +19,7 @@ export class BotRequest {
     gender: string;
     //classification import
     classification_type: number;
+    stage_num:number;
     //all champs
     year: number;
     //one champ

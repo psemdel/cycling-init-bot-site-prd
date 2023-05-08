@@ -50,6 +50,7 @@ export class ImportClassificationComponent implements OnInit {
   sizeerror=false;
  
   classification_types: ClassificationType[] = [
+    {value: 9, viewValue: 'All (only for fc)'},  
     {value: 0, viewValue: 'General'},
     {value: 1, viewValue: 'Stage classification'},
     {value: 2, viewValue: 'Points'},
@@ -74,13 +75,12 @@ export class ImportClassificationComponent implements OnInit {
         this.lastname="";
         this.registerForm = this.formBuilder.group({
             item_id: ['', [Validators.required, Validators.pattern(/^[Q].*$/)]],
-            classification_type: [0, Validators.required],
+            classification_type: [9, Validators.required],
             file: [null],
-            fc_id: [0, [Validators.pattern(/^[0-9]*$/)]]
+            fc_id: [0, [Validators.pattern(/^[0-9]*$/)]],
+            stage_num: [0, [Validators.pattern(/^[0-9]*$/)]],
             });
-
   }
-  
   
   get f() { return this.registerForm.controls; }
 
@@ -132,6 +132,7 @@ export class ImportClassificationComponent implements OnInit {
     
     this.botrequest.item_id=this.f.item_id.value;
     this.botrequest.fc_id=this.f.fc_id.value;
+    this.botrequest.stage_num=this.f.stage_num.value;
     this.botrequest.classification_type=this.f.classification_type.value;
     this.botrequest.author=this.currentUser.id;
     

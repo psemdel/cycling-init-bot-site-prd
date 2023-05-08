@@ -51,6 +51,7 @@ class ImportClassificationRequest(BotRequestWithFile):
    classification_type= models.IntegerField(blank=False)
    gender =models.CharField(max_length=5, blank=True)   
    fc_id= models.IntegerField(null=True, blank=True, default=0)
+   stage_num= models.IntegerField(null=True, blank=True, default=0)
    
    def __str__(self):
         return self.routine + " "+ self.item_id
