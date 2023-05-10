@@ -95,7 +95,7 @@
           <div *ngIf="submitted && exterror" >Wrong file type</div>
           <br>
           <mat-form-field >
-            <mat-label for="item_id">Alternatively use firstcycling.com race id</mat-label>
+            <mat-label for="fc_id">Alternatively use firstcycling.com race id</mat-label>
             <input matInput type="text"  id="fc_id" formControlName="fc_id"
                   [ngClass]="{ 'is-invalid': submitted && f.fc_id.errors }" />
                 <div *ngIf="submitted && f.fc_id.errors" >

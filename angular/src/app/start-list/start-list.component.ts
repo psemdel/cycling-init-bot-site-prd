@@ -88,7 +88,8 @@ export class StartListComponent implements OnInit {
             chrono: [false, Validators.required],
             force_nation_team: [false, Validators.required],
             gender: ['',Validators.required],
-            file: [null, Validators.required]
+            file: [null, Validators.required],
+            fc_id: [0, [Validators.pattern(/^[0-9]*$/)]]
             });
   }
   
@@ -145,6 +146,7 @@ export class StartListComponent implements OnInit {
     });
     
     this.botrequest.author=this.currentUser.id;
+    this.botrequest.fc_id=this.f.fc_id.value;
     
     if (this.files[0]){
     this.uploadFile(this.files[0], this.botrequest);
