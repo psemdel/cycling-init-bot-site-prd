@@ -50,7 +50,7 @@ export class ImportClassificationComponent implements OnInit {
   sizeerror=false;
  
   classification_types: ClassificationType[] = [
-    {value: 9, viewValue: 'All (only for fc)'},  
+    {value: 9, viewValue: 'All (only for fc, not file import)'},  
     {value: 0, viewValue: 'General'},
     {value: 1, viewValue: 'Stage classification'},
     {value: 2, viewValue: 'Points'},

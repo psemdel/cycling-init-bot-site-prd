@@ -301,14 +301,13 @@ def run_bot(rq_id, rq_routine):
         save_log(rq_id, rq_routine,log.txt,display=False)
         table=routine_to_model(rq_routine)
         rq=table.objects.get(pk=rq_id)
-        routine_with_file=["import_classification","start_list","UCIranking"]
         rq.process_end_time=timezone.now()
         
         if status==0:
             save_log(rq_id, rq_routine, "request completed")
             rq.status = "completed"
             rq.save() 
-            if rq.routine in routine_with_file:
+            if rq.routine in ["UCIranking"] or (rq.routine in ["import_classification","start_list"] and rq.fc_id==None):
                 kill_file(rq)
             return 0
         else:
