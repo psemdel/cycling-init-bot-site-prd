@@ -12,7 +12,7 @@ import {AuthenticationService } from '@ser/authentication.service';
 import {MonitoringService } from '@ser/monitoring.service';
 
 import { BotRequest, User,FileUploadModel} from '@app/models/models';
-import { race_types, yesnos,  genders} from '@app/models/lists';
+import { race_types, yesnos} from '@app/models/lists';
 
 import { environment } from '@env/environment';
 
@@ -20,16 +20,15 @@ import { MY_FORMATS} from '@app/models/date-format';
 import {DateAdapter,MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter} from '@angular/material-moment-adapter';
 
-
 interface Moment {
   value: boolean;
   viewValue: string;
 }
 
 @Component({
-  selector: 'start-list',
-  templateUrl: './start-list.component.html',
-  styleUrls: ['./start-list.component.css'],
+  selector: 'team-importer',
+  templateUrl: './team-importer.component.html',
+  styleUrls: ['./team-importer.component.css'],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, 
   MAT_MOMENT_DATE_ADAPTER_OPTIONS] },
@@ -46,7 +45,7 @@ interface Moment {
       ]
 })
 
-export class StartListComponent implements OnInit {
+export class TeamImporterComponent implements OnInit {
   currentUser: User;
   registerForm: FormGroup;
   submitted = false;
@@ -54,7 +53,6 @@ export class StartListComponent implements OnInit {
   lastname: string;
   yesnos=yesnos;
   race_types=race_types;
-  genders=genders;
   
   botrequest: BotRequest = new BotRequest();
   files: Array<FileUploadModel> = [];
@@ -81,11 +79,6 @@ export class StartListComponent implements OnInit {
         this.lastname="";
         this.registerForm = this.formBuilder.group({
             item_id: ['', [Validators.required, Validators.pattern(/^[Q].*$/)]],
-            race_type: [false, Validators.required],
-            moment: [false],
-            chrono: [false, Validators.required],
-            force_nation_team: [false, Validators.required],
-            gender: ['',Validators.required],
             file: [null],
             fc_id: [0, [Validators.pattern(/^[0-9]*$/)]]
             });
@@ -149,17 +142,16 @@ export class StartListComponent implements OnInit {
     if (this.files[0]){
     this.uploadFile(this.files[0], this.botrequest);
     } else {
-      this.botRequestService.createRq('start_list',this.botrequest)
+      this.botRequestService.createRq('team_importer',this.botrequest)
       .subscribe(
         data => {
-          console.log('start_list without file request success');
+          console.log('team importer without file request success');
           this.success = true;
-          this.monitoringService.start('start_list');
+          this.monitoringService.start('team_importer');
         },
         error => {
             console.log(error);
         });
-
     }
 
     this.botrequest = new BotRequest();
@@ -171,7 +163,7 @@ export class StartListComponent implements OnInit {
             fd.append('file', file.data);
             fd.append('botrequest',JSON.stringify(botrequest))
 
-            const req = new HttpRequest('POST',  `${this.baseUrl}/create_file/start_list/`, fd, {
+            const req = new HttpRequest('POST',  `${this.baseUrl}/create_file/team_importer/`, fd, {
                   reportProgress: true
             });
 
@@ -198,7 +190,7 @@ export class StartListComponent implements OnInit {
                         if (typeof (event) === 'object') {
                             console.log("upload successful!")
                             this.success=true;
-                            this.monitoringService.start('start_list');
+                            this.monitoringService.start('team_importer');
                         }
                   }
             );

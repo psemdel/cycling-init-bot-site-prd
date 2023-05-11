@@ -21,6 +21,7 @@ def routine_to_model(routine):
      "sort_name":SortNameRequest,
      "UCIranking":UCIrankingRequest,
      "start_list":StartListRequest,
+     "team_importer":TeamImporterRequest,
      "national_all_champs":NationalAllChampsRequest,
      "national_one_champ":NationalOneChampRequest
      }
@@ -43,6 +44,7 @@ def routine_to_serializer(routine):
      "sort_name":SortNameRequestSerializer,
      "UCIranking":UCIrankingRequestSerializer,
      "start_list":StartListRequestSerializer,
+     "team_importer":TeamImportRequestSerializer,
      "national_all_champs":NationalAllChampsRequestSerializer,
      "national_one_champ":NationalOneChampRequestSerializer
      }

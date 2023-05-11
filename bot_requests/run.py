@@ -258,9 +258,19 @@ def run_bot(rq_id, rq_routine):
                                     fc=rq.fc_id,
                                     test=test)
                 status, log=f.main()
-                print("startlist in run finished")
                 connection.close() #otherwise connection lost
+                
+        elif rq_routine=="team_importer":
+            from bot_src.src.team_importer import TeamImporter
             
+            if not test_site:
+                f=TeamImporter(
+                                    rq.item_id, 
+                                    file=rq.result_file_name,
+                                    fc=rq.fc_id,
+                                    test=test)
+                status, log=f.main()
+        
         elif rq_routine=="national_all_champs":
             from bot_src.src.national_championship_creator import NationalChampionshipCreator
             
@@ -307,7 +317,7 @@ def run_bot(rq_id, rq_routine):
             save_log(rq_id, rq_routine, "request completed")
             rq.status = "completed"
             rq.save() 
-            if rq.routine in ["UCIranking"] or (rq.routine in ["import_classification","start_list"] and rq.fc_id==None):
+            if rq.routine in ["UCIranking"] or (rq.routine in ["import_classification","start_list","team_importer"] and rq.fc_id==None):
                 kill_file(rq)
             return 0
         else:

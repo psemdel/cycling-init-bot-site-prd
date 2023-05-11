@@ -57,12 +57,17 @@ class ImportClassificationRequest(BotRequestWithFile):
         return self.routine + " "+ self.item_id
     
 class StartListRequest(BotRequestWithFile):
-   #time_of_race=models.DateTimeField(null=True,blank=True)
    race_type= models.BooleanField(blank=False)
    chrono= models.BooleanField(blank=False)
    moment= models.BooleanField(blank=False)
    gender =models.CharField(max_length=5, blank=True)#for champ
    force_nation_team= models.BooleanField(blank=False, default=False)
+   fc_id= models.IntegerField(null=True, blank=True, default=0)
+ 
+   def __str__(self):
+        return self.routine + " "+ self.item_id
+
+class TeamImporterRequest(BotRequestWithFile):
    fc_id= models.IntegerField(null=True, blank=True, default=0)
  
    def __str__(self):

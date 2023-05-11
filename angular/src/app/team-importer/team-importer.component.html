@@ -1,0 +1,42 @@
+<h3>Import a list of participing teams</h3>
+<div>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <mat-form-field >
+          <mat-label for=" item_id">Id of the race item on wikidata</mat-label>
+          <mat-hint>for instance Q30091668 for Tour de France 2019</mat-hint>
+          <input matInput type="text"  id="item_id" formControlName="item_id"
+                [ngClass]="{ 'is-invalid': submitted && f.item_id.errors }" />
+          <div *ngIf="submitted && f.item_id.errors" >
+                <mat-error *ngIf="f.item_id.errors.required">Field required</mat-error>
+                <mat-error *ngIf="f.item_id.errors.pattern">Item id should start with "Q"</mat-error>
+          </div>
+        </mat-form-field >
+        <br/>
+        <label>Excel or csv file from UCI web site</label>
+        <br/>
+        <input type="file" id="fileUpload" name="fileUpload" formControlName="file"  multiple="multiple" 
+          accept=".xlsx, .csv" />
+        <br>
+        <li *ngFor="let file of files" [@fadeInOut]="file.state">
+            <mat-progress-bar [value]="file.progress"></mat-progress-bar>
+        </li>
+        <div *ngIf="submitted && sizeerror" >Maximum size exceeded</div>
+        <div *ngIf="submitted && exterror" >Wrong file type</div>
+        <br>
+        <mat-form-field >
+          <mat-label for="fc_id">Alternatively use firstcycling.com race id</mat-label>
+          <input matInput type="text"  id="fc_id" formControlName="fc_id"
+                [ngClass]="{ 'is-invalid': submitted && f.fc_id.errors }" />
+              <div *ngIf="submitted && f.fc_id.errors" >
+              <mat-error *ngIf="f.fc_id.errors.required">Field required</mat-error>
+              <mat-error *ngIf="f.fc_id.errors.pattern">Race id should be integer</mat-error>
+            </div>
+          </mat-form-field >
+        <br>
+        <button mat-raised-button color="primary" type="submit">Submit</button>
+      </form>
+</div>
+<div *ngIf="success">
+      <h4>You submitted successfully {{lastname}}!</h4>
+      <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
+</div>

@@ -38,6 +38,13 @@ class StartListRequestSerializer(serializers.ModelSerializer):
         model = StartListRequest
         fields ='__all__'       
  
+class TeamImporterRequestSerializer(serializers.ModelSerializer):
+    author_name = serializers.CharField(source='author.username', read_only=True)
+    
+    class Meta:
+        model = TeamImporterRequest
+        fields ='__all__'       
+ 
 class NationalAllChampsRequestSerializer(serializers.ModelSerializer):
     author_name = serializers.CharField(source='author.username', read_only=True)
     

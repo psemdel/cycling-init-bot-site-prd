@@ -21,6 +21,7 @@ import {NationalTeamAllComponent} from 'app/national-team-all/national-team-all.
 import { UCIrankingComponent} from '@app/UCIranking/UCIranking.component';
 import { SortDateComponent} from '@app/sort-date/sort-date.component';
 import { SortNameComponent} from '@app/sort-name/sort-name.component';
+import { TeamImporterComponent} from '@app/team-importer/team-importer.component';
 import {ForgottenPassComponent} from '@app/forgotten-pass/forgotten-pass.component';
 import {UserSettingsComponent} from '@app/user-settings/user-settings.component';
 import { NotFoundComponent } from '@app/not-found/not-found.component';
@@ -39,6 +40,7 @@ export const routes: Routes = [
     { path: 'race', component: RaceComponent, canActivate: [AuthGuard] },
     { path: 'stages', component: StagesComponent, canActivate: [AuthGuard] },
     { path: 'start_list', component: StartListComponent, canActivate: [AuthGuard] },
+    { path: 'team_importer', component: TeamImporterComponent, canActivate: [AuthGuard] },
     { path: 'team', component: TeamComponent, canActivate: [AuthGuard] },
     { path: 'national_team', component: NationalTeamComponent, canActivate: [AuthGuard] },
     { path: 'national_team_all', component: NationalTeamAllComponent, canActivate: [AuthGuardStaff] },

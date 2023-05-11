@@ -218,7 +218,8 @@ export var all_routines: string[]= [
   'national_team_all',
   'UCIranking',
   'sort_date',
-  'sort_name'
+  'sort_name',
+  'team_importer'
 ];
 
 export var dic_of_routines: {[id :string] :string;} = {}; //for the alert, begining of the message
@@ -227,6 +228,7 @@ dic_of_routines['import_classification']="import of a classification";
 dic_of_routines['national_all_champs']="creation of all championships";
 dic_of_routines['national_one_champ']="creation of championships";
 dic_of_routines['start_list']="importation of start list";
+dic_of_routines['team_importer']="importation of teams";
 dic_of_routines['race']="race creation";
 dic_of_routines['stages']="stages creation";
 dic_of_routines['team']="team season creation";
@@ -242,6 +244,7 @@ dic_of_display['import_classification']="id";
 dic_of_display['national_all_champs']="year";
 dic_of_display['national_one_champ']="year_begin";
 dic_of_display['start_list']="id";
+dic_of_display['team_importer']="id";
 dic_of_display['race']="name";
 dic_of_display['stages']="id";
 dic_of_display['team']="name";
@@ -257,6 +260,7 @@ dic_of_display_alert['import_classification']="origin_id"; //id of the item as o
 dic_of_display_alert['national_all_champs']="year";
 dic_of_display_alert['national_one_champ']="year_begin";
 dic_of_display_alert['start_list']="origin_id";
+dic_of_display_alert['team_importer']="origin_id";
 dic_of_display_alert['race']="id";
 dic_of_display_alert['stages']="origin_id";
 dic_of_display_alert['team']="id";
