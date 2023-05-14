@@ -55,7 +55,9 @@ export class StartListComponent implements OnInit {
   yesnos=yesnos;
   race_types=race_types;
   genders=genders;
-  
+  years:Array<any> = [];
+  init_year: Number;
+
   botrequest: BotRequest = new BotRequest();
   files: Array<FileUploadModel> = [];
   private baseUrl = environment.apiUrl +'bot_requests';
@@ -75,6 +77,7 @@ export class StartListComponent implements OnInit {
               private monitoringService: MonitoringService
   ) { 
               this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+              this.years = Array(30).fill(0).map((x,i)=>2000+i);
    }
    
   ngOnInit() {
@@ -87,7 +90,8 @@ export class StartListComponent implements OnInit {
             force_nation_team: [false, Validators.required],
             gender: ['',Validators.required],
             file: [null],
-            fc_id: [0, [Validators.pattern(/^[0-9]*$/)]]
+            fc_id: [0, [Validators.pattern(/^[0-9]*$/)]],
+            year: [this.init_year, Validators.required]
             });
   }
   

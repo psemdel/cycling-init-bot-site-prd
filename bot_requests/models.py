@@ -52,6 +52,7 @@ class ImportClassificationRequest(BotRequestWithFile):
    gender =models.CharField(max_length=5, blank=True)   
    fc_id= models.IntegerField(null=True, blank=True, default=0)
    stage_num= models.IntegerField(null=True, blank=True, default=0)
+   year = models.IntegerField(blank=True) #for fc
    
    def __str__(self):
         return self.routine + " "+ self.item_id
@@ -63,6 +64,7 @@ class StartListRequest(BotRequestWithFile):
    gender =models.CharField(max_length=5, blank=True)#for champ
    force_nation_team= models.BooleanField(blank=False, default=False)
    fc_id= models.IntegerField(null=True, blank=True, default=0)
+   year = models.IntegerField(blank=True) #for fc
  
    def __str__(self):
         return self.routine + " "+ self.item_id

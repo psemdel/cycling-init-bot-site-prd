@@ -89,7 +89,8 @@ def run_bot(rq_id, rq_routine):
                                           fc=rq.fc_id,
                                           stage_num=rq.stage_num,
                                           startliston=True,
-                                          man_or_woman=rq.gender)
+                                          man_or_woman=rq.gender,
+                                          year=rq.year)
                  
                  if rq.classification_type==9:
                      status, log=f.run_all()
@@ -256,7 +257,8 @@ def run_bot(rq_id, rq_routine):
                                     rq.force_nation_team,
                                     file=rq.result_file_name,
                                     fc=rq.fc_id,
-                                    test=test)
+                                    test=test,
+                                    year=rq.year)
                 status, log=f.main()
                 connection.close() #otherwise connection lost
                 

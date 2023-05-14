@@ -41,7 +41,9 @@ export class ImportClassificationComponent implements OnInit {
   submitted = false;
   success = false;
   lastname: string;
-  
+  years:Array<any> = [];
+  init_year: Number;
+
   botrequest: BotRequest = new BotRequest();
   files: Array<FileUploadModel> = [];
   private baseUrl = environment.apiUrl +'bot_requests';
@@ -69,6 +71,7 @@ export class ImportClassificationComponent implements OnInit {
               private monitoringService: MonitoringService
   ) { 
               this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+              this.years = Array(30).fill(0).map((x,i)=>2000+i);
    }
    
   ngOnInit() {
@@ -79,6 +82,7 @@ export class ImportClassificationComponent implements OnInit {
             file: [null],
             fc_id: [0, [Validators.pattern(/^[0-9]*$/)]],
             stage_num: [0, [Validators.pattern(/^[0-9]*$/)]],
+            year: [this.init_year, Validators.required],
             });
   }
   
@@ -130,11 +134,10 @@ export class ImportClassificationComponent implements OnInit {
     //display in the interface
     this.lastname=this.f.item_id.value;  
     
-    this.botrequest.item_id=this.f.item_id.value;
-    this.botrequest.fc_id=this.f.fc_id.value;
-    this.botrequest.stage_num=this.f.stage_num.value;
-    this.botrequest.classification_type=this.f.classification_type.value;
-    this.botrequest.author=this.currentUser.id;
+    let arr=["item_id","fc_id","stage_num","classification_type","author","year"]
+    arr.forEach(key => {
+      this.botrequest[key]=this.registerForm.controls[key].value;
+    });
     
     if (this.files[0]){
       this.uploadFile(this.files[0], this.botrequest);
