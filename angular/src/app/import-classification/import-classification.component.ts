@@ -76,6 +76,7 @@ export class ImportClassificationComponent implements OnInit {
    
   ngOnInit() {
         this.lastname="";
+        this.init_year=new Date().getFullYear();
         this.registerForm = this.formBuilder.group({
             item_id: ['', [Validators.required, Validators.pattern(/^[Q].*$/)]],
             classification_type: [9, Validators.required],

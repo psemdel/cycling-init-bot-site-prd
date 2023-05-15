@@ -82,6 +82,7 @@ export class StartListComponent implements OnInit {
    
   ngOnInit() {
         this.lastname="";
+        this.init_year=new Date().getFullYear();
         this.registerForm = this.formBuilder.group({
             item_id: ['', [Validators.required, Validators.pattern(/^[Q].*$/)]],
             race_type: [false, Validators.required],
