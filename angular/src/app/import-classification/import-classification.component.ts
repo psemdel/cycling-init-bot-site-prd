@@ -134,9 +134,9 @@ export class ImportClassificationComponent implements OnInit {
     }
     //display in the interface
     this.lastname=this.f.item_id.value;  
-    
-    let arr=["item_id","fc_id","stage_num","classification_type","author","year"]
-    arr.forEach(key => {
+    this.botrequest.author=this.currentUser.id;
+
+    Object.keys(this.registerForm.controls).forEach(key => {
       this.botrequest[key]=this.registerForm.controls[key].value;
     });
     
