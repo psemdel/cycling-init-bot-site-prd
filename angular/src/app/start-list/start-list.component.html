@@ -71,6 +71,19 @@
           </mat-form-field >
           <br>
           <mat-form-field >
+            <mat-label for="add_unknown_rider">How should the missing riders be handled?</mat-label>
+            <mat-select  disableOptionCentering  formControlName="add_unknown_rider"
+              [ngClass]="{ 'is-invalid': submitted && f.add_unknown_rider.errors }">
+              <mat-option *ngFor="let unk of unknown" [value]="unknown.value">
+                {{unk.viewValue}}
+              </mat-option>
+            </mat-select>
+            <div *ngIf="submitted && f.add_unknown_rider.errors" >
+              <mat-error *ngIf="f.add_unknown_rider.errors.required">Field required</mat-error>
+            </div>
+          </mat-form-field >
+          <br>
+          <mat-form-field >
             <mat-label for="force">Is it a race where ONLY national teams participate?</mat-label>
             <mat-select  disableOptionCentering  formControlName="force_nation_team"
                 [ngClass]="{ 'is-invalid': submitted && f.force_nation_team.errors }">

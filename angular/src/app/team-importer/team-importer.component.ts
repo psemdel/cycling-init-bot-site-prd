@@ -57,6 +57,8 @@ export class TeamImporterComponent implements OnInit {
   botrequest: BotRequest = new BotRequest();
   files: Array<FileUploadModel> = [];
   private baseUrl = environment.apiUrl +'bot_requests';
+  years:Array<any> = [];
+  init_year: Number;
   
   exterror=false;
   sizeerror=false;
@@ -73,6 +75,7 @@ export class TeamImporterComponent implements OnInit {
               private monitoringService: MonitoringService
   ) { 
               this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+              this.years = Array(30).fill(0).map((x,i)=>2000+i);
    }
    
   ngOnInit() {
@@ -80,7 +83,8 @@ export class TeamImporterComponent implements OnInit {
         this.registerForm = this.formBuilder.group({
             item_id: ['', [Validators.required, Validators.pattern(/^[Q].*$/)]],
             file: [null],
-            fc_id: [0, [Validators.pattern(/^[0-9]*$/)]]
+            fc_id: [0, [Validators.pattern(/^[0-9]*$/)]],
+            year: [this.init_year, Validators.required]
             });
   }
   

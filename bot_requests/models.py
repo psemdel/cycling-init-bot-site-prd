@@ -65,6 +65,7 @@ class StartListRequest(BotRequestWithFile):
    force_nation_team= models.BooleanField(blank=False, default=False)
    fc_id= models.IntegerField(null=True, blank=True, default=0)
    year = models.IntegerField(blank=True) #for fc
+   add_unknown_rider=models.BooleanField(blank=False, default=False)
  
    def __str__(self):
         return self.routine + " "+ self.item_id

@@ -33,6 +33,20 @@
             </div>
           </mat-form-field >
         <br>
+        <mat-form-field >
+          <mat-label for="name">Year </mat-label>
+          <mat-select formControlName="year"
+          disableOptionCentering id="year"
+        [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
+              <mat-option *ngFor="let year of years" [value]="year">
+                            {{year}}
+              </mat-option>
+          </mat-select>
+            <div *ngIf="submitted && f.year.errors">
+                <mat-error *ngIf="f.year.errors.required">Field required</mat-error>
+            </div>
+        </mat-form-field>
+        <br>
         <button mat-raised-button color="primary" type="submit">Submit</button>
       </form>
 </div>

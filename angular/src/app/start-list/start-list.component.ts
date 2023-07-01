@@ -12,7 +12,7 @@ import {AuthenticationService } from '@ser/authentication.service';
 import {MonitoringService } from '@ser/monitoring.service';
 
 import { BotRequest, User,FileUploadModel} from '@app/models/models';
-import { race_types, yesnos,  genders} from '@app/models/lists';
+import { race_types, yesnos,  genders,unknown} from '@app/models/lists';
 
 import { environment } from '@env/environment';
 
@@ -57,6 +57,7 @@ export class StartListComponent implements OnInit {
   genders=genders;
   years:Array<any> = [];
   init_year: Number;
+  unknown=unknown;
 
   botrequest: BotRequest = new BotRequest();
   files: Array<FileUploadModel> = [];
@@ -92,7 +93,8 @@ export class StartListComponent implements OnInit {
             gender: ['',Validators.required],
             file: [null],
             fc_id: [0, [Validators.pattern(/^[0-9]*$/)]],
-            year: [this.init_year, Validators.required]
+            year: [this.init_year, Validators.required],
+            add_unknown_rider: [false, Validators.required],
             });
   }
   

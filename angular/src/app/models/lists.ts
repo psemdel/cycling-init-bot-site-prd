@@ -92,12 +92,12 @@ export const nationalities: Nationality[] = [
     {value: 'MGL', viewValue: 'Mongolia'},  
     {value: 'MAR', viewValue: 'Morocco'}, 
     {value: 'MEX', viewValue: 'Mexico'}, 
-    {value: 'MKD', viewValue: 'North Macedonia'}, 
     {value: 'MRI', viewValue: 'Mauritius'}, 
     {value: 'NAM', viewValue: 'Namibia'}, 
     {value: 'NED', viewValue: 'Netherlands'},
     {value: 'NZL', viewValue: 'New-Zealand'},
     {value: 'NCA', viewValue: 'Nicaragua'},
+    {value: 'MKD', viewValue: 'North Macedonia'}, 
     {value: 'NOR', viewValue: 'Norway'},
     {value: 'PAK', viewValue: 'Pakistan'},
     {value: 'PAN', viewValue: 'Panama'},
@@ -179,6 +179,11 @@ export const yesnos: Yesno[] = [
 {value: true, viewValue: 'yes'},
 {value: false, viewValue: 'no'},
 ];
+
+export const unknown: Yesno[] = [
+  {value: true, viewValue: 'Add "missing riders"'},
+  {value: false, viewValue: 'Stop if riders are missing from wd'},
+  ];
   
 interface RaceClass {
   value: string;

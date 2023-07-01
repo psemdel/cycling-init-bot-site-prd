@@ -53,6 +53,7 @@
           <br>
           <mat-form-field >
             <mat-label for="stage_num">Stage number (needed for firstcycling). If not applicable, leave 0</mat-label>
+            <mat-hint>TTT are not supported yet.</mat-hint>
             <input matInput type="text"  id="stage_num" formControlName="stage_num"
                   [ngClass]="{ 'is-invalid': submitted && f.stage_num.errors }" />
                 <div *ngIf="submitted && f.stage_num.errors" >

@@ -16,7 +16,7 @@
                  [routine]="'import_classification'" 
                  [title]="'Import classification'" 
                  [admin]="false" 
-                 (refresh)="reloadData('Import classification')">
+                 (refresh)="reloadData('import_classification')">
 </request-details >
 <request-details [tbotrequests]="national_all_champs_botrequests" 
                  [routine]="'national_all_champs'" 
@@ -70,17 +70,23 @@
                  [routine]="'UCIranking'" 
                  [title]="'UCI ranking'" 
                  [admin]="false" 
-                 (refresh)="reloadData('UCI ranking')">
+                 (refresh)="reloadData('UCIranking')">
 </request-details >
 <request-details [tbotrequests]="sort_date_botrequests" 
                  [routine]="'sort_date'" 
                  [title]="'Sort date'" 
                  [admin]="false" 
-                 (refresh)="reloadData('Sort date')">
+                 (refresh)="reloadData('sort_date')">
 </request-details >
 <request-details [tbotrequests]="sort_name_botrequests" 
                  [routine]="'sort_name'" 
                  [title]="'Sort name'" 
                  [admin]="false" 
-                 (refresh)="reloadData('Sort name')">
+                 (refresh)="reloadData('sort_name')">
+</request-details >
+<request-details [tbotrequests]="team_importer_botrequests" 
+                 [routine]="'team_importer'" 
+                 [title]="'Team importer'" 
+                 [admin]="false" 
+                 (refresh)="reloadData('team_importer')">
 </request-details >

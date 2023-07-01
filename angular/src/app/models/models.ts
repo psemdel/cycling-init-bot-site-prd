@@ -44,7 +44,7 @@ export class BotRequest {
     category_id: string;
     //sort
     prop: string; //property may be protected word
-    
+    add_unknown_rider: boolean;
 }
 
 export class FileUploadModel {

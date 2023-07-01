@@ -118,7 +118,7 @@ def run_bot(rq_id, rq_routine):
                         single_race=single_race,
                         man_or_woman=man_or_woman,
                         id_race_master=rq.item_id,
-                        countryCIO=rq.nationality,
+                        country=rq.nationality,
                         classe=rq.race_class,
                         start_date=time_of_race,
                         edition_nr=rq.edition_nr,
@@ -140,7 +140,7 @@ def run_bot(rq_id, rq_routine):
                            start_date=time_of_race,
                            edition_nr=rq.edition_nr,
                            id_race_master=rq.item_id,
-                           countryCIO=rq.nationality,
+                           country=rq.nationality,
                            classe=rq.race_class)
                     status, log, result_id=f.main()
 
@@ -254,11 +254,12 @@ def run_bot(rq_id, rq_routine):
                                     rq.item_id, 
                                     rq.chrono,
                                     rq.gender, 
-                                    rq.force_nation_team,
+                                    force_nation_team=rq.force_nation_team,
                                     file=rq.result_file_name,
                                     fc=rq.fc_id,
                                     test=test,
-                                    year=rq.year)
+                                    year=rq.year,
+                                    add_unknown_rider=rq.add_unknown_rider)
                 status, log=f.main()
                 connection.close() #otherwise connection lost
                 
@@ -277,29 +278,27 @@ def run_bot(rq_id, rq_routine):
             from bot_src.src.national_championship_creator import NationalChampionshipCreator
             
             man_or_woman=u'both' 
-            option=u'clmon' #'clmoff'
             start_year=rq.year
             end_year=rq.year
             #no CC
             
             if not test_site:
-                f=NationalChampionshipCreator(man_or_woman,option, start_year,end_year,False)
+                f=NationalChampionshipCreator(man_or_woman,start_year,end_year,CC=False,road=True,clm=True)
                 status, log=f.main()   
             ##with CC
             if not test_site:
-                f=NationalChampionshipCreator(man_or_woman,option, start_year,end_year,True)
+                f=NationalChampionshipCreator(man_or_woman,start_year,end_year,CC=True,road=True,clm=True)
                 status, log=f.main() 
             
         elif rq_routine=="national_one_champ":
             from bot_src.src.national_championship_creator import NationalChampionshipCreator
             
             man_or_woman=rq.category
-            option=u'clmon' #'clmoff'
             start_year=rq.year_begin
             end_year=rq.year_end
             if not test_site:
-                f=NationalChampionshipCreator(man_or_woman,option, start_year,end_year,False,
-                                              country=rq.nationality)
+                f=NationalChampionshipCreator(man_or_woman,start_year,end_year,CC=False,
+                                              country=rq.nationality,road=True,clm=True)
                 status, log=f.main()
  
         else:
