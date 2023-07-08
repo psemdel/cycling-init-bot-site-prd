@@ -94,6 +94,7 @@ def run_bot(rq_id, rq_routine):
                  
                  if rq.classification_type==9:
                      status, log=f.run_all()
+                     connection.close() #otherwise connection lost
                  else:
                      status, log=f.main()
                  

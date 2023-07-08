@@ -82,7 +82,7 @@ export class ImportClassificationComponent implements OnInit {
             classification_type: [9, Validators.required],
             file: [null],
             fc_id: [0, [Validators.pattern(/^[0-9]*$/)]],
-            stage_num: [0, [Validators.pattern(/^[0-9]*$/)]],
+            stage_num: [-1, [Validators.pattern(/^-?[0-9]*$/)]],
             year: [this.init_year, Validators.required],
             });
   }
