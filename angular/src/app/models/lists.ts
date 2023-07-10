@@ -181,7 +181,7 @@ export const yesnos: Yesno[] = [
 ];
 
 export const unknown: Yesno[] = [
-  {value: true, viewValue: 'Add "missing riders"'},
+  {value: true, viewValue: 'Add missing riders'},
   {value: false, viewValue: 'Stop if riders are missing from wd'},
   ];
   

@@ -74,7 +74,7 @@
             <mat-label for="add_unknown_rider">How should the missing riders be handled?</mat-label>
             <mat-select  disableOptionCentering  formControlName="add_unknown_rider"
               [ngClass]="{ 'is-invalid': submitted && f.add_unknown_rider.errors }">
-              <mat-option *ngFor="let unk of unknown" [value]="unknown.value">
+              <mat-option *ngFor="let unk of unknown" [value]="unk.value">
                 {{unk.viewValue}}
               </mat-option>
             </mat-select>
