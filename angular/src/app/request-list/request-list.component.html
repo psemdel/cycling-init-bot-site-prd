@@ -36,6 +36,12 @@
                  [admin]="false" 
                  (refresh)="reloadData('start_list')">
 </request-details >
+<request-details [tbotrequests]="final_result_botrequests" 
+                 [routine]="'final_result'" 
+                 [title]="'final result'" 
+                 [admin]="false" 
+                 (refresh)="reloadData('final_result')">
+</request-details >
 <request-details [tbotrequests]="race_botrequests"  
                  [routine]="'race'" 
                  [title]="'Race creation'"  

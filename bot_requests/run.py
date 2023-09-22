@@ -263,6 +263,27 @@ def run_bot(rq_id, rq_routine):
                                     add_unknown_rider=rq.add_unknown_rider)
                 status, log=f.main()
                 connection.close() #otherwise connection lost
+
+        elif rq_routine=="final_result":
+            from bot_src.src.final_result_importer import FinalResultImporter
+            
+            single_race=not rq.race_type
+
+            if not test_site:
+                f=FinalResultImporter(
+                    rq.item_id,
+                    10,
+                    rq.fc_id,
+                    rq.chrono,
+                    rq.gender,
+                    single_race,
+                    year=rq.year,
+                    force_nation_team=rq.force_nation_team,
+                    add_unknown_rider=rq.add_unknown_rider,
+                    test=test,
+                    )
+                status, log=f.main()
+                connection.close() #otherwise connection lost
                 
         elif rq_routine=="team_importer":
             from bot_src.src.team_importer import TeamImporter

@@ -27,6 +27,7 @@ export class AllRequestListComponent implements OnInit {
   sort_date_botrequests: Observable<BotRequest[]>;
   sort_name_botrequests: Observable<BotRequest[]>; 
   team_importer_botrequests: Observable<BotRequest[]>; 
+  final_result_botrequests: Observable<BotRequest[]>; 
     
    constructor(private botRequestService: BotRequestService,
                private authenticationService: AuthenticationService
@@ -58,6 +59,10 @@ export class AllRequestListComponent implements OnInit {
     else if(routine=='start_list'){
       this.start_list_botrequests =
       this.botRequestService.getAllRq('start_list',this.currentUser.id);
+    }
+    else if(routine=='final_result'){
+      this.start_list_botrequests =
+      this.botRequestService.getAllRq('final_result',this.currentUser.id);
     }
     else if(routine=='race'){
       this.race_botrequests =
@@ -110,6 +115,9 @@ export class AllRequestListComponent implements OnInit {
       
     this.start_list_botrequests =
       this.botRequestService.getAllRq('start_list',this.currentUser.id);
+
+    this.final_result_botrequests =
+      this.botRequestService.getAllRq('final_result',this.currentUser.id);
       
     this.race_botrequests =
       this.botRequestService.getAllRq('race',this.currentUser.id);

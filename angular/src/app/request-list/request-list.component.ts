@@ -28,6 +28,7 @@ export class RequestListComponent implements OnInit {
   sort_date_botrequests: Observable<BotRequest[]>;
   sort_name_botrequests: Observable<BotRequest[]>; 
   team_importer_botrequests: Observable<BotRequest[]>; 
+  final_result_botrequests: Observable<BotRequest[]>; 
   all_botrequests: Observable<BotRequest[]>; 
   total_length:number;
  
@@ -118,6 +119,9 @@ export class RequestListComponent implements OnInit {
      
     this.start_list_botrequests =
       this.botRequestService.getRq('start_list',this.currentUser.id);
+
+    this.final_result_botrequests =
+      this.botRequestService.getRq('final_result',this.currentUser.id); 
       
     this.race_botrequests =
       this.botRequestService.getRq('race',this.currentUser.id);
@@ -160,7 +164,8 @@ export class RequestListComponent implements OnInit {
          this.UCIranking_botrequests,
          this.sort_date_botrequests,
          this.sort_name_botrequests,
-         this.team_importer_botrequests
+         this.team_importer_botrequests,
+         this.final_result_botrequests
          );
         
     this.total_length=0;    

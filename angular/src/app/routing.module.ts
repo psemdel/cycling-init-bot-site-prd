@@ -22,6 +22,8 @@ import { UCIrankingComponent} from '@app/UCIranking/UCIranking.component';
 import { SortDateComponent} from '@app/sort-date/sort-date.component';
 import { SortNameComponent} from '@app/sort-name/sort-name.component';
 import { TeamImporterComponent} from '@app/team-importer/team-importer.component';
+import { FinalResultComponent} from '@app/final-result/final-result.component';
+
 import {ForgottenPassComponent} from '@app/forgotten-pass/forgotten-pass.component';
 import {UserSettingsComponent} from '@app/user-settings/user-settings.component';
 import { NotFoundComponent } from '@app/not-found/not-found.component';
@@ -48,6 +50,7 @@ export const routes: Routes = [
     { path: 'sort_date', component: SortDateComponent, canActivate: [AuthGuard] },
     { path: 'sort_name', component: SortNameComponent, canActivate: [AuthGuard] },
     { path: 'import_classification', component: ImportClassificationComponent, canActivate: [AuthGuard] },
+    { path: 'final_result',component:FinalResultComponent, canActivate: [AuthGuard] },
     { path: 'request_list', component: RequestListComponent, canActivate: [AuthGuard] },
     { path: 'all_request_list', component: AllRequestListComponent, canActivate: [AuthGuardStaff] },
     { path: 'register', component: RegisterComponent },
