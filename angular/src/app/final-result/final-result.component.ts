@@ -41,14 +41,13 @@ export class FinalResultComponent implements OnInit {
   ngOnInit() {
         this.lastname="";
         this.init_year=new Date().getFullYear();
-        console.log(this.init_year)
         this.registerForm = this.formBuilder.group({
             item_id: ['', [Validators.required, Validators.pattern(/^[Q].*$/)]],
             race_type: [false, Validators.required],
             chrono: [false, Validators.required],
             force_nation_team: [false, Validators.required],
             gender: ['',Validators.required],
-            fc_id: [0, [Validators.pattern(/^[0-9]*$/)],Validators.required],
+            fc_id: [0, [Validators.required, Validators.pattern(/^[0-9]*$/)]],
             year: [this.init_year, Validators.required],
             add_unknown_rider: [false, Validators.required],
             });
