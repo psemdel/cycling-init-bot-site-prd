@@ -28,9 +28,7 @@ def routine_to_model(routine):
      }
     if routine in dic:
         return dic[routine] 
-    else: 
-        print("routine not found")
-        return None
+    raise ValueError("routine "+routine+" not found")
     
 def routine_to_serializer(routine):
     dic={
@@ -52,6 +50,4 @@ def routine_to_serializer(routine):
      }
     if routine in dic:
         return dic[routine] 
-    else: 
-        print("routine not found")
-        return None    
+    raise ValueError("routine "+routine+" not found")

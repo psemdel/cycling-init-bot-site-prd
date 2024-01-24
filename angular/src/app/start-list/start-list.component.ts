@@ -78,7 +78,7 @@ export class StartListComponent implements OnInit {
               private monitoringService: MonitoringService
   ) { 
               this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-              this.years = Array(30).fill(0).map((x,i)=>2000+i);
+              this.years = Array(80).fill(0).map((x,i)=>1950+i);
    }
    
   ngOnInit() {
