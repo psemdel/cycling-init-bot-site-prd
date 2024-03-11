@@ -225,7 +225,7 @@ export var all_routines: string[]= [
   'sort_date',
   'sort_name',
   'team_importer',
-  'final-result'
+  'final_result'
 ];
 
 export var dic_of_routines: {[id :string] :string;} = {}; //for the alert, begining of the message
