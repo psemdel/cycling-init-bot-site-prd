@@ -228,7 +228,7 @@ export var all_routines: string[]= [
   'final_result'
 ];
 
-export var dic_of_routines: {[id :string] :string;} = {}; //for the alert, begining of the message
+export var dic_of_routines: {[id :string] :string;} = {}; //for the alert, beginning of the message
 dic_of_routines['create_rider']="rider creation";
 dic_of_routines['import_classification']="import of a classification";
 dic_of_routines['national_all_champs']="creation of all championships";
@@ -263,7 +263,7 @@ dic_of_display['sort_date']="id";
 dic_of_display['sort_name']="id";
 
 export var dic_of_display_alert: {[id :string] :string;} = {}; //for the alert, end of the message
-dic_of_display_alert['create_rider']="id"; //id of the created item
+dic_of_display_alert['create_rider']="name_and_id"; //name and id of the created item
 dic_of_display_alert['import_classification']="origin_id"; //id of the item as origin
 dic_of_display_alert['national_all_champs']="year";
 dic_of_display_alert['national_one_champ']="year_begin";
@@ -296,6 +296,7 @@ export const teamCategories: TeamCategory[] = [
     {value: 'Q1756006', viewValue: 'UCI Continental Team'},
     {value: 'Q20652655', viewValue: 'Amateur cycling team'},   
     {value: 'Q80425135', viewValue: 'UCI Women’s WorldTeam'},
-    {value: 'Q2466826', viewValue: 'UCI Women Continental Team'},  
+    {value: 'Q2466826', viewValue: 'UCI Women Team'},  
+    {value: 'Q119942457', viewValue: 'UCI Women Continental Team'},
     {value: 'Q26849121', viewValue: 'Female amateur cycling team'},   
   ];  

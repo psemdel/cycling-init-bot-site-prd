@@ -144,6 +144,7 @@ export class MonitoringService    {
         case "origin_id":{sup_info="id: "+rq.item_id; break;}
         case "year": {sup_info="year: "+rq.year; break;}
         case "year_begin": {sup_info="start year: "+rq.year_begin; break;}
+        case "name_and_id":{sup_info="name: "+rq.name + "id: "+rq.result_id; break;}
        }
       
       this.alertService.success("request " + dic_of_routines[routine]  + " completed" + ", " + sup_info);
