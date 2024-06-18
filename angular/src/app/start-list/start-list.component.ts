@@ -12,7 +12,7 @@ import {AuthenticationService } from '@ser/authentication.service';
 import {MonitoringService } from '@ser/monitoring.service';
 
 import { BotRequest, User,FileUploadModel} from '@app/models/models';
-import { race_types, yesnos,  genders,unknown} from '@app/models/lists';
+import { race_types, yesnos,  gendersExtended,unknown} from '@app/models/lists';
 
 import { environment } from '@env/environment';
 
@@ -54,7 +54,7 @@ export class StartListComponent implements OnInit {
   lastname: string;
   yesnos=yesnos;
   race_types=race_types;
-  genders=genders;
+  genders=gendersExtended;
   years:Array<any> = [];
   init_year: Number;
   unknown=unknown;
@@ -78,7 +78,6 @@ export class StartListComponent implements OnInit {
               private monitoringService: MonitoringService
   ) { 
               this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-              this.years = Array(80).fill(0).map((x,i)=>1950+i);
    }
    
   ngOnInit() {
@@ -86,14 +85,10 @@ export class StartListComponent implements OnInit {
         this.init_year=new Date().getFullYear();
         this.registerForm = this.formBuilder.group({
             item_id: ['', [Validators.required, Validators.pattern(/^[Q].*$/)]],
-            race_type: [false, Validators.required],
-            moment: [false],
-            chrono: [false, Validators.required],
             force_nation_team: [false, Validators.required],
-            gender: ['',Validators.required],
+            gender: [null],
             file: [null],
             fc_id: [0, [Validators.pattern(/^[0-9]*$/)]],
-            year: [this.init_year, Validators.required],
             add_unknown_rider: [false, Validators.required],
             });
   }

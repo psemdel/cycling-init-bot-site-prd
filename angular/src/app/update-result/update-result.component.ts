@@ -9,12 +9,12 @@ import { BotRequest, User} from '@app/models/models';
 import { race_types, yesnos,  gendersExtended,unknown} from '@app/models/lists';
 
 @Component({
-  selector: 'final-result',
-  templateUrl: './final-result.component.html',
-  styleUrls: ['./final-result.component.css'],
+  selector: 'update-result',
+  templateUrl: './update-result.component.html',
+  styleUrls: ['./update-result.component.css'],
 })
 
-export class FinalResultComponent implements OnInit {
+export class UpdateResultComponent implements OnInit {
   currentUser: User;
   registerForm: FormGroup;
   submitted = false;
@@ -39,11 +39,9 @@ export class FinalResultComponent implements OnInit {
    
   ngOnInit() {
         this.lastname="";
-        this.init_year=new Date().getFullYear();
         this.registerForm = this.formBuilder.group({
             item_id: ['', [Validators.required, Validators.pattern(/^[Q].*$/)]],
             force_nation_team: [false, Validators.required],
-            gender: [null],
             fc_id: [0, [Validators.required, Validators.pattern(/^[0-9]*$/)]],
             add_unknown_rider: [false, Validators.required],
             });
@@ -83,12 +81,12 @@ export class FinalResultComponent implements OnInit {
   }
 
   save() {
-      this.botRequestService.createRq('final_result',this.botrequest)
+      this.botRequestService.createRq('update_result',this.botrequest)
         .subscribe(
           data => {
-            console.log('final result request success');
+            console.log('update result request success');
             this.success = true;
-            this.monitoringService.start('final_result');
+            this.monitoringService.start('update_result');
           },
           error => {
               console.log(error);

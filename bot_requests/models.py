@@ -58,13 +58,13 @@ class ImportClassificationRequest(BotRequestWithFile):
         return self.routine + " "+ self.item_id
     
 class StartListRequest(BotRequestWithFile):
-   race_type= models.BooleanField(blank=False)
-   chrono= models.BooleanField(blank=False)
-   moment= models.BooleanField(blank=False)
+   race_type= models.BooleanField(blank=True,null=True)
+   chrono= models.BooleanField(blank=True,null=True)
+   moment= models.BooleanField(blank=True,null=True)
    gender =models.CharField(max_length=5, blank=True)#for champ
    force_nation_team= models.BooleanField(blank=False, default=False)
    fc_id= models.IntegerField(null=True, blank=True, default=0)
-   year = models.IntegerField(blank=True) #for fc
+   year = models.IntegerField(blank=True,null=True) #for fc
    add_unknown_rider=models.BooleanField(blank=False, default=False)
  
    def __str__(self):
@@ -81,6 +81,14 @@ class FinalResultRequest(BotRequest):
  
    def __str__(self):
         return self.routine + " "+ self.item_id    
+
+class UpdateResultRequest(BotRequest):
+   force_nation_team= models.BooleanField(blank=False, default=False)
+   fc_id= models.IntegerField(null=True, blank=True, default=0)
+   add_unknown_rider=models.BooleanField(blank=False, default=False)
+ 
+   def __str__(self):
+        return self.routine + " "+ self.item_id  
 
 class TeamImporterRequest(BotRequestWithFile):
    fc_id= models.IntegerField(null=True, blank=True, default=0)

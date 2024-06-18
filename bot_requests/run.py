@@ -241,20 +241,11 @@ def run_bot(rq_id, rq_routine):
             
         elif rq_routine=="start_list":
             from bot_src.src.startlist_importer import StartlistImporter
-            
-            if rq.race_type: #stage race
-                if rq.moment:
-                    prologue_or_final=1 #0=prologue, 1=final, 2=one day race
-                else:
-                    prologue_or_final=0
-            else:
-                prologue_or_final=2
 
             if not test_site:
-                f=StartlistImporter(prologue_or_final, 
+                f=StartlistImporter(
                                     rq.item_id, 
-                                    rq.chrono,
-                                    rq.gender, 
+                                    man_or_woman=rq.gender, 
                                     force_nation_team=rq.force_nation_team,
                                     file=rq.result_file_name,
                                     fc=rq.fc_id,
@@ -285,6 +276,19 @@ def run_bot(rq_id, rq_routine):
                 status, log=f.main()
                 connection.close() #otherwise connection lost
                 
+        elif rq_routine=="update_result":
+            from bot_src.src.update_result import UpdateResult
+
+            if not test_site:
+                f=UpdateResult(
+                    rq.item_id,
+                    10,
+                    rq.fc_id,
+                    force_nation_team=rq.force_nation_team,
+                    add_unknown_rider=rq.add_unknown_rider
+                    )
+                status, log=f.main()
+                connection.close() #otherwise connection lost                
         elif rq_routine=="team_importer":
             from bot_src.src.team_importer import TeamImporter
             

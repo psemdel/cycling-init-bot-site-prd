@@ -44,6 +44,13 @@ class FinalResultRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = FinalResultRequest
         fields ='__all__'       
+
+class UpdateResultRequestSerializer(serializers.ModelSerializer):
+    author_name = serializers.CharField(source='author.username', read_only=True)
+    
+    class Meta:
+        model = UpdateResultRequest
+        fields ='__all__'       
     
 class TeamImporterRequestSerializer(serializers.ModelSerializer):
     author_name = serializers.CharField(source='author.username', read_only=True)

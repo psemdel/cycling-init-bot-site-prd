@@ -12,64 +12,6 @@
                   <mat-error *ngIf="f.item_id.errors.pattern">Item id should start with "Q"</mat-error>
             </div>
           </mat-form-field >
-          <br/>
-          <mat-form-field >
-            <mat-label for="gender">Man or woman race?</mat-label>
-            <mat-select  disableOptionCentering  formControlName="gender"
-            [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
-                <mat-option *ngFor="let gender of genders" [value]="gender.value">
-                  {{gender.viewValue}}
-                </mat-option>
-              </mat-select>
-              <div *ngIf="submitted && f.gender.errors" >
-                  <mat-error *ngIf="f.gender.errors.required">Field required</mat-error>
-              </div>
-          </mat-form-field >
-          <br>
-          <mat-form-field >
-            <mat-label for="race_type">Type of race</mat-label>
-            <mat-select  disableOptionCentering  formControlName="race_type"
-              [ngClass]="{ 'is-invalid': submitted && f.race_type.errors }">
-              <mat-option *ngFor="let race_type of race_types" [value]="race_type.value">
-                {{race_type.viewValue}}
-              </mat-option>
-            </mat-select>
-            <div *ngIf="submitted && f.race_type.errors" >
-                  <mat-error *ngIf="f.race_type.errors.required">Field required</mat-error>
-            </div>
-          </mat-form-field >
-          <br>
-          <mat-form-field *ngIf="f.race_type.value==true">
-              <mat-label for="moment">
-              Start list corresponding to :</mat-label>
-              <mat-hint>By giving prologue, the start list at the beginning of the stage race is filled<br/>
-              By giving end stage, the list of the finisher with their ranking is filled
-              </mat-hint>
-              <mat-select  disableOptionCentering  formControlName="moment"
-                    [ngClass]="{ 'is-invalid': submitted && f.moment.errors }">
-                    <mat-option *ngFor="let moment of moments" [value]="moment.value">
-                      {{moment.viewValue}}
-                    </mat-option>
-              </mat-select>
-          </mat-form-field>
-          <div *ngIf="f.race_type.value==true">
-              <br/><br/>
-          </div>
-          
-          <mat-form-field >
-            <mat-label for="chrono">Is the race an ITT or include an ITT?</mat-label>
-            <mat-hint>To decide whether to display or not the jersey of ITT national champion</mat-hint>
-            <mat-select  disableOptionCentering  formControlName="chrono"
-              [ngClass]="{ 'is-invalid': submitted && f.chrono.errors }">
-              <mat-option *ngFor="let yesno of yesnos" [value]="yesno.value">
-                {{yesno.viewValue}}
-              </mat-option>
-            </mat-select>
-            <div *ngIf="submitted && f.chrono.errors" >
-              <mat-error *ngIf="f.chrono.errors.required">Field required</mat-error>
-            </div>
-          </mat-form-field >
-          <br>
           <mat-form-field >
             <mat-label for="add_unknown_rider">How should the missing riders be handled?</mat-label>
             <mat-select  disableOptionCentering  formControlName="add_unknown_rider"
@@ -96,6 +38,19 @@
               </div>
           </mat-form-field >
           <br/>
+          <mat-form-field *ngIf="f.force_nation_team.value==true">
+            <mat-label for="gender">Man or woman race?</mat-label>
+            <mat-select  disableOptionCentering  formControlName="gender"
+            [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
+                <mat-option *ngFor="let gender of genders" [value]="gender.value">
+                  {{gender.viewValue}}
+                </mat-option>
+              </mat-select>
+              <div *ngIf="submitted && f.gender.errors" >
+                  <mat-error *ngIf="f.gender.errors.required">Field required</mat-error>
+              </div>
+          </mat-form-field >
+          <br>
           <label>Excel or csv file from UCI web site</label>
           <br/>
           <input type="file" id="fileUpload" name="fileUpload" formControlName="file"  multiple="multiple" 
@@ -118,20 +73,6 @@
               </div>
             </mat-form-field >
           <br>
-          <mat-form-field >
-            <mat-label for="name">Year </mat-label>
-            <mat-select formControlName="year"
-            disableOptionCentering id="year"
-          [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
-                <mat-option *ngFor="let year of years" [value]="year">
-                              {{year}}
-                </mat-option>
-            </mat-select>
-              <div *ngIf="submitted && f.year.errors">
-                  <mat-error *ngIf="f.year.errors.required">Field required</mat-error>
-              </div>
-          </mat-form-field>
-          <br/>
           <button mat-raised-button color="primary" type="submit">Submit</button>
         </form>
   </div>

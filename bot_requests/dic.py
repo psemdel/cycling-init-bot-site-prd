@@ -22,6 +22,7 @@ def routine_to_model(routine):
      "UCIranking":UCIrankingRequest,
      "start_list":StartListRequest,
      "final_result":FinalResultRequest,
+     "update_result":UpdateResultRequest,
      "team_importer":TeamImporterRequest,  
      "national_all_champs":NationalAllChampsRequest,
      "national_one_champ":NationalOneChampRequest
@@ -44,6 +45,7 @@ def routine_to_serializer(routine):
      "UCIranking":UCIrankingRequestSerializer,
      "start_list":StartListRequestSerializer,
      "final_result":FinalResultRequestSerializer,
+     "update_result":UpdateResultRequestSerializer,
      "team_importer":TeamImporterRequestSerializer, 
      "national_all_champs":NationalAllChampsRequestSerializer,
      "national_one_champ":NationalOneChampRequestSerializer

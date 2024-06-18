@@ -1,5 +1,5 @@
-  <h3>Import of final results</h3>
-  <p>For one-day races or finalization of stage races. It imports the results, the start list and the teams.</p>
+  <h3>Update results</h3>
+  <p>For all types of races, synchronize first cycling with wikidata. It imports the results, the start list and the teams.</p>
   <div>
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
           <mat-form-field >
@@ -23,19 +23,6 @@
               </mat-select>
               <div *ngIf="submitted && f.force_nation_team.errors" >
                   <mat-error *ngIf="f.force_nation_team.errors.required">Field required</mat-error>
-              </div>
-          </mat-form-field >
-          <br>
-          <mat-form-field *ngIf="f.force_nation_team.value==true">
-            <mat-label for="gender">Man or woman race?</mat-label>
-            <mat-select  disableOptionCentering  formControlName="gender"
-            [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
-                <mat-option *ngFor="let gender of genders" [value]="gender.value">
-                  {{gender.viewValue}}
-                </mat-option>
-              </mat-select>
-              <div *ngIf="submitted && f.gender.errors" >
-                  <mat-error *ngIf="f.gender.errors.required">Field required</mat-error>
               </div>
           </mat-form-field >
           <br>
