@@ -39,7 +39,7 @@
                 </button>
                  </td>
                  <td>
-                  <button mat-raised-button color="primary" [disabled]="(botrequest.status != 'pending' && botrequest.status != 'failed')" type="button" (click)='run(botrequest)'>
+                  <button mat-raised-button color="primary" [disabled]="(botrequest.status != 'pending' && botrequest.status != 'failed' && botrequest.status != 'completed_repeatable')" type="button" (click)='run(botrequest)'>
                      <mat-icon>play_arrow</mat-icon>
                   </button>
                   </td>

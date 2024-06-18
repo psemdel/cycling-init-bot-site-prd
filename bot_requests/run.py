@@ -342,7 +342,10 @@ def run_bot(rq_id, rq_routine):
         
         if status==0:
             save_log(rq_id, rq_routine, "request completed")
-            rq.status = "completed"
+            if rq_routine=="update_result":
+                rq.status = "completed_repeatable"
+            else:
+                rq.status = "completed"
             rq.save() 
             if rq.routine in ["UCIranking"] or (rq.routine in ["import_classification","start_list","team_importer"] and rq.fc_id==None):
                 kill_file(rq)
