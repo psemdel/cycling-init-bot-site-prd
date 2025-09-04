@@ -1,0 +1,62 @@
+<!--variation 1-->
+<div *ngIf="(tbotrequests | async)?.length>0">
+    <h2>{{title}} requests</h2>
+    <table>
+        <thead>
+        <tr> 
+            <th class="first_column" *ngIf="admin">Author</th>
+            <th class="three_columns" *ngIf="year_begin_col">Begin year</th>
+            <th class="three_columns" *ngIf="year_begin_col">End year</th>
+            <th class="three_columns" *ngIf="year_begin_col">Country</th>
+            <th class="first_column" *ngIf="year_col">Year</th>
+            <th class="first_column" *ngIf="name_col">Name</th>
+            <th class="first_column" *ngIf="nameyear_col">Name</th>
+            <th class="first_column" *ngIf="id_col">Item</th>
+            <th class="status_column" >Status</th>
+            <th class="log_column" *ngIf="result_id_col" style="padding-left: 20px;">Log</th>
+            <th class="log_column_wide" *ngIf="!result_id_col" style="padding-left: 20px;">Log</th>
+            <th class="result_column" *ngIf="result_id_col">Result id</th>
+            <th class="action_column" colspan="2">Actions</th>
+        </tr>
+        </thead>
+        <tr *ngFor="let botrequest of tbotrequests | async">
+            <th class="first_column" *ngIf="admin">{{botrequest.author_name}}</th>
+            <td *ngIf="year_begin_col">{{botrequest.year_begin}}</td>
+            <td *ngIf="year_begin_col">{{botrequest.year_end}}</td>
+            <td *ngIf="year_begin_col">{{botrequest.nationality}}</td>
+            <td *ngIf="year_col">{{botrequest.year}}</td>
+            <td *ngIf="name_col">{{botrequest.name}}</td>
+            <td *ngIf="nameyear_col">{{botrequest.name}} {{botrequest.year}}</td>
+            <td *ngIf="id_col">{{botrequest.item_id}}</td>
+            <td >{{botrequest.status}}</td>
+            <td><log [txt]="botrequest.log"></log></td>
+            <td *ngIf="result_id_col">{{botrequest.result_id}}</td>
+            
+            <div *ngIf="admin">
+                <td>
+                <button mat-raised-button color="warn" type="button" (click)='delete_rq(botrequest)'>
+                    <mat-icon>clear</mat-icon>
+                </button>
+                 </td>
+                 <td>
+                  <button mat-raised-button color="primary" [disabled]="(botrequest.status != 'pending' && botrequest.status != 'failed' && botrequest.status != 'completed_repeatable')" type="button" (click)='run(botrequest)'>
+                     <mat-icon>play_arrow</mat-icon>
+                  </button>
+                  </td>
+            </div>
+            <div *ngIf="!admin">
+                    <td>
+                    <button mat-raised-button color="warn" type="button" (click)='delete_rq(botrequest)'>
+                        <mat-icon>clear</mat-icon>
+                    </button>
+                    <button *ngIf="!admin" mat-raised-button color="primary" [disabled]="(botrequest.status != 'failed')" type="button" (click)='run(botrequest)'>
+                         <mat-icon>play_arrow</mat-icon>
+                      </button>
+                    </td>
+             </div>
+        </tr>
+    </table>
+</div>
+
+
+

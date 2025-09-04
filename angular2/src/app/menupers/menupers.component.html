@@ -1,0 +1,28 @@
+<button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" id="menu_pers">
+  <mat-icon>perm_identity</mat-icon>
+  <mat-icon>expand_more</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+    <button mat-menu-item>
+        Signed in as <b  *ngIf="currentUser?.username">{{currentUser.username}}</b>
+    </button>
+    <button mat-menu-item>
+        <a routerLink="user_settings" role="button" routerLinkActive="active">Settings</a>
+    </button>
+    <mat-divider></mat-divider>
+    <mat-divider></mat-divider>
+    <button mat-menu-item>
+        <a routerLink="request_list" role="button" routerLinkActive="active">My requests</a>
+    </button>
+    <button mat-menu-item *ngIf="currentUser?.level">
+        <a routerLink="all_request_list" role="button" routerLinkActive="active">All requests</a>
+    </button>   
+    <button mat-menu-item *ngIf="currentUser?.level">
+        <a routerLink="resend_activation_email" role="button" routerLinkActive="active">Resend activation</a>
+    </button>   
+    <button mat-menu-item (click)="logout()" id="logout">
+        Sign out<mat-icon>arrow_forward_ios</mat-icon>
+    </button>
+</mat-menu>
+
+ 

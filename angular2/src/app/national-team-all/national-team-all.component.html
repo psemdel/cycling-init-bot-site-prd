@@ -1,0 +1,57 @@
+<h3>Create all national team seasons</h3>
+<p>Given the amount of data changed from this routine, it has to be started manually from the administrator of the website (double check)</p>
+<div>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <mat-form-field >
+          <mat-label for="name">Start year </mat-label>
+          <mat-select disableOptionCentering id="year_begin" formControlName="year_begin"
+            [ngClass]="{ 'is-invalid': submitted && f.year_begin.errors }">
+              <mat-option *ngFor="let year of years" [value]="year">
+                              {{year}}
+              </mat-option>
+          </mat-select>
+        
+          <div *ngIf="submitted && f.year_begin.errors" >
+          <mat-error *ngIf="f.year_begin.errors.required">Field required</mat-error>
+        </div>
+      </mat-form-field>
+      
+    <br>
+    
+    <mat-form-field >
+          <mat-label for="name">End year</mat-label>
+          <mat-select disableOptionCentering id="year_end" formControlName="year_end"
+            [ngClass]="{ 'is-invalid': submitted && f.year_end.errors }">
+              <mat-option *ngFor="let year of years" [value]="year">
+                    {{year}}
+              </mat-option>
+            </mat-select>
+          
+        <div *ngIf="submitted && f.year_end.errors" >
+          <mat-error *ngIf="f.year_end.errors.required">Field required</mat-error>
+            <mat-error *ngIf="f.year_end.errors.notOk">Begin year higher than end year</mat-error>
+        </div>
+      </mat-form-field>
+    <br>
+    <mat-form-field >
+      <mat-label for="category">Category</mat-label>
+      <mat-select disableOptionCentering formControlName="category"
+      [ngClass]="{ 'is-invalid': submitted && f.category.errors }">
+          <mat-option *ngFor="let category of categories" [value]="category.value">
+            {{category.viewValue}}
+          </mat-option>
+        </mat-select>
+        <div *ngIf="submitted && f.category.errors">
+          <mat-error *ngIf="f.category.errors.required">Field required</mat-error>
+        </div>
+      </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+  </form>
+</div>
+
+<div *ngIf="success">
+  <h4>You submitted successfully {{lastname}}!</h4>
+  <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
+</div>
+

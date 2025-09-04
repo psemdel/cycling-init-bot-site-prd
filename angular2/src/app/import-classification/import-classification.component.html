@@ -1,0 +1,84 @@
+<h3>Import race results</h3>
+<div>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <mat-form-field >
+              <mat-label for="item_id">Id of the race item on wikidata</mat-label>
+              <input matInput type="text"  id="item_id" formControlName="item_id"
+                    [ngClass]="{ 'is-invalid': submitted && f.item_id.errors }" />
+                  <div *ngIf="submitted && f.item_id.errors" >
+                  <mat-error *ngIf="f.item_id.errors.required">Field required</mat-error>
+                  <mat-error *ngIf="f.item_id.errors.pattern">Item id should start with "Q"</mat-error>
+                </div>
+                <mat-hint>where you want to import the classification, if it is a stage put the id of the stage
+                <br>for instance Q30091668 for Tour de France 2019</mat-hint>
+              </mat-form-field >
+        <br/>
+        <br/>
+        <mat-form-field >
+                <mat-label for="classification_type">Type of classification</mat-label>
+                <mat-select disableOptionCentering formControlName="classification_type"
+                  [ngClass]="{ 'is-invalid': submitted && f.classification_type.errors }">
+                  <mat-option *ngFor="let classification_type of classification_types" [value]="classification_type.value">
+                    {{classification_type.viewValue}}
+                  </mat-option>
+                </mat-select>
+                  <div *ngIf="submitted && f.classification_type.errors" >
+                  <mat-error *ngIf="f.classification_type.errors.required">Field required</mat-error>
+                </div>
+              </mat-form-field >
+          <br/>   
+
+          <label>Excel or csv file from UCI web site</label>
+          <br/>
+          <input type="file" id="fileUpload" name="fileUpload" formControlName="file"  multiple="multiple" 
+            accept=".xlsx, .csv" />
+          <br>
+          <li *ngFor="let file of files" [@fadeInOut]="file.state">
+              <mat-progress-bar [value]="file.progress"></mat-progress-bar>
+          </li>
+          <div *ngIf="submitted && sizeerror" class="invalid-feedback">Maximum size exceeded</div>
+          <div *ngIf="submitted && exterror" class="invalid-feedback">Wrong file type</div>
+          <br>
+
+          <br/>
+          <h3>For firstcycling</h3>
+          <mat-form-field >
+            <mat-label for="fc_id">Alternatively use firstcycling.com race id</mat-label>
+            <input matInput type="text"  id="fc_id" formControlName="fc_id"
+                  [ngClass]="{ 'is-invalid': submitted && f.fc_id.errors }" />
+                <div *ngIf="submitted && f.fc_id.errors" >
+                <mat-error *ngIf="f.fc_id.errors.pattern">First cycling id should be integer</mat-error>
+              </div>
+            </mat-form-field >
+          <br>
+          <mat-form-field >
+            <mat-label for="stage_num">Stage number (needed for firstcycling). For the main race (without stage) put -1</mat-label>
+            <mat-hint>TTT are not supported yet.</mat-hint>
+            <input matInput type="text"  id="stage_num" formControlName="stage_num"
+                  [ngClass]="{ 'is-invalid': submitted && f.stage_num.errors }" />
+                <div *ngIf="submitted && f.stage_num.errors" >
+                <mat-error *ngIf="f.stage_num.errors.pattern">Should be integer</mat-error>
+              </div>
+            </mat-form-field >
+          <br>
+          <mat-form-field >
+            <mat-label for="name">Year </mat-label>
+            <mat-select formControlName="year"
+            disableOptionCentering id="year"
+          [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
+                <mat-option *ngFor="let year of years" [value]="year">
+                              {{year}}
+                </mat-option>
+            </mat-select>
+              <div *ngIf="submitted && f.year.errors">
+                  <mat-error *ngIf="f.year.errors.required">Field required</mat-error>
+              </div>
+          </mat-form-field>
+          <br/>
+          <button mat-raised-button color="primary" type="submit">Submit</button>
+        </form>
+</div>
+<div *ngIf="success">
+      <h4>You submitted successfully {{lastname}}!</h4>
+      <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
+</div>

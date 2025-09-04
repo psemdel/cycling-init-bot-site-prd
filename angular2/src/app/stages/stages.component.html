@@ -1,0 +1,43 @@
+<h3>Create the stages for a race edition</h3>
+<div>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <mat-form-field >
+      <mat-label for=" item_id">
+          Id of the parent race item on wikidata</mat-label>
+      <mat-hint>for instance Q30091668 for Tour de France 2019</mat-hint>
+      <input matInput type="text"  id="item_id"formControlName="item_id"
+            [ngClass]="{ 'is-invalid': submitted && f.item_id.errors }" />
+          <div *ngIf="submitted && f.item_id.errors" >
+              <mat-error *ngIf="f.item_id.errors.required">Field required</mat-error>
+              <mat-error *ngIf="f.item_id.errors.pattern">Item id should start with "Q"</mat-error>
+        </div>
+      </mat-form-field >
+  <br>
+  <p>Check that the begin and end dates are given in the item of the race edition!</p>
+  <mat-form-field >
+        <mat-label for="prologue">Is there a prologue?</mat-label>
+        <mat-select  formControlName="prologue"
+          [ngClass]="{ 'is-invalid': submitted && f.prologue.errors }">
+        <mat-option *ngFor="let yesno of yesnos" [value]="yesno.value">
+            {{yesno.viewValue}}
+        </mat-option>
+        </mat-select>
+      </mat-form-field >
+      <br>
+      <mat-form-field >
+      <mat-label for="last_stage">Number of the last stage</mat-label>
+      <mat-hint>For instance: end stage is stage 4, then write 4<br/>
+          if half-stages are present, add one for each half-stage</mat-hint>
+      <input matInput type="number"  id="last_stage" formControlName="last_stage"
+        [ngClass]="{ 'is-invalid': submitted && f.last_stage.errors }" />
+    </mat-form-field >
+<br/><br/>
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+  </form>
+</div>
+
+<div *ngIf="success">
+  <h4>You submitted successfully {{lastname}}!</h4>
+  <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
+</div>
+

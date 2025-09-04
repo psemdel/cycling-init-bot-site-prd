@@ -1,0 +1,93 @@
+import { Component, OnInit } from '@angular/core';
+import { BotRequestService} from '../services/bot-request.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+import {AuthenticationService } from '../services/authentication.service';
+import {MonitoringService } from '../services/monitoring.service';
+import { BotRequest, User} from '../models/models';
+import { nationalities, teamCategories} from '../models/lists';
+
+@Component({
+  selector: 'team',
+  templateUrl: './team.component.html',
+  styleUrls: ['./team.component.css']
+})
+
+export class TeamComponent implements OnInit {
+  currentUser: User;
+  registerForm: FormGroup;
+  botrequest: BotRequest = new BotRequest();
+  submitted = false;
+  success = false;
+  lastname: string;
+  years:Array<any> = [];
+  nationalities= nationalities;
+  teamCategories=teamCategories;
+  init_year: Number;
+
+  constructor(private botRequestService: BotRequestService,
+              private formBuilder: FormBuilder,
+              private authenticationService: AuthenticationService,
+              private monitoringService: MonitoringService
+    ) { 
+              this.authenticationService.currentUser.subscribe((x : any) => this.currentUser = x);
+              this.years = Array(80).fill(0).map((x,i)=>1950+i);
+   }
+
+  ngOnInit() {
+        this.lastname="";
+        this.init_year=new Date().getFullYear();
+        this.registerForm = this.formBuilder.group({
+            name: this.formBuilder.control('', [Validators.required]),
+            item_id: this.formBuilder.control('', [Validators.required, Validators.pattern(/^[Q].*$/)]),
+            year: this.formBuilder.control(this.init_year, [Validators.required]),
+            UCIcode: this.formBuilder.control(''), //pattern
+            nationality: this.formBuilder.control('', [Validators.required]),  
+            category_id: this.formBuilder.control('Q6154783', [Validators.required]),
+            });
+  }
+
+  get f() { return this.registerForm.controls; }
+
+  newRequest(): void {
+    this.submitted = false;
+    this.success=false;
+    this.botrequest = new BotRequest();
+  }
+
+  onSubmit() {
+    this.submitted = true;
+    // stop here if form is invalid
+    if (this.registerForm.invalid) {
+        console.log("input not valid")
+        (error : any) => {
+                console.log(error);
+        }
+       return;
+    }
+    //display in the interface
+    this.lastname=this.f.name.value;  
+    Object.keys(this.registerForm.controls).forEach(key => {
+      this.botrequest[key]=this.registerForm.controls[key].value;
+    });
+    this.botrequest.author=this.currentUser.id;
+    this.save();
+  }
+
+  save() {
+    this.botRequestService.createRq('team',this.botrequest)
+      .subscribe(
+        (data : any) => {
+          console.log('creater team request success');
+          this.success = true;
+          this.monitoringService.start('team');
+        },
+        (error : any) => {
+            console.log(error);
+        });
+     this.botrequest = new BotRequest();
+        
+  }
+
+
+}

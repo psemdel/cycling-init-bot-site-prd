@@ -1,0 +1,25 @@
+<div style="width: 600px;">
+<h2>Reset password</h2>
+    <div *ngIf="!success">
+        <form [formGroup]="forgottenForm" (ngSubmit)="onSubmit()">
+            <mat-form-field >
+            <label for="email">E-mail</label>
+            <input matInput type="text" formControlName="email" email="true" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <mat-error *ngIf="f.email.errors.required">E-mail address is required</mat-error>
+                <mat-error *ngIf="f.email.errors.email">Enter an E-mail address</mat-error>
+            </div>
+        </mat-form-field >
+        <br>
+        <button [disabled]="loading" mat-raised-button color="primary">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Send
+            </button>
+            <a routerLink="/login" mat-raised-button color="primary" role="button">Cancel</a>
+             <mat-error *ngIf="submitted && unknownerror" class="invalid-feedback">Unknown error, check your password</mat-error>
+        </form>
+    </div>
+<div *ngIf="success">
+  <p>E-mail sent successfully!</p>
+  <a routerLink="/login" mat-raised-button color="primary" role="button">Login</a>
+</div>  
