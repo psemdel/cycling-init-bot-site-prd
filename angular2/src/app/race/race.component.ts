@@ -11,6 +11,9 @@ import { MY_FORMATS} from '../models/date-format';
 import {DateAdapter,MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter} from '@angular/material-moment-adapter';
 
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+
 @Component({
   selector: 'race',
   templateUrl: './race.component.html',
@@ -21,6 +24,7 @@ import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter} from '@angular/mater
   {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
   ],
+  imports : [MatFormFieldModule, MatSelectModule]
 })
 export class RaceComponent implements OnInit {
   currentUser: User;
@@ -37,15 +41,15 @@ export class RaceComponent implements OnInit {
   yesnos=yesnos;
   temp1: boolean;
   temp2: string;
-  datetemp;
-  datetemp2;
+  datetemp :any;
+  datetemp2 :any;
   
   constructor(private botRequestService: BotRequestService,
               private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
               private monitoringService: MonitoringService
     ) { 
-              this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+              this.authenticationService.currentUser.subscribe((x : any) => this.currentUser = x);
    }
 
   ngOnInit() {
@@ -66,13 +70,20 @@ export class RaceComponent implements OnInit {
             gender: this.formBuilder.control('',[Validators.required]),
     
             });
-            
-        this.registerForm.get('race_type').valueChanges
-            .subscribe((value : any) => this.onRaceTypeChanged());    
-            
-        this.registerForm.get('create_stages').valueChanges
-            .subscribe((value : any) => this.onCreateStageChanged());        
-            
+
+        let race_type=this.registerForm.get('race_type')
+        if (race_type!== null){
+          race_type.valueChanges
+            .subscribe((value : any) => this.onRaceTypeChanged()); 
+
+        }
+        
+        let create_stage=this.registerForm.get('create_stages')
+        if (create_stage!==null){
+          create_stage.valueChanges
+            .subscribe((value : any) => this.onCreateStageChanged()); 
+        }
+
   }
   
   onRaceTypeChanged()
@@ -156,15 +167,17 @@ export class RaceComponent implements OnInit {
 
   save() {
     this.botRequestService.createRq('race',this.botrequest)
-      .subscribe(
-        (data : any) => {
+      .subscribe({
+        next: (data : any) => {
           console.log('creater race request success');
           this.success = true;
           this.monitoringService.start('race');
         },
-        (error : any) => {
+        error: (error : any) => {
             console.log(error);
-        });
+        }
+      
+      });
      this.botrequest = new BotRequest();
         
   }

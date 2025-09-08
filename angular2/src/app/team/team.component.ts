@@ -2,15 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { BotRequestService} from '../services/bot-request.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
+import {FuncsService} from '../models/functions';
 import {AuthenticationService } from '../services/authentication.service';
 import {MonitoringService } from '../services/monitoring.service';
 import { BotRequest, User} from '../models/models';
 import { nationalities, teamCategories} from '../models/lists';
 
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+
 @Component({
   selector: 'team',
   templateUrl: './team.component.html',
-  styleUrls: ['./team.component.css']
+  styleUrls: ['./team.component.css'],
+  imports : [MatFormFieldModule, MatSelectModule]
+
 })
 
 export class TeamComponent implements OnInit {
@@ -28,7 +34,8 @@ export class TeamComponent implements OnInit {
   constructor(private botRequestService: BotRequestService,
               private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
-              private monitoringService: MonitoringService
+              private monitoringService: MonitoringService,
+              private funcs: FuncsService
     ) { 
               this.authenticationService.currentUser.subscribe((x : any) => this.currentUser = x);
               this.years = Array(80).fill(0).map((x,i)=>1950+i);
@@ -60,34 +67,28 @@ export class TeamComponent implements OnInit {
     // stop here if form is invalid
     if (this.registerForm.invalid) {
         console.log("input not valid")
-        (error : any) => {
-                console.log(error);
-        }
-       return;
+        return;
     }
     //display in the interface
     this.lastname=this.f.name.value;  
-    Object.keys(this.registerForm.controls).forEach(key => {
-      this.botrequest[key]=this.registerForm.controls[key].value;
-    });
-    this.botrequest.author=this.currentUser.id;
+    this.botrequest=this.funcs.copy_from_to_bot_request(this.registerForm,this.botrequest, this.currentUser)
     this.save();
   }
 
   save() {
     this.botRequestService.createRq('team',this.botrequest)
-      .subscribe(
-        (data : any) => {
+      .subscribe({
+        next: (data : any) => {
           console.log('creater team request success');
           this.success = true;
           this.monitoringService.start('team');
         },
-        (error : any) => {
+        error: (error : any) => {
             console.log(error);
-        });
-     this.botrequest = new BotRequest();
-        
-  }
-
-
+        }
+    });
+      this.botrequest = new BotRequest();
+    }
 }
+
+

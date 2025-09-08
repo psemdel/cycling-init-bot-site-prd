@@ -1,5 +1,7 @@
 import { Component, signal, OnInit  } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import {HomeService } from './services/home.service';
+
 
 @Component({
   selector: 'app-root',
@@ -13,13 +15,17 @@ export class App implements OnInit {
 
   protected readonly title = signal('app');
 
+  constructor(
+        private homeService : HomeService
+  ) {}
+
+
   ngOnInit() {
-    this.homeService.get()
-    .subscribe(
-    datas=> {
+    this.homeService.get().subscribe(
+    (datas:any)=> {
          datas.forEach(
-            data => {this.news=data.news;},
-            err => {this.news='';}
+            (data : any) => {this.news=data.news;},
+            (err : any) => {this.news='';}
             )
     })
   }

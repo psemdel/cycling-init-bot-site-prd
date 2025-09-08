@@ -1,32 +1,31 @@
 import { Routes } from '@angular/router';
 
-import { CreateRiderComponent } from '@app/create-rider/create-rider.component';
-import {HomeComponent} from '@app/home/home.component';
-import { AppComponent } from '@app/app.component';
-import { RequestListComponent } from '@app/request-list/request-list.component';
-import { AllRequestListComponent } from '@app/all-request-list/all-request-list.component';
-import { LoginComponent} from '@app/login/login.component';
-import { RegisterComponent} from '@app/register/register.component';
-import { ImportClassificationComponent } from '@app/import-classification/import-classification.component';
-import { NationalOneChampComponent} from '@app/national-one-champ/national-one-champ.component';
-import { NationalAllChampsComponent} from '@app/national-all-champs/national-all-champs.component';
-import { StartListComponent} from '@app/start-list/start-list.component';
-import { StagesComponent} from '@app/stages/stages.component';
-import { RaceComponent} from '@app/race/race.component';
-import { TeamComponent} from '@app/team/team.component';
-import { NationalTeamComponent} from '@app/national-team/national-team.component';
-import {NationalTeamAllComponent} from 'app/national-team-all/national-team-all.component';
-import { UCIrankingComponent} from '@app/UCIranking/UCIranking.component';
-import { SortDateComponent} from '@app/sort-date/sort-date.component';
-import { SortNameComponent} from '@app/sort-name/sort-name.component';
-import { TeamImporterComponent} from '@app/team-importer/team-importer.component';
-import { FinalResultComponent} from '@app/final-result/final-result.component';
-import { UpdateResultComponent} from '@app/update-result/update-result.component';
+import {App} from './app'
+import { CreateRiderComponent } from './create-rider/create-rider.component';
+import { RequestListComponent } from './request-list/request-list.component';
+import { AllRequestListComponent } from './all-request-list/all-request-list.component';
+import { LoginComponent} from './login/login.component';
+import { RegisterComponent} from './register/register.component';
+import { ImportClassificationComponent } from './import-classification/import-classification.component';
+import { NationalOneChampComponent} from './national-one-champ/national-one-champ.component';
+import { NationalAllChampsComponent} from './national-all-champs/national-all-champs.component';
+import { StartListComponent} from './start-list/start-list.component';
+import { StagesComponent} from './stages/stages.component';
+import { RaceComponent} from './race/race.component';
+import { TeamComponent} from './team/team.component';
+import { NationalTeamComponent} from './national-team/national-team.component';
+import {NationalTeamAllComponent} from './national-team-all/national-team-all.component';
+import { UCIrankingComponent} from './UCIranking/UCIranking.component';
+import { SortDateComponent} from './sort-date/sort-date.component';
+import { SortNameComponent} from './sort-name/sort-name.component';
+import { TeamImporterComponent} from './team-importer/team-importer.component';
+import { FinalResultComponent} from './final-result/final-result.component';
+import { UpdateResultComponent} from './update-result/update-result.component';
 
-import {ForgottenPassComponent} from '@app/forgotten-pass/forgotten-pass.component';
-import {UserSettingsComponent} from '@app/user-settings/user-settings.component';
-import { NotFoundComponent } from '@app/not-found/not-found.component';
-import {ResendActivationEmailComponent} from '@app/resend-activation-email/resend-activation-email.component';
+import {ForgottenPassComponent} from './forgotten-pass/forgotten-pass.component';
+import {UserSettingsComponent} from './user-settings/user-settings.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+import {ResendActivationEmailComponent} from './resend-activation-email/resend-activation-email.component';
 
 import {AuthGuard} from './guard/auth.guard';
 import {AuthGuardStaff} from './guard/authstaff.guard';
@@ -34,7 +33,7 @@ import {AuthGuardStaff} from './guard/authstaff.guard';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
-    { path: 'home', component: HomeComponent},
+    { path: 'home', component: App},
     { path: 'national-all-champs', component: NationalAllChampsComponent, canActivate: [AuthGuardStaff] },
     { path: 'national-one-champ', component: NationalOneChampComponent, canActivate: [AuthGuard] },
     { path: 'create_rider', component: CreateRiderComponent, canActivate: [AuthGuard] },

@@ -7,9 +7,11 @@ import { APP_BASE_HREF } from '@angular/common';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
-import {JwtInterceptor} from '@app/guard/jwt.interceptor';
-import {ErrorInterceptor} from '@app/guard/error.interceptor';
-import {LoadingInterceptorService } from '@app/guard/loading.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import {JwtInterceptor} from './app/guard/jwt.interceptor';
+import {ErrorInterceptor} from './app/guard/error.interceptor';
+import {LoadingInterceptorService } from './app/guard/loading.interceptor';
 
 bootstrapApplication(
   App, 
@@ -27,3 +29,5 @@ bootstrapApplication(
 
 
 
+//providers: [
+//    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

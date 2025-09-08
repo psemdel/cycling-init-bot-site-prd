@@ -5,10 +5,13 @@ import {MonitoringService } from '../services/monitoring.service';
 import { User} from '../models/models';
 import {AuthenticationService } from '../services/authentication.service';
 
+import {MatMenuModule} from '@angular/material/menu';
+
 @Component({
   selector: 'app-menu-pers',
   templateUrl: './menupers.component.html',
-  styleUrls: ['./menu.component.css']
+  styleUrls: ['./menu.component.css'],
+  imports: [MatMenuModule]
 })
 
 export class MenuPersComponent implements OnInit {
@@ -19,7 +22,7 @@ export class MenuPersComponent implements OnInit {
         private authenticationService: AuthenticationService,
         private monitoringService: MonitoringService
     ) {
-        this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+        this.authenticationService.currentUser.subscribe((x:any) => this.currentUser = x);
     }
 
   ngOnInit() {

@@ -16,11 +16,12 @@ export class NotFoundComponent implements OnInit {
     
     ngOnInit() {
       this.route.data.pipe(take(1))
-        .subscribe((data: { path: string }) => {
+        .subscribe({
+          next: (data: any) => {
           this.path = data.path;
           console.log(this.path);
-        });
+
+          }
+        })
     }
-
-
 }

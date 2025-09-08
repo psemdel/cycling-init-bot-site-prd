@@ -1,15 +1,8 @@
 import { Component, OnInit} from '@angular/core';
-import { BotRequestService} from '../services/bot-request.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { trigger, state, style, animate, transition } from '@angular/animations';
-
-import { HttpClient, HttpRequest, 
-         HttpEventType, HttpErrorResponse } from '@angular/common/http';
-import { of } from 'rxjs/observable/of';
-import { catchError, last, map, tap } from 'rxjs/operators';
 
 import {AuthenticationService } from '../services/authentication.service';
-import {MonitoringService } from '../services/monitoring.service';
+import {FuncsService} from '../models/functions';
 
 import { BotRequest, User,FileUploadModel} from '../models/models';
 import { race_types, yesnos,  gendersExtended,unknown} from '../models/lists';
@@ -20,6 +13,8 @@ import { MY_FORMATS} from '../models/date-format';
 import {DateAdapter,MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter} from '@angular/material-moment-adapter';
 
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
 
 interface Moment {
   value: boolean;
@@ -35,19 +30,13 @@ interface Moment {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS] },
   {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+
   ],
-  animations: [
-            trigger('fadeInOut', [
-                  state('in', style({ opacity: 100 })),
-                  transition('* => void', [
-                        animate(300, style({ opacity: 0 }))
-                  ])
-           ])
-      ]
+  imports: [MatFormFieldModule, MatSelectModule]
 })
 
 export class StartListComponent implements OnInit {
-  currentUser: User;
+  currentUser: User | null;
   registerForm: FormGroup;
   submitted = false;
   success = false;
@@ -71,11 +60,9 @@ export class StartListComponent implements OnInit {
     {value: true, viewValue: 'End stage'},
   ];
 
-  constructor(private botRequestService: BotRequestService,
-              private formBuilder: FormBuilder, 
+  constructor(private formBuilder: FormBuilder, 
               private authenticationService: AuthenticationService,
-              private http: HttpClient,
-              private monitoringService: MonitoringService
+              private funcs: FuncsService
   ) { 
               this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
    }
@@ -111,106 +98,14 @@ export class StartListComponent implements OnInit {
         console.log("input not valid")
        return;
     }
-    
-     const fileUpload = document.getElementById('fileUpload') as HTMLInputElement;
-     if (this.files[0]){
-            if (!this.validateFile(fileUpload.files[0].name)) { //name
-                  console.log('Selected file format is not supported');
-                  this.exterror=true;
-                  return;
-            }
-            
-            if (fileUpload.files[0].size>2000000) {
-                  console.log('File size exceeded');
-                  this.sizeerror=true;
-                  return;
-            }
-            
-            for (let index = 0; index < fileUpload.files.length; index++) {
-                        const file = fileUpload.files[index];
-                        this.files.push({ data: file, state: 'in', 
-                        inProgress: false, progress: 0, canRetry: false, canCancel: true,
-                        author: this.currentUser.id
-                        });
-            }
-      }
 
     //display in the interface
     this.lastname=this.f.item_id.value;  
-    
-    Object.keys(this.registerForm.controls).forEach(key => {
-      this.botrequest[key]=this.registerForm.controls[key].value;
-    });
-    
-    this.botrequest.author=this.currentUser.id;
+    this.botrequest=this.funcs.copy_from_to_bot_request(this.registerForm,this.botrequest, this.currentUser)
     this.botrequest.fc_id=this.f.fc_id.value;
-    
-    if (this.files[0]){
-    this.uploadFile(this.files[0], this.botrequest);
-    } else {
-      this.botRequestService.createRq('start_list',this.botrequest)
-      .subscribe(
-        (data : any) => {
-          console.log('start_list without file request success');
-          this.success = true;
-          this.monitoringService.start('start_list');
-        },
-        (error : any) => {
-            console.log(error);
-        });
-
-    }
-
     this.botrequest = new BotRequest();
  //   this.save();
   }
-
-   private uploadFile(file: FileUploadModel, botrequest: BotRequest) {
-            const fd = new FormData();
-            fd.append('file', file.data);
-            fd.append('botrequest',JSON.stringify(botrequest))
-
-            const req = new HttpRequest('POST',  `${this.baseUrl}/create_file/start_list/`, fd, {
-                  reportProgress: true
-            });
-
-            file.inProgress = true;
-            file.sub = this.http.request(req).pipe(
-                  map((event : any) => {
-                        switch (event.type) {
-                              case HttpEventType.UploadProgress:
-                                    file.progress = Math.round(event.loaded * 100 / event.total);
-                                    break;
-                              case HttpEventType.Response:
-                                    return event;
-                        }
-                  }),
-                  tap((message : any) => { }),
-                  last(),
-                  catchError((error: HttpErrorResponse) => {
-                        file.inProgress = false;
-                        file.canRetry = true;
-                        return of(`${file.data.name} upload failed.`);
-                  })
-            ).subscribe(
-                  (event: any) => {
-                        if (typeof (event) === 'object') {
-                            console.log("upload successful!")
-                            this.success=true;
-                            this.monitoringService.start('start_list');
-                        }
-                  }
-            );
-      }
-      
-    private validateFile(name: String) {
-    var ext = name.substring(name.lastIndexOf('.') + 1);
-    if (ext.toLowerCase() == 'csv' || ext.toLowerCase() == 'xlsx') {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+ 
 }
 

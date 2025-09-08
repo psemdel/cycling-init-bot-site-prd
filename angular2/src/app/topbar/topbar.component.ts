@@ -1,15 +1,19 @@
+import {MatMenuModule} from '@angular/material/menu';
+import {MatIconModule} from '@angular/material/icon';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { User} from '../models/models';
 import {AuthenticationService } from '../services/authentication.service';
 import {MonitoringService } from '../services/monitoring.service';
-import { IntervalObservable } from "rxjs/observable/IntervalObservable";
+import { interval } from 'rxjs';
+
+
 
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
-  styleUrls: ['./topbar.component.css']
+  styleUrls: ['./topbar.component.css'],
+  imports: [MatMenuModule, MatIconModule]
 })
 
 export class TopbarComponent implements OnInit {
@@ -19,7 +23,6 @@ export class TopbarComponent implements OnInit {
     periodic_bool=false;
     
     constructor(
-        private router: Router,
         private authenticationService: AuthenticationService,
         private monitoringService: MonitoringService
     ) {
@@ -38,7 +41,7 @@ export class TopbarComponent implements OnInit {
  periodic_update(){
      this.periodic_bool=true;
      this.monitoringService.periodic_check(); 
-     IntervalObservable.create(10000)
+     interval(1000)
           .subscribe(
               (data : any) => {
               this.init(); //reload nb_started_routines

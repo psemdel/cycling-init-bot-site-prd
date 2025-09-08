@@ -13,22 +13,23 @@ export class AuthenticationService {
     private readonly JWT_TOKEN = 'JWT_TOKEN'; //their name
     private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
 
-    private currentUserSubject: BehaviorSubject<User>;
-    public currentUser: Observable<User>; //save other information about user
+    private currentUserSubject: BehaviorSubject<User | null>;
+    public currentUser: Observable<User | null>; //save other information about user
 
     constructor(private http: HttpClient) {
        let defaultUser=new User();
-       if(localStorage.getItem('currentUser')){
-            defaultUser = JSON.parse(localStorage.getItem('currentUser'));
+       let savedUser=localStorage.getItem('currentUser')
+       if( savedUser!== null){
+            defaultUser = JSON.parse(savedUser);
        }else{
             defaultUser.id=1;
             defaultUser.level=false;
         }
-        this.currentUserSubject = new BehaviorSubject<User>(defaultUser)
+        this.currentUserSubject = new BehaviorSubject<User | null>(defaultUser)
         this.currentUser = this.currentUserSubject.asObservable();
     }
 
-    public get currentUserValue(): User {
+    public get currentUserValue(): User | null {
         return this.currentUserSubject.value;
     }
 
@@ -39,7 +40,10 @@ export class AuthenticationService {
                 this.storeJwtToken(user.access);
                 this.storeRefreshToken(user.refresh);
                 localStorage.setItem('currentUser', JSON.stringify(user, this.replacer)); 
-                this.currentUserSubject.next(JSON.parse(localStorage.getItem('currentUser')));//user
+                let savedUser =localStorage.getItem('currentUser')
+                if (savedUser !== null){ //cannot be null actually, but for the compiler
+                    this.currentUserSubject.next(JSON.parse(savedUser));//user
+                }
             })); //error catch in error.interceptor
     }
 
@@ -69,7 +73,9 @@ export class AuthenticationService {
          if(this.isLoggedIn()){
             this.currentUser.subscribe(
              user => {
-               level=!!user.level;
+               if (user !== null){
+                  level=!!user.level;
+               }
              })
          }
         
@@ -102,7 +108,7 @@ export class AuthenticationService {
        return localStorage.getItem(this.REFRESH_TOKEN);
     }
     
-    private replacer(key, value) {
+    private replacer(key : string, value : any) {
       if (key === 'access' || key === 'refresh') {
         return undefined;
       }

@@ -4,6 +4,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import {AuthenticationService } from '../services/authentication.service';
 import {MonitoringService } from '../services/monitoring.service';
+import {FuncsService} from '../models/functions';
+
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
 
 import { BotRequest, User} from '../models/models';
 import { race_types, yesnos,  gendersExtended,unknown} from '../models/lists';
@@ -12,6 +16,7 @@ import { race_types, yesnos,  gendersExtended,unknown} from '../models/lists';
   selector: 'update-result',
   templateUrl: './update-result.component.html',
   styleUrls: ['./update-result.component.css'],
+  imports: [MatFormFieldModule, MatSelectModule],
 })
 
 export class UpdateResultComponent implements OnInit {
@@ -32,7 +37,8 @@ export class UpdateResultComponent implements OnInit {
   constructor(private botRequestService: BotRequestService,
               private formBuilder: FormBuilder, 
               private authenticationService: AuthenticationService,
-              private monitoringService: MonitoringService
+              private monitoringService: MonitoringService,
+              private funcs: FuncsService
   ) { 
               this.authenticationService.currentUser.subscribe((x : any) => this.currentUser = x);
    }
@@ -66,12 +72,7 @@ export class UpdateResultComponent implements OnInit {
 
     //display in the interface
     this.lastname=this.f.item_id.value;  
-    
-    Object.keys(this.registerForm.controls).forEach(key => {
-      this.botrequest[key]=this.registerForm.controls[key].value;
-    });
-    
-    this.botrequest.author=this.currentUser.id;
+    this.botrequest=this.funcs.copy_from_to_bot_request(this.registerForm,this.botrequest, this.currentUser)
     this.botrequest.fc_id=this.f.fc_id.value;
 
     this.save();
@@ -79,15 +80,16 @@ export class UpdateResultComponent implements OnInit {
 
   save() {
       this.botRequestService.createRq('update_result',this.botrequest)
-        .subscribe(
-          (data : any) => {
+        .subscribe({
+          next: (data : any) => {
             console.log('update result request success');
             this.success = true;
             this.monitoringService.start('update_result');
           },
-          (error : any) => {
+          error: (error : any) => {
               console.log(error);
-          });
+          }
+        });
        this.botrequest = new BotRequest();
     }
 

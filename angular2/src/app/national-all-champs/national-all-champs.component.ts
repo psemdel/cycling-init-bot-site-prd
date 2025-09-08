@@ -6,14 +6,18 @@ import {AuthenticationService } from '../services/authentication.service';
 import {MonitoringService } from '../services/monitoring.service';
 import { BotRequest, User} from '../models/models';
 
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+
 @Component({
   selector: 'national-all-champs',
   templateUrl: './national-all-champs.component.html',
-  styleUrls: ['./national-all-champs.component.css']
+  styleUrls: ['./national-all-champs.component.css'],
+  imports : [MatFormFieldModule, MatSelectModule]
 })
 
 export class NationalAllChampsComponent implements OnInit {
-  currentUser: User;
+  currentUser: User | null;
   registerForm: FormGroup;
   botrequest: BotRequest = new BotRequest();
   submitted = false;
@@ -27,7 +31,7 @@ export class NationalAllChampsComponent implements OnInit {
               private authenticationService: AuthenticationService,
               private monitoringService: MonitoringService
     ) { 
-              this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+              this.authenticationService.currentUser.subscribe((x : any) => this.currentUser = x);
               this.years = Array(80).fill(0).map((x,i)=>1950+i);
    }
 
@@ -57,20 +61,27 @@ export class NationalAllChampsComponent implements OnInit {
     //display in the interface
     this.lastname=this.f.year.value;  
     this.botrequest.year=this.f.year.value;
-    this.botrequest.author=this.currentUser.id;
+    if (this.currentUser !== null){
+      this.botrequest.author=this.currentUser.id;
+    }
+    else {
+      this.botrequest.author=0
+    }
     this.save();
+    
   }
 
   save() {
     this.botRequestService.createRq('national_all_champs',this.botrequest)
-      .subscribe(
-        (data : any) => {
+      .subscribe({
+        next: (data : any) => {
           console.log('national all champs request success');
           this.success = true;
           this.monitoringService.start('national_all_champs');
         },
-        (error : any) => {
+        error: (error : any) => {
             console.log(error);
+        }
         });
      this.botrequest = new BotRequest();
   }

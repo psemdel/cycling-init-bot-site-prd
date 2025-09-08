@@ -7,15 +7,20 @@ import {MonitoringService } from '../services/monitoring.service';
 import {AlertService} from '../services/alert.service';
 import { BotRequest, User} from '../models/models';
 import { nationalities, genders} from '../models/lists';
+import {FuncsService} from '../models/functions';
+
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
 
 @Component({
   selector: 'app-create-rider',
   templateUrl: './create-rider.component.html',
-  styleUrls: ['./create-rider.component.css']
+  styleUrls: ['./create-rider.component.css'],
+  imports : [MatFormFieldModule, MatSelectModule]
 })
 
 export class CreateRiderComponent implements OnInit {
-  currentUser: User;
+  currentUser: User | null;
   registerForm: FormGroup;
   botrequest: BotRequest = new BotRequest();
   submitted = false;
@@ -28,9 +33,10 @@ export class CreateRiderComponent implements OnInit {
               private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
               private alertService: AlertService,
-              private monitoringService: MonitoringService
+              private monitoringService: MonitoringService,
+              private funcs: FuncsService
     ) { 
-              this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+              this.authenticationService.currentUser.subscribe((x : any) => this.currentUser = x);
    }
 
   ngOnInit() {
@@ -49,33 +55,26 @@ export class CreateRiderComponent implements OnInit {
     this.submitted = true;
     // stop here if form is invalid
     if (this.registerForm.invalid) {
-        console.log("input not valid")
-        (error : any) => {
-                console.log(error);
-        }
+       console.log("input not valid")
        return;
     }
     //display in the interface
     this.lastname=this.f.name.value;  
-    
-    Object.keys(this.registerForm.controls).forEach(key => {
-      this.botrequest[key]=this.registerForm.controls[key].value;
-    });
-    
-    this.botrequest.author=this.currentUser.id;
+    this.botrequest=this.funcs.copy_from_to_bot_request(this.registerForm,this.botrequest, this.currentUser)
     this.save();
   }
 
   save() {
     this.botRequestService.createRq('create_rider',this.botrequest)
-      .subscribe(
-        (data : any) => {
-          console.log('creater rider request success');
-          this.success = true;
-          this.monitoringService.start('create_rider');
-        },
-        (error : any) => {
-            console.log(error);
+      .subscribe({
+          next: (data : any) => {
+              console.log('creater rider request success');
+              this.success = true;
+              this.monitoringService.start('create_rider');
+            },
+          error: (error : any) => {
+                console.log(error);
+            }
         });
      this.botrequest = new BotRequest();
         

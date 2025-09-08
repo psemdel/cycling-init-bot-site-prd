@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 
 import {AuthenticationService } from '../services/authentication.service';
 import {AlertService } from '../services/alert.service';
-//import {MonitoringService } from '@ser/monitoring.service';
 
 @Injectable()
 

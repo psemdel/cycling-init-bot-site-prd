@@ -4,13 +4,18 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import {AuthenticationService } from '../services/authentication.service';
 import {MonitoringService } from '../services/monitoring.service';
+import {FuncsService} from '../models/functions';
 import { BotRequest, User} from '../models/models';
 import { nationalities,  categories} from '../models/lists';
+
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
 
 @Component({
   selector: 'national-one-champ',
   templateUrl: './national-one-champ.component.html',
-  styleUrls: ['./national-one-champ.component.css']
+  styleUrls: ['./national-one-champ.component.css'],
+  imports : [MatFormFieldModule, MatSelectModule]
 })
 
 export class NationalOneChampComponent implements OnInit {
@@ -28,9 +33,10 @@ export class NationalOneChampComponent implements OnInit {
   constructor(private botRequestService: BotRequestService,
               private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
-              private monitoringService: MonitoringService
+              private monitoringService: MonitoringService,
+              private funcs: FuncsService
     ) { 
-              this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+              this.authenticationService.currentUser.subscribe((x : any) => this.currentUser = x);
               this.years = Array(80).fill(0).map((x,i)=>1950+i);
    }
 
@@ -38,10 +44,10 @@ export class NationalOneChampComponent implements OnInit {
         this.lastname="";
         this.registerForm = this.formBuilder.group({
             year_begin: this.formBuilder.control(this.init_year, [Validators.required]),
-            year_end: this.formBuilder.control(this.init_year, [Validators.required]]),
-            nationality: this.formBuilder.control('', Validators.required]),
+            year_end: this.formBuilder.control(this.init_year, [Validators.required]),
+            nationality: this.formBuilder.control('', [Validators.required]),
             category: this.formBuilder.control('', [Validators.required]),
-            },{validators: this.checkYear});
+            },{validators: this.funcs.checkYear});
      }
 
   get f() { return this.registerForm.controls; }
@@ -61,33 +67,22 @@ export class NationalOneChampComponent implements OnInit {
     }
     //display in the interface
     this.lastname=this.f.nationality.value + ' ' + String(this.f.year_begin.value);  
-    
-   Object.keys(this.registerForm.controls).forEach((key : any) => {
-      this.botrequest[key]=this.registerForm.controls[key].value;
-    });
-
-    this.botrequest.author=this.currentUser.id;
+    this.botrequest=this.funcs.copy_from_to_bot_request(this.registerForm,this.botrequest, this.currentUser)
     this.save();
   }
 
   save() {
     this.botRequestService.createRq('national_one_champ',this.botrequest)
-      .subscribe(
-        (data : any) => {
+      .subscribe({
+        next: (data : any) => {
           console.log('national one champ request success');
           this.success = true;
           this.monitoringService.start('national_one_champ');
         },
-        (error : any) => {
+        error: (error : any) => {
             console.log(error);
-        });
-     this.botrequest = new BotRequest();
-  }
-  
-  checkYear(group: FormGroup) { 
-      let year_begin = group.get('year_begin').value;
-      let year_end = group.get('year_end').value;
-     
-      return year_begin <= year_end ? null : { notOk: false }    
-    }
+        };
+      })
+      this.botrequest = new BotRequest();
+      }
 }

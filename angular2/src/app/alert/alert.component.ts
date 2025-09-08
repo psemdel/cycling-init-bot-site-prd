@@ -12,7 +12,7 @@ templateUrl: 'alert.component.html',
 
 export class AlertComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
-    message: Message ;
+    message: Message | null;
     success: boolean;
 
     constructor(private alertService: AlertService,
@@ -27,7 +27,7 @@ export class AlertComponent implements OnInit, OnDestroy {
     }
     ngOnInit() {
         this.subscription = this.alertService.getAlert()
-            .subscribe((message : string) => {
+            .subscribe((message : any) => {
                if (message){
                 this.message = message;
                     if (message.type=='success'){

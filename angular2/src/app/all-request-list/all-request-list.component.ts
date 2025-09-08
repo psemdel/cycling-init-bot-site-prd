@@ -12,7 +12,7 @@ import { BotRequest, User} from '../models/models';
 })
 
 export class AllRequestListComponent implements OnInit {
-  currentUser: User;
+  currentUser: User | null;
   create_rider_botrequests: Observable<BotRequest[]>;
   import_classification_botrequests: Observable<BotRequest[]>;
   national_all_champs_botrequests: Observable<BotRequest[]>;
@@ -33,7 +33,7 @@ export class AllRequestListComponent implements OnInit {
    constructor(private botRequestService: BotRequestService,
                private authenticationService: AuthenticationService
    ) {
-   this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+   this.authenticationService.currentUser.subscribe((x : any) => this.currentUser = x);
     }
 
   ngOnInit() {
@@ -41,118 +41,121 @@ export class AllRequestListComponent implements OnInit {
   }
 
   reloadData(routine?: string) {
-    if (routine=='create_rider'){
-      this.create_rider_botrequests = 
-      this.botRequestService.getAllRq('create_rider',this.currentUser.id);
-    }
-    else if(routine=='import_classification'){
+    if (this.currentUser !==null){
+
+      if (routine=='create_rider'){
+        this.create_rider_botrequests = 
+        this.botRequestService.getAllRq('create_rider',this.currentUser.id);
+      }
+      else if(routine=='import_classification'){
+        this.import_classification_botrequests = 
+        this.botRequestService.getAllRq('import_classification',this.currentUser.id);
+      }
+      else if(routine=='national_all_champs'){
+        this.national_all_champs_botrequests= 
+        this.botRequestService.getAllRq('national_all_champs',this.currentUser.id);
+      }
+      else if(routine=='national_one_champ'){
+        this.national_one_champ_botrequests= 
+        this.botRequestService.getAllRq('national_one_champ',this.currentUser.id);
+      }
+      else if(routine=='start_list'){
+        this.start_list_botrequests =
+        this.botRequestService.getAllRq('start_list',this.currentUser.id);
+      }
+      else if(routine=='final_result'){
+        this.final_result_botrequests =
+        this.botRequestService.getAllRq('final_result',this.currentUser.id);
+      }
+      else if(routine=='update_result'){
+        this.update_result_botrequests =
+        this.botRequestService.getAllRq('update_result',this.currentUser.id);
+      }  
+      else if(routine=='race'){
+        this.race_botrequests =
+        this.botRequestService.getAllRq('race',this.currentUser.id);
+      }
+      else if(routine=='stages'){
+        this.stages_botrequests =
+        this.botRequestService.getAllRq('stages',this.currentUser.id); 
+      }
+      else if(routine=='team'){
+        this.team_botrequests =
+        this.botRequestService.getAllRq('team',this.currentUser.id);  
+      } 
+      else if(routine=='national_team'){
+        this.national_team_botrequests =
+        this.botRequestService.getAllRq('national_team',this.currentUser.id);  
+      }
+      else if(routine=='national_team_all'){
+        this.national_team_all_botrequests =
+        this.botRequestService.getAllRq('national_team_all',this.currentUser.id); 
+      }
+      else if(routine=='UCIranking'){
+        this.UCIranking_botrequests =
+        this.botRequestService.getAllRq('UCIranking',this.currentUser.id);  
+      }
+      else if(routine=='sort_date'){
+        this.sort_date_botrequests =
+        this.botRequestService.getAllRq('sort_date',this.currentUser.id); 
+      }
+      else if(routine=='sort_name'){
+        this.sort_name_botrequests =
+        this.botRequestService.getAllRq('sort_name',this.currentUser.id); 
+      }
+      else if(routine=='team_importer'){
+        this.team_importer_botrequests =
+        this.botRequestService.getAllRq('team_importer',this.currentUser.id); 
+      }    
+      else{ //load all
+        this.create_rider_botrequests = 
+        this.botRequestService.getAllRq('create_rider',this.currentUser.id);
+        
       this.import_classification_botrequests = 
-      this.botRequestService.getAllRq('import_classification',this.currentUser.id);
-    }
-    else if(routine=='national_all_champs'){
+        this.botRequestService.getAllRq('import_classification',this.currentUser.id);
+        
       this.national_all_champs_botrequests= 
-      this.botRequestService.getAllRq('national_all_champs',this.currentUser.id);
-    }
-    else if(routine=='national_one_champ'){
+        this.botRequestService.getAllRq('national_all_champs',this.currentUser.id);
+      
       this.national_one_champ_botrequests= 
-      this.botRequestService.getAllRq('national_one_champ',this.currentUser.id);
-    }
-    else if(routine=='start_list'){
+        this.botRequestService.getAllRq('national_one_champ',this.currentUser.id);
+        
       this.start_list_botrequests =
-      this.botRequestService.getAllRq('start_list',this.currentUser.id);
-    }
-    else if(routine=='final_result'){
+        this.botRequestService.getAllRq('start_list',this.currentUser.id);
+
       this.final_result_botrequests =
-      this.botRequestService.getAllRq('final_result',this.currentUser.id);
-    }
-    else if(routine=='update_result'){
+        this.botRequestService.getAllRq('final_result',this.currentUser.id);
+
       this.update_result_botrequests =
-      this.botRequestService.getAllRq('update_result',this.currentUser.id);
-    }  
-    else if(routine=='race'){
+        this.botRequestService.getAllRq('update_result',this.currentUser.id);
+
       this.race_botrequests =
-      this.botRequestService.getAllRq('race',this.currentUser.id);
-    }
-    else if(routine=='stages'){
+        this.botRequestService.getAllRq('race',this.currentUser.id);
+        
       this.stages_botrequests =
-      this.botRequestService.getAllRq('stages',this.currentUser.id); 
-    }
-    else if(routine=='team'){
+        this.botRequestService.getAllRq('stages',this.currentUser.id); 
+      
       this.team_botrequests =
-      this.botRequestService.getAllRq('team',this.currentUser.id);  
-    } 
-    else if(routine=='national_team'){
+        this.botRequestService.getAllRq('team',this.currentUser.id);   
+        
       this.national_team_botrequests =
-      this.botRequestService.getAllRq('national_team',this.currentUser.id);  
-    }
-    else if(routine=='national_team_all'){
+        this.botRequestService.getAllRq('national_team',this.currentUser.id);  
+        
       this.national_team_all_botrequests =
-      this.botRequestService.getAllRq('national_team_all',this.currentUser.id); 
-    }
-    else if(routine=='UCIranking'){
+        this.botRequestService.getAllRq('national_team_all',this.currentUser.id); 
+
       this.UCIranking_botrequests =
-      this.botRequestService.getAllRq('UCIranking',this.currentUser.id);  
-    }
-    else if(routine=='sort_date'){
+        this.botRequestService.getAllRq('UCIranking',this.currentUser.id);  
+    
       this.sort_date_botrequests =
-      this.botRequestService.getAllRq('sort_date',this.currentUser.id); 
-    }
-    else if(routine=='sort_name'){
+        this.botRequestService.getAllRq('sort_date',this.currentUser.id); 
+        
       this.sort_name_botrequests =
-      this.botRequestService.getAllRq('sort_name',this.currentUser.id); 
-    }
-    else if(routine=='team_importer'){
+        this.botRequestService.getAllRq('sort_name',this.currentUser.id); 
       this.team_importer_botrequests =
-      this.botRequestService.getAllRq('team_importer',this.currentUser.id); 
-    }    
-    else{ //load all
-      this.create_rider_botrequests = 
-      this.botRequestService.getAllRq('create_rider',this.currentUser.id);
-      
-    this.import_classification_botrequests = 
-      this.botRequestService.getAllRq('import_classification',this.currentUser.id);
-      
-    this.national_all_champs_botrequests= 
-      this.botRequestService.getAllRq('national_all_champs',this.currentUser.id);
-    
-    this.national_one_champ_botrequests= 
-      this.botRequestService.getAllRq('national_one_champ',this.currentUser.id);
-      
-    this.start_list_botrequests =
-      this.botRequestService.getAllRq('start_list',this.currentUser.id);
-
-    this.final_result_botrequests =
-      this.botRequestService.getAllRq('final_result',this.currentUser.id);
-
-    this.update_result_botrequests =
-      this.botRequestService.getAllRq('update_result',this.currentUser.id);
-
-    this.race_botrequests =
-      this.botRequestService.getAllRq('race',this.currentUser.id);
-      
-    this.stages_botrequests =
-      this.botRequestService.getAllRq('stages',this.currentUser.id); 
-    
-    this.team_botrequests =
-      this.botRequestService.getAllRq('team',this.currentUser.id);   
-      
-    this.national_team_botrequests =
-      this.botRequestService.getAllRq('national_team',this.currentUser.id);  
-      
-    this.national_team_all_botrequests =
-      this.botRequestService.getAllRq('national_team_all',this.currentUser.id); 
-
-    this.UCIranking_botrequests =
-      this.botRequestService.getAllRq('UCIranking',this.currentUser.id);  
-   
-    this.sort_date_botrequests =
-      this.botRequestService.getAllRq('sort_date',this.currentUser.id); 
-      
-    this.sort_name_botrequests =
-      this.botRequestService.getAllRq('sort_name',this.currentUser.id); 
-    this.team_importer_botrequests =
-      this.botRequestService.getAllRq('team_importer',this.currentUser.id); 
-    }    
+        this.botRequestService.getAllRq('team_importer',this.currentUser.id); 
+      }    
+    }
   }
 
 }

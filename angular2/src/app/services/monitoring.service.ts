@@ -14,23 +14,15 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class MonitoringService    {
-  running_rq: number[]; //list of all running rq
-  running_rq_o: Subject<number[]> = new Subject();
-  //saved as
-  started_routines_id_str: string;
+  running_rq: number[]=[] ; //list of all running rq
+  running_rq_o: Subject<(number)[]> = new Subject();
+  running_routine: string[]=[];
 
-  running_routine: string[];
+  public nb_started_routines: number =0; //only since opening of browser
   //saved as
-  started_routines_str: string;
-
-  public nb_started_routines: number; //only since opening of browser
-  //saved as
-  nb_started_routines_str: string; 
-  public nb_completed_routines: number; //only since opening of browser
-  //saved as
-  nb_completed_routines_str: string;
+  public nb_completed_routines: number=0; //only since opening of browser
   
-  currentUser: User;
+  currentUser: User|null;
   temp:string[];
   checking$: Subject<boolean> = new Subject();
   periodic:Subscription;
@@ -57,7 +49,11 @@ export class MonitoringService    {
     this.running_rq=[]; 
     this.running_routine=[];
     let observables: Observable<any>[] = []; 
-    const cId=this.currentUser.id;
+    let currentUser = this.currentUser;
+    let cId=0
+    if (currentUser !== null){
+        cId=currentUser.id;
+    }
 
     if (this.nb_started_routines==0){ //after reset
         var resetted=true;
@@ -135,7 +131,7 @@ export class MonitoringService    {
   }
   
   event_completed(routine: string, rq: BotRequest){
-      var sup_info: string;
+      var sup_info: string="";
 
       switch(dic_of_display_alert[routine]){
         case "name only": {sup_info="name: "+rq.name; break;}
@@ -161,7 +157,7 @@ export class MonitoringService    {
               if (checking){
                  this.periodic=IntervalObservable.create(30000) //30 s
                       .subscribe(
-                          data => {
+                          (data: any) => {
                           this.check();
                           }
               )}
@@ -179,20 +175,23 @@ export class MonitoringService    {
         let res_array=this.unique(this.running_routine);
         
         for (var routine of res_array){
-             this.botRequestService.getRq(routine,this.currentUser.id)
-              .subscribe(
-              rqs => {
-              rqs.forEach(rq=>{
-                     if (this.running_rq.includes(rq.id)){ 
-                         if (rq.status =="completed"){ 
-                             this.remove(rq.routine,rq,true);
-                        }
-                         else if(rq.status =="failed"){ 
-                             this.remove(rq.routine,rq,false);
-                         }
-                     }
-              })
-           })
+             let currentUser = this.currentUser;
+             if (currentUser!==null){
+             this.botRequestService.getRq(routine,currentUser.id)
+                    .subscribe(
+                    (rqs: any) => {
+                    rqs.forEach((rq: any)=>{
+                            if (this.running_rq.includes(rq.id)){ 
+                                if (rq.status =="completed"){ 
+                                    this.remove(rq.routine,rq,true);
+                                }
+                                else if(rq.status =="failed"){ 
+                                    this.remove(rq.routine,rq,false);
+                                }
+                            }
+                    })
+                })
+             }
           }
    }
    else{
@@ -209,39 +208,34 @@ export class MonitoringService    {
   }
   
   get_local(){
-      this.nb_started_routines_str=localStorage.getItem('NB_STARTED_ROUTINES');
-      this.nb_completed_routines_str=localStorage.getItem('NB_COMPLETED_ROUTINES');
-      //this.checking_str=localStorage.getItem('CHECKING');
-      this.started_routines_str=localStorage.getItem('STARTED_ROUTINES');
-      this.started_routines_id_str=localStorage.getItem('STARTED_ROUTINES_ID');
-      
-      if (!this.nb_started_routines_str){
-          this.nb_started_routines=0;
+      let nb_started_routines_str_raw=localStorage.getItem('NB_STARTED_ROUTINES');
+      if (nb_started_routines_str_raw!==null){
+        this.nb_started_routines=parseInt(nb_started_routines_str_raw);
       }
       else{
-          this.nb_started_routines=parseInt(this.nb_started_routines_str);
+        this.nb_started_routines=0
       }
-      
-      if (!this.nb_completed_routines_str){
-          this.nb_completed_routines=0;
-      }
-      else{
-          this.nb_completed_routines=parseInt(this.nb_completed_routines_str);
-      }
-      
-      if (!this.started_routines_str){
-          this.running_routine=[]; 
+
+      let nb_completed_routines_str_raw=localStorage.getItem('NB_COMPLETED_ROUTINES');
+      if (nb_completed_routines_str_raw!==null){
+        this.nb_completed_routines=parseInt(nb_completed_routines_str_raw);
       }
       else{
-          this.running_routine=this.started_routines_str.split(",");
-          console.log(this.running_routine)
+         this.nb_completed_routines=0
+      }
+
+      let started_routines_str_raw=localStorage.getItem('STARTED_ROUTINES');
+      if (started_routines_str_raw!==null){
+        this.running_routine=started_routines_str_raw.split(",");
+        console.log(this.running_routine)
+        }
+      else{
+         this.running_routine=[]; 
       }
       
-      if (!this.started_routines_id_str){
-          this.running_rq=[]; 
-      }
-      else{
-         this.temp=this.started_routines_id_str.split(",");
+      let started_routines_id_str_raw=localStorage.getItem('STARTED_ROUTINES_ID');
+      if (started_routines_id_str_raw!==null){
+        this.temp=started_routines_id_str_raw.split(",");
          this.running_rq=[];
           
          for(var i=0; i<this.temp.length;i++) {
@@ -249,7 +243,11 @@ export class MonitoringService    {
          }
          console.log("this.running_rq after parsing from local " + this.running_rq)
       }
-     this.get_status().subscribe(
+      else{
+         this.running_rq=[]; 
+      }
+
+      this.get_status().subscribe(
         fork => this.save_local()
         );
      //without a priori 

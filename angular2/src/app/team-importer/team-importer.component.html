@@ -12,17 +12,6 @@
           </div>
         </mat-form-field >
         <br/>
-        <label>Excel or csv file from UCI web site</label>
-        <br/>
-        <input type="file" id="fileUpload" name="fileUpload" formControlName="file"  multiple="multiple" 
-          accept=".xlsx, .csv" />
-        <br>
-        <li *ngFor="let file of files" [@fadeInOut]="file.state">
-            <mat-progress-bar [value]="file.progress"></mat-progress-bar>
-        </li>
-        <div *ngIf="submitted && sizeerror" >Maximum size exceeded</div>
-        <div *ngIf="submitted && exterror" >Wrong file type</div>
-        <br>
         <mat-form-field >
           <mat-label for="fc_id">Alternatively use firstcycling.com race id</mat-label>
           <input matInput type="text"  id="fc_id" formControlName="fc_id"

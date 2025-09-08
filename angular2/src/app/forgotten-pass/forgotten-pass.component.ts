@@ -6,7 +6,12 @@ import { first  } from 'rxjs/operators';
 import { AuthenticationService } from '../services/authentication.service';
 import { UserService} from '../services/user.service';
 
-@Component({ templateUrl: 'forgotten-pass.component.html' })
+import {MatFormFieldModule} from '@angular/material/form-field';
+
+@Component({ 
+    templateUrl: 'forgotten-pass.component.html',
+    imports : [MatFormFieldModule]
+ })
 
 export class ForgottenPassComponent implements OnInit {
     forgottenForm: FormGroup;
@@ -50,15 +55,15 @@ export class ForgottenPassComponent implements OnInit {
             first(),
            // catchError(this.handleerror)              
             )
-            .subscribe(
-                (data : any) => {
+            .subscribe({
+                next: (data : any) => {
                     this.success = true;
                 },
-                (error : any) => {
+                error: (error : any) => {
                     console.log(error); 
                     this.loading = false;
                 }
-                );
+            });
     }
 
 }

@@ -4,7 +4,13 @@ import { first  } from 'rxjs/operators';
 
 import { UserService} from '../services/user.service';
 
-@Component({ templateUrl: 'resend-activation-email.component.html' })
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+
+@Component({ 
+    templateUrl: 'resend-activation-email.component.html',
+    imports : [MatFormFieldModule, MatSelectModule]
+ })
 
 export class ResendActivationEmailComponent implements OnInit {
     forgottenForm: FormGroup;

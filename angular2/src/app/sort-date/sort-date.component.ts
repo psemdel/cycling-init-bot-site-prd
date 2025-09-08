@@ -3,8 +3,13 @@ import { BotRequestService} from '../services/bot-request.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import {AuthenticationService } from '../services/authentication.service';
+import {FuncsService} from '../models/functions';
+
 import {MonitoringService } from '../services/monitoring.service';
 import { BotRequest, User} from '../models/models';
+
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
 
 interface Property {
   value: string;
@@ -14,11 +19,12 @@ interface Property {
 @Component({
   selector: 'sort-date',
   templateUrl: './sort-date.component.html',
-  styleUrls: ['./sort-date.component.css']
+  styleUrls: ['./sort-date.component.css'],
+  imports : [MatFormFieldModule, MatSelectModule]
 })
 
 export class SortDateComponent implements OnInit {
-  currentUser: User;
+  currentUser: User|null;
   registerForm: FormGroup;
   botrequest: BotRequest = new BotRequest();
   submitted = false;
@@ -33,9 +39,10 @@ export class SortDateComponent implements OnInit {
   constructor(private botRequestService: BotRequestService,
               private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
-              private monitoringService: MonitoringService
+              private monitoringService: MonitoringService,
+              private funcs: FuncsService
     ) { 
-              this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+              this.authenticationService.currentUser.subscribe((x: any) => this.currentUser = x);
    }
 
   ngOnInit() {
@@ -63,29 +70,22 @@ export class SortDateComponent implements OnInit {
     }
     //display in the interface
     this.lastname=this.f.item_id.value;  
-
-    Object.keys(this.registerForm.controls).forEach(key => {
-      this.botrequest[key]=this.registerForm.controls[key].value;
-    });
-
-    this.botrequest.author=this.currentUser.id;
+    this.botrequest=this.funcs.copy_from_to_bot_request(this.registerForm,this.botrequest, this.currentUser)
     this.save();
   }
 
   save() {
     this.botRequestService.createRq('sort_date',this.botrequest)
-      .subscribe(
-        (data : any) => {
+      .subscribe({
+      next: (data : any) => {
           console.log('creater date sorting request success');
           this.success = true;
           this.monitoringService.start('sort_date');
         },
-        (error : any) => {
+      error: (error : any) => {
             console.log(error);
-        });
+        }
+      });
      this.botrequest = new BotRequest();
-        
+      }
   }
-
-
-}

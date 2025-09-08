@@ -7,10 +7,13 @@ import { Observable } from 'rxjs';
 import { BotRequest} from '../models/models';
 import {dic_of_display} from '../models/lists';
 
+import {MatIconModule} from '@angular/material/icon';
+
 @Component({
   selector: 'request-details',
   templateUrl: './request-details.component.html',
-  styleUrls: ['./request-details.component.css']  
+  styleUrls: ['./request-details.component.css'],
+  imports: [MatIconModule]
 })
 export class RequestDetailsComponent implements OnInit {
    @Input() tbotrequests: Observable<BotRequest[]>;

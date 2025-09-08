@@ -2,19 +2,24 @@ import { Component, OnInit } from '@angular/core';
 import { BotRequestService} from '../services/bot-request.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
+import {FuncsService} from '../models/functions';
 import {AuthenticationService } from '../services/authentication.service';
 import {MonitoringService } from '../services/monitoring.service';
 import { BotRequest, User} from '../models/models';
 import {yesnos,  genders} from '../models/lists';
 
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+
 @Component({
   selector: 'stages',
   templateUrl: './stages.component.html',
-  styleUrls: ['./stages.component.css']
+  styleUrls: ['./stages.component.css'],
+  imports : [MatFormFieldModule, MatSelectModule]
 })
 
 export class StagesComponent implements OnInit {
-  currentUser: User;
+  currentUser: User | null;
   registerForm: FormGroup;
   botrequest: BotRequest = new BotRequest();
   submitted = false;
@@ -26,9 +31,10 @@ export class StagesComponent implements OnInit {
   constructor(private botRequestService: BotRequestService,
               private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
-              private monitoringService: MonitoringService
+              private monitoringService: MonitoringService,
+              private funcs: FuncsService
     ) { 
-              this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+              this.authenticationService.currentUser.subscribe((x : any) => this.currentUser = x);
    }
 
   ngOnInit() {
@@ -57,26 +63,22 @@ export class StagesComponent implements OnInit {
     }
     //display in the interface
     this.lastname=this.f.item_id.value;  
-
-    Object.keys(this.registerForm.controls).forEach(key => {
-      this.botrequest[key]=this.registerForm.controls[key].value;
-    });
-
-    this.botrequest.author=this.currentUser.id;
+    this.botrequest=this.funcs.copy_from_to_bot_request(this.registerForm,this.botrequest, this.currentUser)
     this.save();
   }
 
   save() {
     this.botRequestService.createRq('stages',this.botrequest)
-      .subscribe(
-        (data : any) => {
+      .subscribe({
+        next: (data : any) => {
           console.log('creater stages request success');
           this.success = true;
           this.monitoringService.start('stages');
         },
-        (error : any) => {
+        error: (error : any) => {
             console.log(error);
-        });
+        }
+     });
      this.botrequest = new BotRequest();
         
   }

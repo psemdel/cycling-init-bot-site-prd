@@ -5,9 +5,14 @@ import { first  } from 'rxjs/operators';
 
 import { AuthenticationService } from '../services/authentication.service';
 import { UserService} from '../services/user.service';
+import {FuncsService} from '../models/functions';
+
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
 
 @Component({ templateUrl: 'register.component.html' ,
-             styleUrls: ['./register.component.css']           
+             styleUrls: ['./register.component.css'],
+            imports : [MatFormFieldModule, MatSelectModule]         
 })
 
 export class RegisterComponent implements OnInit {
@@ -23,6 +28,7 @@ export class RegisterComponent implements OnInit {
         private router: Router,
         private authenticationService: AuthenticationService,
         private userService: UserService,
+        private funcs: FuncsService
     ) {
         // redirect to home if already logged in
         if (this.authenticationService.currentUserValue) {
@@ -39,7 +45,7 @@ export class RegisterComponent implements OnInit {
             username: this.formBuilder.control('', [Validators.required]),
             password: this.formBuilder.control('', [Validators.required]),
             confirmPass: this.formBuilder.control('')}
-           , { validator: this.checkPasswords 
+           , { validator: this.funcs.checkPasswords 
            });
     }
 
@@ -61,27 +67,14 @@ export class RegisterComponent implements OnInit {
             .pipe(
             first(),
             )
-            .subscribe(
-                (data : any) => {
+            .subscribe({
+                next: (data : any) => {
                     this.success = true;
                 },
-                (error : any) => {
+                error: (error : any) => {
                     this.loading = false;
                     let keylist = Object.keys(error);
                     this.backenderror = error[keylist[0]]; 
                 }
-                );
+            })};
     }
-
-    
-    checkPasswords(group: FormGroup) { // here we have the 'passwords' group
-      let pass = group.get('password').value;
-      let confirmPass = group.get('confirmPass').value;
-    
-      if (pass === confirmPass){
-          return null;
-      }else{
-          return { notSame: true };
-      }
-    }
-}

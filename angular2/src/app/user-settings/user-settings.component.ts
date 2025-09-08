@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
@@ -8,8 +7,15 @@ import { UserService} from '../services/user.service';
 import {MonitoringService } from '../services/monitoring.service';
 import { SetPass} from '../models/models';
 import { User} from '../models/models';
+import {FuncsService} from '../models/functions';
 
-@Component({ templateUrl: 'user-settings.component.html' })
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
+@Component({ 
+       templateUrl: 'user-settings.component.html',
+        imports: [MatInputModule, MatFormFieldModule],
+})
 
 export class UserSettingsComponent implements OnInit {
     settingsForm: FormGroup;
@@ -30,10 +36,10 @@ export class UserSettingsComponent implements OnInit {
  
     constructor(
         private formBuilder: FormBuilder,
-        private router: Router,
         private authenticationService: AuthenticationService,
         private userService: UserService,
-        private monitoringService: MonitoringService
+        private monitoringService: MonitoringService,
+        private funcs: FuncsService
     ) {
         this.authenticationService.currentUser.subscribe((x :any) => this.currentUser = x);
     }
@@ -44,7 +50,7 @@ export class UserSettingsComponent implements OnInit {
             old_password: this.formBuilder.control('', [Validators.required]),
             password: this.formBuilder.control('', [Validators.required]),
             confirmPass: this.formBuilder.control('')}
-           , { validator: this.checkPasswords 
+           , { validator: this.funcs.checkPasswords 
            });
         this.deleteForm= this.formBuilder.group({
             password: this.formBuilder.control('', [Validators.required]),
@@ -77,32 +83,19 @@ export class UserSettingsComponent implements OnInit {
             first(),
            // catchError(this.handleerror)              
             )
-            .subscribe(
-                (data : any) => {
+            .subscribe({
+                next: (data : any) => {
                     this.monitoringService.reset(); //has to be here to avoid interdependency
                     this.authenticationService.logout();
                     this.success = true;
                 },
-                (error : any) => {
+                error: (error : any) => {
                     console.log(error); 
                     this.loading = false;
                     this.unknownerror = true;
-                }
-                );
+                }})
     }
-    
-    checkPasswords(group: FormGroup) { // here we have the 'passwords' group
-    let pass = undefined
-     if (group.get('password') != null) {
-        pass = group.get('password').value;
-     }
-     let confirmPass = undefined
-     if (group.get('confirmPass') != null) {
-        group.get('confirmPass').value
-     }
-    return pass === confirmPass ? null : { notSame: true }     
-    }
-    
+       
     get fd() { return this.deleteForm.controls; }
     
     deleteAccount(){
@@ -111,15 +104,15 @@ export class UserSettingsComponent implements OnInit {
         this.delete_unknownerror = false;
     
         this.userService.delete()
-        .subscribe(
-                (data : any) => {
+        .subscribe({
+            next:(data : any) => {
                     this.delete_success= true;
                 },
-                (error : any) => {
+            error:(error : any) => {
                     console.log(error); 
                     this.delete_unknownerror = true;
                 }
-                );
+            });
     }
     
     //checkUsername(group: FormGroup) { // here we have the 'passwords' group
