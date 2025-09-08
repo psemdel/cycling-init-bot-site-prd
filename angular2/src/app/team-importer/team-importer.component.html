@@ -4,8 +4,7 @@
     <mat-form-field >
       <mat-label for=" item_id">Id of the race item on wikidata</mat-label>
       <mat-hint>for instance Q30091668 for Tour de France 2019</mat-hint>
-      <input matInput type="text"  id="item_id" formControlName="item_id"
-        [ngClass]="{ 'is-invalid': submitted && f.item_id.errors }" />
+      <input matInput type="text"  id="item_id" formControlName="item_id" />
       @if (submitted && f.item_id.errors) {
         <div >
           @if (f.item_id.errors.required) {
@@ -20,8 +19,7 @@
     <br/>
     <mat-form-field >
       <mat-label for="fc_id">Alternatively use firstcycling.com race id</mat-label>
-      <input matInput type="text"  id="fc_id" formControlName="fc_id"
-        [ngClass]="{ 'is-invalid': submitted && f.fc_id.errors }" />
+      <input matInput type="text"  id="fc_id" formControlName="fc_id" />
       @if (submitted && f.fc_id.errors) {
         <div >
           @if (f.fc_id.errors.required) {
@@ -37,8 +35,7 @@
       <mat-form-field >
         <mat-label for="name">Year </mat-label>
         <mat-select formControlName="year"
-          disableOptionCentering id="year"
-          [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
+          disableOptionCentering id="year"  >
           @for (year of years; track year) {
             <mat-option [value]="year">
               {{year}}

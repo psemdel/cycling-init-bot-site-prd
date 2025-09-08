@@ -4,8 +4,7 @@
     <mat-form-field >
       <mat-label for=" item_id">Id of the item on wikidata to be sorted</mat-label>
       <mat-hint>for instance Q30091668 for Tour de France 2019</mat-hint>
-      <input matInput type="text"  id="item_id" formControlName="item_id"
-        [ngClass]="{ 'is-invalid': submitted && f.item_id.errors }" />
+      <input matInput type="text"  id="item_id" formControlName="item_id" />
       @if (submitted && f.item_id.errors) {
         <div>
           @if (f.item_id.errors.required) {
@@ -24,8 +23,7 @@
         in a stage races<br/>
       "victory" to sort the victories of a team</mat-hint>
 
-      <mat-select disableOptionCentering  formControlName="prop"
-        [ngClass]="{ 'is-invalid': submitted && f.prop.errors }">
+      <mat-select disableOptionCentering  formControlName="prop">
         @for (prop of properties; track prop) {
           <mat-option [value]="prop.value">
             {{prop.viewValue}}

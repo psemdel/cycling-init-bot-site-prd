@@ -4,8 +4,7 @@
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <mat-form-field >
       <mat-label for="name">Start year </mat-label>
-      <mat-select disableOptionCentering id="year_begin" formControlName="year_begin"
-        [ngClass]="{ 'is-invalid': submitted && f.year_begin.errors }">
+      <mat-select disableOptionCentering id="year_begin" formControlName="year_begin">
         @for (year of years; track year) {
           <mat-option [value]="year">
             {{year}}
@@ -26,8 +25,7 @@
 
       <mat-form-field >
         <mat-label for="name">End year</mat-label>
-        <mat-select disableOptionCentering id="year_end" formControlName="year_end"
-          [ngClass]="{ 'is-invalid': submitted && f.year_end.errors }">
+        <mat-select disableOptionCentering id="year_end" formControlName="year_end">
           @for (year of years; track year) {
             <mat-option [value]="year">
               {{year}}
@@ -49,8 +47,7 @@
       <br>
         <mat-form-field >
           <mat-label for="category">Category</mat-label>
-          <mat-select disableOptionCentering formControlName="category"
-            [ngClass]="{ 'is-invalid': submitted && f.category.errors }">
+          <mat-select disableOptionCentering formControlName="category">
             @for (category of categories; track category) {
               <mat-option [value]="category.value">
                 {{category.viewValue}}

@@ -5,11 +5,13 @@ import { IntervalObservable } from "rxjs/observable/IntervalObservable";
 
 import {AuthenticationService } from '../services/authentication.service';
 import { BotRequest, User} from '../models/models';
+import {RequestDetailsComponent} from '../request-details/request-details.component'
 
 @Component({
   selector: 'app-request-list',
   templateUrl: './request-list.component.html',
-  styleUrls: ['./request-list.component.css']
+  styleUrls: ['./request-list.component.css'],
+  imports: [RequestDetailsComponent]
 })
 export class RequestListComponent implements OnInit {
   currentUser: User;
@@ -36,7 +38,7 @@ export class RequestListComponent implements OnInit {
    constructor(private botRequestService: BotRequestService,
                private authenticationService: AuthenticationService,
    ) {
-   this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+   this.authenticationService.currentUser.subscribe((x: any) => this.currentUser = x);
     }
 
   ngOnInit() {

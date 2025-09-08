@@ -3,7 +3,7 @@
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <mat-form-field >
       <mat-label for="username">Username</mat-label>
-      <input matInput type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+      <input matInput type="text" formControlName="username" class="form-control"  />
       @if (submitted && f.username.errors) {
         <div >
           @if (f.username.errors.required) {
@@ -15,7 +15,7 @@
     <br>
       <mat-form-field >
         <mat-label for="password">Password</mat-label>
-        <input matInput type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+        <input matInput type="password" formControlName="password" class="form-control" />
         @if (submitted && f.password.errors) {
           <div >
             @if (f.password.errors.required) {

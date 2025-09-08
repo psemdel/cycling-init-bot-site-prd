@@ -5,7 +5,7 @@
       <form [formGroup]="forgottenForm" (ngSubmit)="onSubmit()">
         <mat-form-field >
           <label for="email">E-mail</label>
-          <input matInput type="text" formControlName="email" email="true" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+          <input matInput type="text" formControlName="email" email="true" class="form-control"/>
           @if (submitted && f.email.errors) {
             <div class="invalid-feedback">
               @if (f.email.errors.required) {

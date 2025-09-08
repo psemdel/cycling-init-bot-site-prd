@@ -5,7 +5,7 @@
       <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()">
         <mat-form-field >
           <mat-label for="old_password">Old password</mat-label>
-          <input matInput type="old_password" formControlName="old_password"  [ngClass]="{ 'is-invalid': submitted && f.old_password.errors }" />
+          <input matInput type="old_password" formControlName="old_password" />
           @if (submitted && f.old_password.errors) {
             <div >
               @if (f.old_password.errors.required) {
@@ -16,7 +16,7 @@
         </mat-form-field >
         <mat-form-field >
           <mat-label for="password">New password</mat-label>
-          <input matInput type="password" formControlName="password"  [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+          <input matInput type="password" formControlName="password" />
           @if (submitted && f.password.errors) {
             <div >
               @if (f.password.errors.required) {
@@ -30,7 +30,7 @@
         </mat-form-field >
         <mat-form-field >
           <mat-label for="confirmPass">Confirm new password</mat-label>
-          <input matInput type="password" formControlName="confirmPass"  [ngClass]="{ 'is-invalid': submitted && f.confirmPass.errors }" />
+          <input matInput type="password" formControlName="confirmPass" />
           @if (submitted && f.confirmPass.errors) {
             <div >
               @if (f.confirmPass.errors.required) {
@@ -60,38 +60,5 @@
       <a routerLink="/login" mat-raised-button color="primary" role="button">Login</a>
     </div>
   }
-
-  <!--
-  <h2 style="width: 600px; align-text: center">Delete account</h2>
-  <div *ngIf="!delete_success">
-    <form [formGroup]="deleteForm" (ngSubmit)="deleteAccount()">
-      <div class="form-group">
-        <mat-label for="password">Current password</mat-label>
-        <input type="password" formControlName="password"  [ngClass]="{ 'is-invalid': delete_submitted && fd.password.errors }" />
-        <div *ngIf="delete_submitted && fd.password.errors" >
-          <div *ngIf="fd.password.errors.required">Password is required</div>
-        </div>
-      </div>
-      <!--
-      <div class="form-group">
-        <mat-label for="username">Type your username</mat-label>
-        <input type="username" formControlName="username"  [ngClass]="{ 'is-invalid': delete_submitted && fd.username.errors }" />
-        <div *ngIf="delete_submitted && fd.username.errors" >
-          <div *ngIf="fd.username.errors.required">Username is required</div>
-        </div>
-      </div>
-      <div class="form-group">
-        <button [disabled]="loading" mat-raised-button color="primary">
-          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-          Delete account
-        </button>
-      </div>
-      <div *ngIf="delete_submitted && delete_unknownerror" >Unknown error, check your username</div>
-    </form>
-  </div>
-  <div *ngIf="delete_success">
-    <p>Account deleted successfully!</p>
-  </div>
-  -->
 
 </div>

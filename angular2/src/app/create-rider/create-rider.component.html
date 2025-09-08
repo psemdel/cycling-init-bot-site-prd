@@ -3,9 +3,7 @@
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <mat-form-field>
       <mat-label for="name">Name </mat-label>
-      <input matInput type="text" id="name" formControlName="name"
-        [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
-
+      <input matInput type="text" id="name" formControlName="name" />
       @if (submitted && f.name.errors){
         <div><mat-error>Field required</mat-error></div>
       }
@@ -13,8 +11,7 @@
     <br/>
     <mat-form-field >
       <mat-label for="gender">Gender</mat-label>
-      <mat-select disableOptionCentering formControlName="gender"
-        [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
+      <mat-select disableOptionCentering formControlName="gender">
         @for (gender of genders; track gender) {
           <mat-option [value]="gender.value">
             {{gender.viewValue}}
@@ -32,8 +29,7 @@
     <br>
       <mat-form-field >
         <mat-label for="nationality">Country of nationality</mat-label>
-        <mat-select disableOptionCentering formControlName="nationality"
-          [ngClass]="{ 'is-invalid': submitted && f.nationality.errors }" >
+        <mat-select disableOptionCentering formControlName="nationality" >
           @for (nationality of nationalities; track nationality) {
             <mat-option [value]="nationality.value">
               {{nationality.viewValue}}

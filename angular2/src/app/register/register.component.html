@@ -4,7 +4,7 @@
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <mat-form-field>
         <mat-label for="first_name">First Name</mat-label>
-        <input matInput type="text" formControlName="first_name"  [ngClass]="{ 'is-invalid': submitted && f.first_name.errors }" />
+        <input matInput type="text" formControlName="first_name" />
         @if (submitted && f.first_name.errors) {
           <div >
             @if (f.first_name.errors.required) {
@@ -16,7 +16,7 @@
       <br>
         <mat-form-field >
           <mat-label for="last_name">Last Name</mat-label>
-          <input matInput type="text" formControlName="last_name"  [ngClass]="{ 'is-invalid': submitted && f.last_name.errors }" />
+          <input matInput type="text" formControlName="last_name"  />
           @if (submitted && f.last_name.errors) {
             <div >
               @if (f.last_name.errors.required) {
@@ -28,7 +28,7 @@
         <br>
           <mat-form-field >
             <mat-label for="email">E-mail</mat-label>
-            <input matInput type="text" formControlName="email" email="true"  [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+            <input matInput type="text" formControlName="email" email="true" />
             @if (submitted && f.email.errors) {
               <div >
                 @if (f.email.errors.required) {
@@ -43,7 +43,7 @@
           <br>
             <mat-form-field >
               <mat-label for="username">Username, <small>please use same name as on Wikipedia</small></mat-label>
-              <input matInput type="text" formControlName="username"  [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+              <input matInput type="text" formControlName="username" />
               @if (submitted && f.username.errors) {
                 <div >
                   @if (f.username.errors.required) {
@@ -55,7 +55,7 @@
             <br>
               <mat-form-field >
                 <mat-label for="password">Password</mat-label>
-                <input matInput type="password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                <input matInput type="password" formControlName="password" />
                 @if (submitted && f.password.errors) {
                   <div >
                     @if (f.password.errors.required) {
@@ -70,7 +70,7 @@
               <br>
                 <mat-form-field >
                   <mat-label for="confirmPass">Confirm password</mat-label>
-                  <input matInput type="password" formControlName="confirmPass" [ngClass]="{ 'is-invalid': submitted && f.confirmPass.errors }" />
+                  <input matInput type="password" formControlName="confirmPass" />
                   @if (submitted && registerForm.errors?.notSame) {
                     <mat-error >Password confirmation differs from password</mat-error>
                   }

@@ -4,11 +4,13 @@ import { Observable } from 'rxjs';
 
 import {AuthenticationService } from '../services/authentication.service';
 import { BotRequest, User} from '../models/models';
+import {RequestDetailsComponent} from '../request-details/request-details.component'
 
 @Component({
   selector: 'app-all-request-list',
   templateUrl: './all-request-list.component.html',
-  styleUrls: ['./all-request-list.component.css']
+  styleUrls: ['./all-request-list.component.css'],
+  imports: [RequestDetailsComponent]
 })
 
 export class AllRequestListComponent implements OnInit {

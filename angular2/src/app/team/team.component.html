@@ -3,8 +3,7 @@
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <mat-form-field >
       <mat-label for="name">Name of the team for the season</mat-label>
-      <input matInput type="text"  id="name" formControlName="name"
-        [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+      <input matInput type="text"  id="name" formControlName="name" />
       @if (submitted && f.name.errors) {
         <div >
           @if (f.name.errors.required) {
@@ -19,8 +18,7 @@
         <mat-hint>for instance Q645032 for Deceuninck-Quick Step<br/>
         note: if this parent iteam does not exist, create it manually first</mat-hint>
         <br/>
-        <input matInput type="text"  id="item_id" formControlName="item_id"
-          [ngClass]="{ 'is-invalid': submitted && f.item_id.errors }" />
+        <input matInput type="text"  id="item_id" formControlName="item_id"/>
         @if (submitted && f.item_id.errors) {
           <div >
             @if (f.item_id.errors.required) {
@@ -36,8 +34,7 @@
         <br>
           <mat-form-field >
             <mat-label for="name">Year </mat-label>
-            <mat-select disableOptionCentering id="year" formControlName="year"
-              [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
+            <mat-select disableOptionCentering id="year" formControlName="year">
               @for (year of years; track year) {
                 <mat-option [value]="year">
                   {{year}}
@@ -55,8 +52,7 @@
           <br>
             <mat-form-field >
               <mat-label for="category_id">Category of the team</mat-label>
-              <mat-select disableOptionCentering  formControlName="category_id"
-                [ngClass]="{ 'is-invalid': submitted && f.category_id.errors }" >
+              <mat-select disableOptionCentering  formControlName="category_id" >
                 @for (teamCategory of teamCategories; track teamCategory) {
                   <mat-option [value]="teamCategory.value">
                     {{teamCategory.viewValue}}
@@ -75,8 +71,7 @@
               <mat-form-field >
                 <mat-label for="nationality">Country of nationality</mat-label>
                 <mat-hint>Listed by UCI nation ranking men 2019 up to rank 20</mat-hint>
-                <mat-select disableOptionCentering  formControlName="nationality"
-                  [ngClass]="{ 'is-invalid': submitted && f.nationality.errors }" >
+                <mat-select disableOptionCentering  formControlName="nationality" >
                   @for (nationality of nationalities; track nationality) {
                     <mat-option [value]="nationality.value">
                       {{nationality.viewValue}}
@@ -94,8 +89,7 @@
               <br>
                 <mat-form-field >
                   <mat-label for="UCIcode">UCI code, if existing</mat-label>
-                  <input matInput type="text"  id="UCIcode" formControlName="UCIcode"
-                    [ngClass]="{ 'is-invalid': submitted && f.UCIcode.errors }" />
+                  <input matInput type="text"  id="UCIcode" formControlName="UCIcode"/>
                   @if (submitted && f.UCIcode.errors) {
                     <div >
                       @if (f.UCIcode.errors.pattern) {
