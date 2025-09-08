@@ -3,171 +3,240 @@
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <mat-form-field >
       <mat-label for="name">
-          Name of the race</mat-label>
+      Name of the race</mat-label>
       <mat-hint>for instance: Tour de France, no year in the title</mat-hint>
       <input matInput type="text" id="name" formControlName="name"
         [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
-    <div *ngIf="submitted && f.name.errors" >
-        <mat-error *ngIf="f.name.errors.required">Field required</mat-error>
-    </div>
+      @if (submitted && f.name.errors) {
+        <div >
+          @if (f.name.errors.required) {
+            <mat-error>Field required</mat-error>
+          }
+        </div>
+      }
     </mat-form-field >
-<br/>
+    <br/>
     <mat-form-field >
       <mat-label for=" item_id">Id of the parent race item on wikidata</mat-label>
       <mat-hint>for instance Q33881 for Tour de France<br/>
-        note: if this parent iteam does not exist, create it manually first</mat-hint>
-      
-      <input matInput type="text"  id="item_id" formControlName="item_id"
-            [ngClass]="{ 'is-invalid': submitted && f.item_id.errors }" />
-          <div *ngIf="submitted && f.item_id.errors" >
-              <mat-error *ngIf="f.item_id.errors.required">Field required</mat-error>
-              <mat-error *ngIf="f.item_id.errors.pattern">Item id should start with "Q"</mat-error>
-        </div>
-      </mat-form-field >
-<br/><br/>
-  <mat-form-field >
-          <mat-label for="gender">Man or woman race?</mat-label>
-          <mat-select disableOptionCentering formControlName="gender"
-          [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
-              <mat-option *ngFor="let gender of genders" [value]="gender.value">
-                {{gender.viewValue}}
-              </mat-option>
-            </mat-select>
-            <div *ngIf="submitted && f.gender.errors" >
-                <mat-error *ngIf="f.gender.errors.required">Field required</mat-error>
-            </div>
+      note: if this parent iteam does not exist, create it manually first</mat-hint>
 
-          </mat-form-field >
-<br>
-<mat-form-field >
+      <input matInput type="text"  id="item_id" formControlName="item_id"
+        [ngClass]="{ 'is-invalid': submitted && f.item_id.errors }" />
+      @if (submitted && f.item_id.errors) {
+        <div >
+          @if (f.item_id.errors.required) {
+            <mat-error>Field required</mat-error>
+          }
+          @if (f.item_id.errors.pattern) {
+            <mat-error>Item id should start with "Q"</mat-error>
+          }
+        </div>
+      }
+    </mat-form-field >
+    <br/><br/>
+    <mat-form-field >
+      <mat-label for="gender">Man or woman race?</mat-label>
+      <mat-select disableOptionCentering formControlName="gender"
+        [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
+        @for (gender of genders; track gender) {
+          <mat-option [value]="gender.value">
+            {{gender.viewValue}}
+          </mat-option>
+        }
+      </mat-select>
+      @if (submitted && f.gender.errors) {
+        <div >
+          @if (f.gender.errors.required) {
+            <mat-error>Field required</mat-error>
+          }
+        </div>
+      }
+
+    </mat-form-field >
+    <br>
+      <mat-form-field >
         <mat-label for="race_type">Type of race</mat-label>
         <mat-select disableOptionCentering formControlName="race_type"
           [ngClass]="{ 'is-invalid': submitted && f.race_type.errors }">
-          <mat-option *ngFor="let race_type of race_types" [value]="race_type.value">
-            {{race_type.viewValue}}
-          </mat-option>
-        </mat-select>
-          <div *ngIf="submitted && f.race_type.errors" >
-              <mat-error *ngIf="f.race_type.errors.required">Field required</mat-error>
-        </div>
-      </mat-form-field >
-  <br>
-  <mat-form-field >
-    <mat-label for="time_of_race">Begin of the race</mat-label>
-        <input matInput [matDatepicker]="picker1" formControlName="time_of_race">
-        <mat-datepicker-toggle matSuffix [for]="picker1">
-        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-      </mat-datepicker-toggle>
-      <mat-datepicker #picker1></mat-datepicker>
-      <div *ngIf="submitted && f.time_of_race.errors" >
-              <mat-error *ngIf="f.time_of_race.errors.required">Field required</mat-error>
-    </div>
-  </mat-form-field >
-  <br>
-  <mat-form-field *ngIf="f.race_type.value===true">
-    <br>
-    <mat-label for="end_of_race">End of the race</mat-label>
-        <input matInput [matDatepicker]="picker2" formControlName="end_of_race">
-        <mat-datepicker-toggle matSuffix [for]="picker2">
-        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-      </mat-datepicker-toggle>
-      <mat-datepicker #picker2></mat-datepicker>
-    </mat-form-field>
-<br>
-  <mat-form-field >
-      <mat-label for="nationality">Country</mat-label>
-      <mat-select disableOptionCentering formControlName="nationality"
-      [ngClass]="{ 'is-invalid': submitted && f.nationality.errors }" >
-          <mat-option *ngFor="let nationality of nationalities" [value]="nationality.value">
-            {{nationality.viewValue}}
-          </mat-option>
-        </mat-select>
-    <mat-hint>Listed by UCI nation ranking men 2019 up to top 20</mat-hint>
-    <div *ngIf="submitted && f.nationality.errors" >
-        <mat-error *ngIf="f.nationality.errors.required">Field required</mat-error>
-    </div>
-  </mat-form-field >
-<br>
-    <mat-form-field  *ngIf="f.race_type.value==true">
-      <mat-label for="race_class">Class</mat-label>
-      <mat-select disableOptionCentering formControlName="race_class2"
-      [ngClass]="{ 'is-invalid': submitted && f.race_class2.errors }" >
-        <mat-option *ngFor="let race_class of race_2x_classes" [value]="race_class.value">
-          {{race_class.viewValue}}
-        </mat-option>
-      </mat-select>
-        <div *ngIf="submitted && f.race_class2.errors" >
-            <mat-error *ngIf="f.race_class2.errors.required">Field required</mat-error>
-        </div>
-      
-      </mat-form-field >
-    <mat-form-field *ngIf="f.race_type.value!=true">
-      <mat-label for="race_class">Class</mat-label>
-      <mat-select disableOptionCentering formControlName="race_class1"
-      [ngClass]="{ 'is-invalid': submitted && f.race_class1.errors }" >
-            <mat-option *ngFor="let race_class of race_1x_classes" [value]="race_class.value">
-              {{race_class.viewValue}}
+          @for (race_type of race_types; track race_type) {
+            <mat-option [value]="race_type.value">
+              {{race_type.viewValue}}
             </mat-option>
-      </mat-select>
-      <div *ngIf="submitted && f.race_class1.errors" >
-            <mat-error *ngIf="f.race_class1.errors.required">Field required</mat-error>
-        </div>
+          }
+        </mat-select>
+        @if (submitted && f.race_type.errors) {
+          <div >
+            @if (f.race_type.errors.required) {
+              <mat-error>Field required</mat-error>
+            }
+          </div>
+        }
       </mat-form-field >
-
-<br>
-<mat-form-field >
-      <mat-label for="edition_nr">Edition number</mat-label>
-      <input matInput type="number"  id="edition_nr" formControlName="edition_nr"
-        [ngClass]="{ 'is-invalid': submitted && f.edition_nr.errors }" />
-      <div *ngIf="submitted && f.edition_nr.errors" >
-            <mat-error *ngIf="f.edition_nr.errors.required">Field required</mat-error>
-      </div>
-        
-    </mat-form-field >
-<br>
-<mat-form-field  *ngIf="f.race_type.value==true"> 
-        <mat-label for="create_stages">Create the stages?</mat-label>
-        <mat-hint>
-            In the beginning of the year, the details about organisation are not always known, 
-            it can useful to proceed in two steps for the creation the stage races</mat-hint>
-        <mat-select disableOptionCentering formControlName="create_stages"
-          [ngClass]="{ 'is-invalid': submitted && f.create_stages.errors }">
-          <mat-option *ngFor="let yesno of yesnos" [value]="yesno.value">
-            {{yesno.viewValue}}
-          </mat-option>
-        </mat-select>
-</mat-form-field >
-<div  *ngIf="f.create_stages.value==true">
-    <br/>
-</div>
-<mat-form-field *ngIf="f.create_stages.value==true && f.race_type.value==true"> 
-        <mat-label for="prologue">Is there a prologue?</mat-label>
-        <mat-select disableOptionCentering formControlName="prologue"
-          [ngClass]="{ 'is-invalid': submitted && f.prologue.errors }">
-          <mat-option *ngFor="let yesno of yesnos" [value]="yesno.value">
-            {{yesno.viewValue}}
-          </mat-option>
-        </mat-select>
-  </mat-form-field >
-  <br>
-  <mat-form-field  *ngIf="f.create_stages.value==true && f.race_type.value==true"> 
       <br>
-      <mat-label for="last_stage">
-          Number of the last stage</mat-label>
-        <mat-hint>For instance: end stage is stage 4, then write 4<br/>
-          half-stages are present, add one for each half-stage</mat-hint>
-      <input matInput type="number"  id="last_stage" formControlName="last_stage"
-        [ngClass]="{ 'is-invalid': submitted && f.last_stage.errors }" />
-  </mat-form-field >
-  <div  *ngIf="f.race_type.value==true">
-    <br/> <br/>
-  </div>
-  <button mat-raised-button color="primary" type="submit">Submit</button>
-  </form>
-</div>
+        <mat-form-field >
+          <mat-label for="time_of_race">Begin of the race</mat-label>
+          <input matInput [matDatepicker]="picker1" formControlName="time_of_race">
+          <mat-datepicker-toggle matSuffix [for]="picker1">
+            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+          </mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+          @if (submitted && f.time_of_race.errors) {
+            <div >
+              @if (f.time_of_race.errors.required) {
+                <mat-error>Field required</mat-error>
+              }
+            </div>
+          }
+        </mat-form-field >
+        <br>
+          @if (f.race_type.value===true) {
+            <mat-form-field>
+              <br>
+                <mat-label for="end_of_race">End of the race</mat-label>
+                <input matInput [matDatepicker]="picker2" formControlName="end_of_race">
+                <mat-datepicker-toggle matSuffix [for]="picker2">
+                  <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+              </mat-form-field>
+            }
+            <br>
+              <mat-form-field >
+                <mat-label for="nationality">Country</mat-label>
+                <mat-select disableOptionCentering formControlName="nationality"
+                  [ngClass]="{ 'is-invalid': submitted && f.nationality.errors }" >
+                  @for (nationality of nationalities; track nationality) {
+                    <mat-option [value]="nationality.value">
+                      {{nationality.viewValue}}
+                    </mat-option>
+                  }
+                </mat-select>
+                <mat-hint>Listed by UCI nation ranking men 2019 up to top 20</mat-hint>
+                @if (submitted && f.nationality.errors) {
+                  <div >
+                    @if (f.nationality.errors.required) {
+                      <mat-error>Field required</mat-error>
+                    }
+                  </div>
+                }
+              </mat-form-field >
+              <br>
+                @if (f.race_type.value==true) {
+                  <mat-form-field >
+                    <mat-label for="race_class">Class</mat-label>
+                    <mat-select disableOptionCentering formControlName="race_class2"
+                      [ngClass]="{ 'is-invalid': submitted && f.race_class2.errors }" >
+                      @for (race_class of race_2x_classes; track race_class) {
+                        <mat-option [value]="race_class.value">
+                          {{race_class.viewValue}}
+                        </mat-option>
+                      }
+                    </mat-select>
+                    @if (submitted && f.race_class2.errors) {
+                      <div >
+                        @if (f.race_class2.errors.required) {
+                          <mat-error>Field required</mat-error>
+                        }
+                      </div>
+                    }
+                  </mat-form-field >
+                }
+                @if (f.race_type.value!=true) {
+                  <mat-form-field>
+                    <mat-label for="race_class">Class</mat-label>
+                    <mat-select disableOptionCentering formControlName="race_class1"
+                      [ngClass]="{ 'is-invalid': submitted && f.race_class1.errors }" >
+                      @for (race_class of race_1x_classes; track race_class) {
+                        <mat-option [value]="race_class.value">
+                          {{race_class.viewValue}}
+                        </mat-option>
+                      }
+                    </mat-select>
+                    @if (submitted && f.race_class1.errors) {
+                      <div >
+                        @if (f.race_class1.errors.required) {
+                          <mat-error>Field required</mat-error>
+                        }
+                      </div>
+                    }
+                  </mat-form-field >
+                }
 
-<div *ngIf="success">
-  <h4>You submitted successfully {{lastname}}!</h4>
-  <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
-</div>
+                <br>
+                  <mat-form-field >
+                    <mat-label for="edition_nr">Edition number</mat-label>
+                    <input matInput type="number"  id="edition_nr" formControlName="edition_nr"
+                      [ngClass]="{ 'is-invalid': submitted && f.edition_nr.errors }" />
+                    @if (submitted && f.edition_nr.errors) {
+                      <div >
+                        @if (f.edition_nr.errors.required) {
+                          <mat-error>Field required</mat-error>
+                        }
+                      </div>
+                    }
+
+                  </mat-form-field >
+                  <br>
+                    @if (f.race_type.value==true) {
+                      <mat-form-field >
+                        <mat-label for="create_stages">Create the stages?</mat-label>
+                        <mat-hint>
+                          In the beginning of the year, the details about organisation are not always known,
+                        it can useful to proceed in two steps for the creation the stage races</mat-hint>
+                        <mat-select disableOptionCentering formControlName="create_stages"
+                          [ngClass]="{ 'is-invalid': submitted && f.create_stages.errors }">
+                          @for (yesno of yesnos; track yesno) {
+                            <mat-option [value]="yesno.value">
+                              {{yesno.viewValue}}
+                            </mat-option>
+                          }
+                        </mat-select>
+                      </mat-form-field >
+                    }
+                    @if (f.create_stages.value==true) {
+                      <div >
+                        <br/>
+                      </div>
+                    }
+                    @if (f.create_stages.value==true && f.race_type.value==true) {
+                      <mat-form-field>
+                        <mat-label for="prologue">Is there a prologue?</mat-label>
+                        <mat-select disableOptionCentering formControlName="prologue"
+                          [ngClass]="{ 'is-invalid': submitted && f.prologue.errors }">
+                          @for (yesno of yesnos; track yesno) {
+                            <mat-option [value]="yesno.value">
+                              {{yesno.viewValue}}
+                            </mat-option>
+                          }
+                        </mat-select>
+                      </mat-form-field >
+                    }
+                    <br>
+                      @if (f.create_stages.value==true && f.race_type.value==true) {
+                        <mat-form-field >
+                          <br>
+                            <mat-label for="last_stage">
+                            Number of the last stage</mat-label>
+                            <mat-hint>For instance: end stage is stage 4, then write 4<br/>
+                            half-stages are present, add one for each half-stage</mat-hint>
+                            <input matInput type="number"  id="last_stage" formControlName="last_stage"
+                              [ngClass]="{ 'is-invalid': submitted && f.last_stage.errors }" />
+                          </mat-form-field >
+                        }
+                        @if (f.race_type.value==true) {
+                          <div >
+                            <br/> <br/>
+                          </div>
+                        }
+                        <button mat-raised-button color="primary" type="submit">Submit</button>
+                      </form>
+                    </div>
+
+                    @if (success) {
+                      <div>
+                        <h4>You submitted successfully {{lastname}}!</h4>
+                        <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
+                      </div>
+                    }
 

@@ -1,31 +1,43 @@
 <div style="width: 600px;">
-<h2>Login</h2>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <mat-form-field >
-            <mat-label for="username">Username</mat-label>
-            <input matInput type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-            <div *ngIf="submitted && f.username.errors" >
-                <mat-error *ngIf="f.username.errors.required">Username is required</mat-error>  
-            </div>
-        </mat-form-field>
-        <br>
-        <mat-form-field >
-            <mat-label for="password">Password</mat-label>
-            <input matInput type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-            <div *ngIf="submitted && f.password.errors" >
-                <mat-error *ngIf="f.password.errors.required">Password is required</mat-error>
-            </div>
-        </mat-form-field>
-        <br>
+  <h2>Login</h2>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <mat-form-field >
+      <mat-label for="username">Username</mat-label>
+      <input matInput type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+      @if (submitted && f.username.errors) {
+        <div >
+          @if (f.username.errors.required) {
+            <mat-error>Username is required</mat-error>
+          }
+        </div>
+      }
+    </mat-form-field>
+    <br>
+      <mat-form-field >
+        <mat-label for="password">Password</mat-label>
+        <input matInput type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+        @if (submitted && f.password.errors) {
+          <div >
+            @if (f.password.errors.required) {
+              <mat-error>Password is required</mat-error>
+            }
+          </div>
+        }
+      </mat-form-field>
+      <br>
         <button mat-raised-button color="primary" id="submit">
-                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                Login
+          @if (loading) {
+            <span class="spinner-border spinner-border-sm mr-1"></span>
+          }
+          Login
         </button>
-            <a mat-button routerLink="/register" color="primary">Register</a>
-            <br/>
-            <a mat-button routerLink="/forgotten" color="primary">Password forgotten?</a>
-        <mat-error *ngIf="submitted && loggedfail" >      
+        <a mat-button routerLink="/register" color="primary">Register</a>
+        <br/>
+        <a mat-button routerLink="/forgotten" color="primary">Password forgotten?</a>
+        @if (submitted && loggedfail) {
+          <mat-error >
             False login or password, was your account activated?
-        </mat-error>
-    </form>
-</div>
+          </mat-error>
+        }
+      </form>
+    </div>

@@ -1,61 +1,89 @@
-  <h3>Import a start list</h3>
-  <p>To determine the start list, an easy method is to read the ranking of a race at the first stage (prologue). To fill the ranking of the riders, the ranking at final stage should be given.</p>
-  <div>
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-          <mat-form-field >
-            <mat-label for=" item_id">Id of the race item on wikidata</mat-label>
-            <mat-hint>for instance Q30091668 for Tour de France 2019</mat-hint>
-            <input matInput type="text"  id="item_id" formControlName="item_id"
-                  [ngClass]="{ 'is-invalid': submitted && f.item_id.errors }" />
-            <div *ngIf="submitted && f.item_id.errors" >
-                  <mat-error *ngIf="f.item_id.errors.required">Field required</mat-error>
-                  <mat-error *ngIf="f.item_id.errors.pattern">Item id should start with "Q"</mat-error>
-            </div>
-          </mat-form-field >
-          <br>
-          <mat-form-field >
-            <mat-label for="add_unknown_rider">How should the missing riders be handled?</mat-label>
-            <mat-select  disableOptionCentering  formControlName="add_unknown_rider"
-              [ngClass]="{ 'is-invalid': submitted && f.add_unknown_rider.errors }">
-              <mat-option *ngFor="let unk of unknown" [value]="unk.value">
-                {{unk.viewValue}}
+<h3>Import a start list</h3>
+<p>To determine the start list, an easy method is to read the ranking of a race at the first stage (prologue). To fill the ranking of the riders, the ranking at final stage should be given.</p>
+<div>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <mat-form-field >
+      <mat-label for=" item_id">Id of the race item on wikidata</mat-label>
+      <mat-hint>for instance Q30091668 for Tour de France 2019</mat-hint>
+      <input matInput type="text"  id="item_id" formControlName="item_id"
+        [ngClass]="{ 'is-invalid': submitted && f.item_id.errors }" />
+      @if (submitted && f.item_id.errors) {
+        <div >
+          @if (f.item_id.errors.required) {
+            <mat-error>Field required</mat-error>
+          }
+          @if (f.item_id.errors.pattern) {
+            <mat-error>Item id should start with "Q"</mat-error>
+          }
+        </div>
+      }
+    </mat-form-field >
+    <br>
+      <mat-form-field >
+        <mat-label for="add_unknown_rider">How should the missing riders be handled?</mat-label>
+        <mat-select  disableOptionCentering  formControlName="add_unknown_rider"
+          [ngClass]="{ 'is-invalid': submitted && f.add_unknown_rider.errors }">
+          @for (unk of unknown; track unk) {
+            <mat-option [value]="unk.value">
+              {{unk.viewValue}}
+            </mat-option>
+          }
+        </mat-select>
+        @if (submitted && f.add_unknown_rider.errors) {
+          <div >
+            @if (f.add_unknown_rider.errors.required) {
+              <mat-error>Field required</mat-error>
+            }
+          </div>
+        }
+      </mat-form-field >
+      <br>
+        <mat-form-field >
+          <mat-label for="force">Is it a race where ONLY national teams participate?</mat-label>
+          <mat-select  disableOptionCentering  formControlName="force_nation_team"
+            [ngClass]="{ 'is-invalid': submitted && f.force_nation_team.errors }">
+            @for (yesno of yesnos; track yesno) {
+              <mat-option [value]="yesno.value">
+                {{yesno.viewValue}}
               </mat-option>
-            </mat-select>
-            <div *ngIf="submitted && f.add_unknown_rider.errors" >
-              <mat-error *ngIf="f.add_unknown_rider.errors.required">Field required</mat-error>
+            }
+          </mat-select>
+          @if (submitted && f.force_nation_team.errors) {
+            <div >
+              @if (f.force_nation_team.errors.required) {
+                <mat-error>Field required</mat-error>
+              }
             </div>
-          </mat-form-field >
-          <br>
-          <mat-form-field >
-            <mat-label for="force">Is it a race where ONLY national teams participate?</mat-label>
-            <mat-select  disableOptionCentering  formControlName="force_nation_team"
-                [ngClass]="{ 'is-invalid': submitted && f.force_nation_team.errors }">
-                <mat-option *ngFor="let yesno of yesnos" [value]="yesno.value">
-                  {{yesno.viewValue}}
-                </mat-option>
-              </mat-select>
-              <div *ngIf="submitted && f.force_nation_team.errors" >
-                  <mat-error *ngIf="f.force_nation_team.errors.required">Field required</mat-error>
-              </div>
-          </mat-form-field >
-          <br/>
-          <mat-form-field *ngIf="f.force_nation_team.value==true">
+          }
+        </mat-form-field >
+        <br/>
+        @if (f.force_nation_team.value==true) {
+          <mat-form-field>
             <mat-label for="gender">Man or woman race?</mat-label>
             <mat-select  disableOptionCentering  formControlName="gender"
-            [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
-                <mat-option *ngFor="let gender of genders" [value]="gender.value">
+              [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
+              @for (gender of genders; track gender) {
+                <mat-option [value]="gender.value">
                   {{gender.viewValue}}
                 </mat-option>
-              </mat-select>
-              <div *ngIf="submitted && f.gender.errors" >
-                  <mat-error *ngIf="f.gender.errors.required">Field required</mat-error>
+              }
+            </mat-select>
+            @if (submitted && f.gender.errors) {
+              <div >
+                @if (f.gender.errors.required) {
+                  <mat-error>Field required</mat-error>
+                }
               </div>
+            }
           </mat-form-field >
-          <br>
+        }
+        <br>
           <button mat-raised-button color="primary" type="submit">Submit</button>
         </form>
-  </div>
-  <div *ngIf="success">
-        <h4>You submitted successfully {{lastname}}!</h4>
-        <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
-  </div>
+      </div>
+      @if (success) {
+        <div>
+          <h4>You submitted successfully {{lastname}}!</h4>
+          <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
+        </div>
+      }

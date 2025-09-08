@@ -1,39 +1,53 @@
 <h3>Sort elements in a property by date</h3>
 <div>
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-  <mat-form-field >
-    <mat-label for=" item_id">Id of the item on wikidata to be sorted</mat-label>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <mat-form-field >
+      <mat-label for=" item_id">Id of the item on wikidata to be sorted</mat-label>
       <mat-hint>for instance Q30091668 for Tour de France 2019</mat-hint>
-    <input matInput type="text"  id="item_id" formControlName="item_id"
-          [ngClass]="{ 'is-invalid': submitted && f.item_id.errors }" />
-        <div *ngIf="submitted && f.item_id.errors">
-            <mat-error *ngIf="f.item_id.errors.required">Field required</mat-error>
-            <mat-error *ngIf="f.item_id.errors.pattern">Item id should start with "Q"</mat-error>
-      </div>
+      <input matInput type="text"  id="item_id" formControlName="item_id"
+        [ngClass]="{ 'is-invalid': submitted && f.item_id.errors }" />
+      @if (submitted && f.item_id.errors) {
+        <div>
+          @if (f.item_id.errors.required) {
+            <mat-error>Field required</mat-error>
+          }
+          @if (f.item_id.errors.pattern) {
+            <mat-error>Item id should start with "Q"</mat-error>
+          }
+        </div>
+      }
     </mat-form-field >
-<br/><br/>
-<mat-form-field >
-    <mat-label for="prop">Property to sort</mat-label>
-    <mat-hint>"has part" for instance for sorting the races in a calendar or stages 
-          in a stage races<br/>
-          "victory" to sort the victories of a team</mat-hint>
-    
-    <mat-select disableOptionCentering  formControlName="prop"
-    [ngClass]="{ 'is-invalid': submitted && f.prop.errors }">
-        <mat-option *ngFor="let prop of properties" [value]="prop.value">
-          {{prop.viewValue}}
-        </mat-option>
+    <br/><br/>
+    <mat-form-field >
+      <mat-label for="prop">Property to sort</mat-label>
+      <mat-hint>"has part" for instance for sorting the races in a calendar or stages
+        in a stage races<br/>
+      "victory" to sort the victories of a team</mat-hint>
+
+      <mat-select disableOptionCentering  formControlName="prop"
+        [ngClass]="{ 'is-invalid': submitted && f.prop.errors }">
+        @for (prop of properties; track prop) {
+          <mat-option [value]="prop.value">
+            {{prop.viewValue}}
+          </mat-option>
+        }
       </mat-select>
-      <div *ngIf="submitted && f.prop.errors">
-          <mat-error *ngIf="f.prop.errors.required">Field required</mat-error>
-      </div>
+      @if (submitted && f.prop.errors) {
+        <div>
+          @if (f.prop.errors.required) {
+            <mat-error>Field required</mat-error>
+          }
+        </div>
+      }
     </mat-form-field >
-  <br/><br/>
-  <button mat-raised-button color="primary" type="submit">Submit</button>
-</form>
+    <br/><br/>
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+  </form>
 </div>
 
-<div *ngIf="success">
-<h4>You submitted successfully {{lastname}}!</h4>
-<a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
-</div>
+@if (success) {
+  <div>
+    <h4>You submitted successfully {{lastname}}!</h4>
+    <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
+  </div>
+}

@@ -3,25 +3,33 @@
 <p>Given the amount of data changed from this routine, it has to be started manually from the administrator of the website (double check)</p>
 <div>
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <mat-form-field >
-          <mat-label for="name">Year </mat-label>
-          <mat-select formControlName="year"
-          disableOptionCentering id="year"
+    <mat-form-field >
+      <mat-label for="name">Year </mat-label>
+      <mat-select formControlName="year"
+        disableOptionCentering id="year"
         [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
-              <mat-option *ngFor="let year of years" [value]="year">
-                            {{year}}
-              </mat-option>
-          </mat-select>
-            <div *ngIf="submitted && f.year.errors">
-                <mat-error *ngIf="f.year.errors.required">Field required</mat-error>
-            </div>
-        </mat-form-field>
-        <br/>
+        @for (year of years; track year) {
+          <mat-option [value]="year">
+            {{year}}
+          </mat-option>
+        }
+      </mat-select>
+      @if (submitted && f.year.errors) {
+        <div>
+          @if (f.year.errors.required) {
+            <mat-error>Field required</mat-error>
+          }
+        </div>
+      }
+    </mat-form-field>
+    <br/>
 
-        <button mat-raised-button color="primary" type="submit">Submit</button>
+    <button mat-raised-button color="primary" type="submit">Submit</button>
   </form>
 </div>
-<div *ngIf="success">
-  <h4>You submitted successfully year {{lastname}}!</h4>
-  <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
-</div>
+@if (success) {
+  <div>
+    <h4>You submitted successfully year {{lastname}}!</h4>
+    <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
+  </div>
+}

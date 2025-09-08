@@ -1,78 +1,115 @@
 <h2 style="align-text: center">Register</h2>
-<div *ngIf="!success">
+@if (!success) {
+  <div>
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <mat-form-field>
-            <mat-label for="first_name">First Name</mat-label>
-            <input matInput type="text" formControlName="first_name"  [ngClass]="{ 'is-invalid': submitted && f.first_name.errors }" />
-            <div *ngIf="submitted && f.first_name.errors" >
-                <mat-error *ngIf="f.first_name.errors.required">First Name is required</mat-error>
+      <mat-form-field>
+        <mat-label for="first_name">First Name</mat-label>
+        <input matInput type="text" formControlName="first_name"  [ngClass]="{ 'is-invalid': submitted && f.first_name.errors }" />
+        @if (submitted && f.first_name.errors) {
+          <div >
+            @if (f.first_name.errors.required) {
+              <mat-error>First Name is required</mat-error>
+            }
+          </div>
+        }
+      </mat-form-field>
+      <br>
+        <mat-form-field >
+          <mat-label for="last_name">Last Name</mat-label>
+          <input matInput type="text" formControlName="last_name"  [ngClass]="{ 'is-invalid': submitted && f.last_name.errors }" />
+          @if (submitted && f.last_name.errors) {
+            <div >
+              @if (f.last_name.errors.required) {
+                <mat-error>Last Name is required</mat-error>
+              }
             </div>
+          }
         </mat-form-field>
         <br>
-        <mat-form-field >
-            <mat-label for="last_name">Last Name</mat-label>
-            <input matInput type="text" formControlName="last_name"  [ngClass]="{ 'is-invalid': submitted && f.last_name.errors }" />
-            <div *ngIf="submitted && f.last_name.errors" >
-                <mat-error *ngIf="f.last_name.errors.required">Last Name is required</mat-error>
-            </div>
-        </mat-form-field>
-        <br>
-        <mat-form-field >
+          <mat-form-field >
             <mat-label for="email">E-mail</mat-label>
             <input matInput type="text" formControlName="email" email="true"  [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
-            <div *ngIf="submitted && f.email.errors" >
-                <mat-error *ngIf="f.email.errors.required">E-mail address is required</mat-error>
-                <mat-error *ngIf="f.email.errors.email">Enter an E-mail address</mat-error>
+            @if (submitted && f.email.errors) {
+              <div >
+                @if (f.email.errors.required) {
+                  <mat-error>E-mail address is required</mat-error>
+                }
+                @if (f.email.errors.email) {
+                  <mat-error>Enter an E-mail address</mat-error>
+                }
+              </div>
+            }
+          </mat-form-field>
+          <br>
+            <mat-form-field >
+              <mat-label for="username">Username, <small>please use same name as on Wikipedia</small></mat-label>
+              <input matInput type="text" formControlName="username"  [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+              @if (submitted && f.username.errors) {
+                <div >
+                  @if (f.username.errors.required) {
+                    <mat-error>Username is required</mat-error>
+                  }
+                </div>
+              }
+            </mat-form-field>
+            <br>
+              <mat-form-field >
+                <mat-label for="password">Password</mat-label>
+                <input matInput type="password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                @if (submitted && f.password.errors) {
+                  <div >
+                    @if (f.password.errors.required) {
+                      <mat-error>Password is required</mat-error>
+                    }
+                    @if (f.password.errors.minlength) {
+                      <mat-error>Password must be at least 8 characters</mat-error>
+                    }
+                  </div>
+                }
+              </mat-form-field>
+              <br>
+                <mat-form-field >
+                  <mat-label for="confirmPass">Confirm password</mat-label>
+                  <input matInput type="password" formControlName="confirmPass" [ngClass]="{ 'is-invalid': submitted && f.confirmPass.errors }" />
+                  @if (submitted && registerForm.errors?.notSame) {
+                    <mat-error >Password confirmation differs from password</mat-error>
+                  }
+                  @if (submitted && f.confirmPass.errors) {
+                    <div >
+                      @if (f.confirmPass.errors.required) {
+                        <mat-error>Password confirmation is required</mat-error>
+                      }
+                    </div>
+                  }
+                </mat-form-field>
+                <p>No further data are collected. This website does not use cookies. For any question related to privacy, do not hesitate to contact the webmaster.
+                </p>
+                <div >
+                  <button mat-raised-button color="primary" id="submit">
+                    @if (loading) {
+                      <span class="spinner-border spinner-border-sm mr-1"></span>
+                    }
+                    Register
+                  </button>
+                  <a routerLink="/login" mat-raised-button color="primary" role="button">Cancel</a>
+                </div>
+                @if (submitted) {
+                  <div>
+                    @for (err of backenderror; track err) {
+                      <mat-error >
+                        {{err}}
+                      </mat-error>
+                    }
+                  </div>
+                }
+              </form>
             </div>
-        </mat-form-field>    
-        <br>
-        <mat-form-field >
-            <mat-label for="username">Username, <small>please use same name as on Wikipedia</small></mat-label>
-            <input matInput type="text" formControlName="username"  [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-            <div *ngIf="submitted && f.username.errors" >
-                <mat-error *ngIf="f.username.errors.required">Username is required</mat-error>
-            </div>
-        </mat-form-field>
-        <br>
-        <mat-form-field >
-            <mat-label for="password">Password</mat-label>
-            <input matInput type="password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-            <div *ngIf="submitted && f.password.errors" >
-                <mat-error *ngIf="f.password.errors.required">Password is required</mat-error>
-                <mat-error *ngIf="f.password.errors.minlength">Password must be at least 8 characters</mat-error>
-            </div>
-        </mat-form-field>
-        <br>
-        <mat-form-field >
-            <mat-label for="confirmPass">Confirm password</mat-label>
-            <input matInput type="password" formControlName="confirmPass" [ngClass]="{ 'is-invalid': submitted && f.confirmPass.errors }" />
-            <mat-error *ngIf="submitted && registerForm.errors?.notSame" >Password confirmation differs from password</mat-error>
-            <div *ngIf="submitted && f.confirmPass.errors" >
-                <mat-error *ngIf="f.confirmPass.errors.required">Password confirmation is required</mat-error>
-            </div>
-        </mat-form-field>      
-        
-        <p>No further data are collected. This website does not use cookies. For any question related to privacy, do not hesitate to contact the webmaster.
-        </p>
-        
-        <div >
-            <button mat-raised-button color="primary" id="submit">
-                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                Register
-            </button>
-            <a routerLink="/login" mat-raised-button color="primary" role="button">Cancel</a>
-        </div>
-            <div *ngIf="submitted">
-                <mat-error *ngFor="let err of backenderror" >
-                    {{err}}
-                </mat-error>
-            </div>
-
-    </form>
-</div>
-<div *ngIf="success">
-    <p class="content">You submitted successfully! To complete your registration, please write a message on my <a href="https://www.wikidata.org/wiki/User_talk:Psemdel">Wikidata discussion page</a>
-         so I can verify the validity of your request.
-    </p>
-    <a routerLink="/login" mat-raised-button color="primary" role="button">Login</a>
-</div>
+          }
+          @if (success) {
+            <div>
+              <p class="content">You submitted successfully! To complete your registration, please write a message on my <a href="https://www.wikidata.org/wiki/User_talk:Psemdel">Wikidata discussion page</a>
+              so I can verify the validity of your request.
+            </p>
+            <a routerLink="/login" mat-raised-button color="primary" role="button">Login</a>
+          </div>
+        }
