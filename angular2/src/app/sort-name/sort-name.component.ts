@@ -10,6 +10,7 @@ import {  BotRequest, User} from '../models/models';
 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
 
 interface Property {
   value: string;
@@ -20,7 +21,7 @@ interface Property {
   selector: 'sort-name',
   templateUrl: './sort-name.component.html',
   styleUrls: ['./sort-name.component.css'],
-  imports : [MatFormFieldModule, MatSelectModule]
+  imports : [MatFormFieldModule, MatSelectModule, ReactiveFormsModule]
 })
 
 export class SortNameComponent implements OnInit {

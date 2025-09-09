@@ -1,60 +1,8 @@
 <body>
-<p>
-  Welcome on the cycling init bot website!
-</p>
-<p>
-  <a href="https://www.wikidata.org/wiki/User:CyclingInitBot">Cycling init bot</a> is a script designed to initialize cycling related items on <img src="  https://upload.wikimedia.org/wikipedia/commons/f/ff/Wikidata-logo.svg" alt="wikidata"  style="width:25px">
-  <a href="https://www.wikidata.org/wiki/Wikidata:Main_Page">Wikidata</a>. 
-</p>
-<p>
-  This website allows you to access its functionality without having to install anything.
-</p>
-<p><b>Some news about the tool and info:</b><log [txt]="news" [name]="logmsg"></log></p>
-<p>
-The bot has been mainly used for women cycling purposes, the men part may need some improvement.
-</p>
-<p>
-  Lots of actions related to maintenance of Wikidata for cycling are quite repetitive. They can be easily delegated to a script. Here some illustrations.
-</p>
-<br/>
-  For Initialization of:
-  <ul>
-    <li>National championships</li>
-    <li>Races</li>
-    <li>Team seasons, including national teams</li>
-    <li>Rider</li>
-   </ul>
-For data importation from the <img src="/static/assets/Arc_en_ciel.svg" alt="UCI"  style="width:25px"><a href="https://www.uci.org/home">UCI</a>:
-    <ul>
-      <li>Race ranking</li>
-      <li>Startlist</li>
-      <li>UCI ranking</li>
-      <li>UCI calendar</li>
-    </ul>
-  Eventually some sorting algorithms are also included:
-    <ul>
-      <li>Sorting by date</li>
-      <li>Sorting by name</li>
-    </ul>
-
-Your rights will be granted progressively:
-<ul>
-    <li>When first registred and activated, you can ask for bot requests, I will trigger them manually. Thanks for the understanding.</li>
-    <li>When you are granted higher right, the requests will be triggered automatically after sending.</li>
-</ul> 
-
-<p>Please note that unfortunately the wikidata API is sometimes slow. It depends on the server load. Some requests can therefore be long or even crash if the maximum lag is reached. I have no influence on this parameter. Requests in the morning tends to be faster.
-</p>
-
-<p><a href="https://www.wikidata.org/wiki/Special:Contributions/CyclingInitBot">Check the last edits from Cycling-Init-Bot</a></p>
-
-<p>It is written in Python and based on pywikibot.<br>
-Source code on: <a href="https://phabricator.wikimedia.org/source/tool-cycling-init-bot.git">Phabricator</a> or <img src="/static/assets/Octicons-mark-github.svg" alt="github"  style="width:25px"><a href="https://github.com/psemdel/CyclingInitBot"> github</a>. 
-</p>
-<p>
-  <a href="https://www.wikidata.org/wiki/User:Psemdel">Psemdel</a>
-</p>
-<p>
-  Contact me on my <a href="https://www.wikidata.org/wiki/User_talk:Psemdel">discussion page</a>
-</p>
+    <app-topbar></app-topbar>
+    <alert></alert>
+    <div style="padding: 35px;">
+        <router-outlet></router-outlet>
+    </div>
 </body>
+<app-loading></app-loading>

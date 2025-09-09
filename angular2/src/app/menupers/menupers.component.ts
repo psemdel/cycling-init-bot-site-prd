@@ -6,12 +6,18 @@ import { User} from '../models/models';
 import {AuthenticationService } from '../services/authentication.service';
 
 import {MatMenuModule} from '@angular/material/menu';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDividerModule} from '@angular/material/divider';
 
 @Component({
   selector: 'app-menu-pers',
   templateUrl: './menupers.component.html',
   styleUrls: ['./menu.component.css'],
-  imports: [MatMenuModule]
+  imports: [
+    MatMenuModule, 
+    MatIconModule,
+    MatDividerModule
+]
 })
 
 export class MenuPersComponent implements OnInit {

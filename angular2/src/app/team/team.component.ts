@@ -10,12 +10,13 @@ import { nationalities, teamCategories} from '../models/lists';
 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'team',
   templateUrl: './team.component.html',
   styleUrls: ['./team.component.css'],
-  imports : [MatFormFieldModule, MatSelectModule]
+  imports : [MatFormFieldModule, MatSelectModule, ReactiveFormsModule]
 
 })
 

@@ -1,6 +1,10 @@
 import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
+import {MatToolbarModule} from '@angular/material/toolbar';
 import { Component, OnInit } from '@angular/core';
+
+import {MenuComponent} from '../menu/menu.component'
+import {MenuPersComponent} from '../menupers/menupers.component'
 
 import { User} from '../models/models';
 import {AuthenticationService } from '../services/authentication.service';
@@ -13,7 +17,13 @@ import { interval } from 'rxjs';
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.css'],
-  imports: [MatMenuModule, MatIconModule]
+  imports: [
+    MatMenuModule, 
+    MatIconModule, 
+    MenuComponent, 
+    MenuPersComponent,
+    MatToolbarModule
+]
 })
 
 export class TopbarComponent implements OnInit {

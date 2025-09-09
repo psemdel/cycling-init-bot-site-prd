@@ -1,5 +1,7 @@
 <!--variation 1-->
-@if ((tbotrequests | async)?.length>0) {
+
+
+@if ($any(tbotrequests | async)?.length>0) {
   <div>
     <h2>{{title}} requests</h2>
     <table>

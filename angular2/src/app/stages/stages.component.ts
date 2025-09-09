@@ -10,12 +10,13 @@ import {yesnos,  genders} from '../models/lists';
 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'stages',
   templateUrl: './stages.component.html',
   styleUrls: ['./stages.component.css'],
-  imports : [MatFormFieldModule, MatSelectModule]
+  imports : [MatFormFieldModule, MatSelectModule, ReactiveFormsModule]
 })
 
 export class StagesComponent implements OnInit {
@@ -40,7 +41,7 @@ export class StagesComponent implements OnInit {
   ngOnInit() {
         this.lastname="";
         this.registerForm = this.formBuilder.group({
-            item_id: this.formBuilder.control('', [Validators.required, Validators.pattern(/^[Q].*$/)]]),
+            item_id: this.formBuilder.control('', [Validators.required, Validators.pattern(/^[Q].*$/)]),
             prologue: this.formBuilder.control(true, [Validators.required]),
             last_stage: this.formBuilder.control(0, [Validators.required]),
             });

@@ -1,9 +1,10 @@
-@if (message?.text){
+@if(message?.text){
     <div>
-        @if (success){
-            <h1 style="background-color:lightgreen">{{message.text}}</h1>
-        } else{
-            <h1>{{message.text}}</h1>
+        @if(success){
+            <h1 style="background-color:lightgreen">{{message?.text}}</h1>
+        }
+        @else{
+            <h1>{{message?.text}}</h1>
         }
     </div>
 }

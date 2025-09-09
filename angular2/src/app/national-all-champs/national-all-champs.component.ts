@@ -8,12 +8,13 @@ import { BotRequest, User} from '../models/models';
 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'national-all-champs',
   templateUrl: './national-all-champs.component.html',
   styleUrls: ['./national-all-champs.component.css'],
-  imports : [MatFormFieldModule, MatSelectModule]
+  imports : [MatFormFieldModule, MatSelectModule, ReactiveFormsModule]
 })
 
 export class NationalAllChampsComponent implements OnInit {

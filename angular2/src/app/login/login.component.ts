@@ -4,9 +4,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import {AuthenticationService } from '../services/authentication.service';
+import { ReactiveFormsModule } from '@angular/forms';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @Component({ templateUrl: 'login.component.html',
-             styleUrls: ['./login.component.css']   
+             styleUrls: ['./login.component.css'],
+             imports: [ReactiveFormsModule, MatFormFieldModule]
 })
 
 export class LoginComponent implements OnInit {

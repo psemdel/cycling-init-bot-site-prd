@@ -3,6 +3,8 @@ import { BotRequestService} from '../services/bot-request.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { ReactiveFormsModule } from '@angular/forms';
+import {MatSelectModule} from '@angular/material/select';
 
 import { HttpClient} from '@angular/common/http';
 
@@ -24,7 +26,7 @@ interface ClassificationType {
   selector: 'import-classification',
   templateUrl: './import-classification.component.html',
   styleUrls: ['./import-classification.component.css'],
-  imports: [MatInputModule, MatFormFieldModule],
+  imports: [MatInputModule, MatSelectModule, MatFormFieldModule, ReactiveFormsModule],
 })
 
 export class ImportClassificationComponent implements OnInit {

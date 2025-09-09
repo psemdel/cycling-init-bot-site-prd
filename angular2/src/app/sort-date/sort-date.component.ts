@@ -10,6 +10,7 @@ import { BotRequest, User} from '../models/models';
 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
 
 interface Property {
   value: string;
@@ -20,7 +21,7 @@ interface Property {
   selector: 'sort-date',
   templateUrl: './sort-date.component.html',
   styleUrls: ['./sort-date.component.css'],
-  imports : [MatFormFieldModule, MatSelectModule]
+  imports : [MatFormFieldModule, MatSelectModule,  ReactiveFormsModule]
 })
 
 export class SortDateComponent implements OnInit {

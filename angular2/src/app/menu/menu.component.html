@@ -2,7 +2,7 @@
   <mat-icon>more_vert</mat-icon>
 </button>
 <mat-menu #menu="matMenu">
-  @if (currentUser?.level) {
+  @if (currentUser.level) {
     <button mat-menu-item >
       <mat-icon>create</mat-icon>
       <a routerLink="national-all-champs" role="button" routerLinkActive="active">National championship/year</a>

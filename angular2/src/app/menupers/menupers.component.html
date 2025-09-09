@@ -4,7 +4,7 @@
 </button>
 <mat-menu #menu="matMenu">
   <button mat-menu-item>
-    Signed in as @if (currentUser?.username) {
+    Signed in as @if (currentUser.username) {
     <b >{{currentUser.username}}</b>
   }
 </button>
@@ -16,12 +16,12 @@
 <button mat-menu-item>
   <a routerLink="request_list" role="button" routerLinkActive="active">My requests</a>
 </button>
-@if (currentUser?.level) {
+@if (currentUser.level) {
   <button mat-menu-item>
     <a routerLink="all_request_list" role="button" routerLinkActive="active">All requests</a>
   </button>
 }
-@if (currentUser?.level) {
+@if (currentUser.level) {
   <button mat-menu-item>
     <a routerLink="resend_activation_email" role="button" routerLinkActive="active">Resend activation</a>
   </button>

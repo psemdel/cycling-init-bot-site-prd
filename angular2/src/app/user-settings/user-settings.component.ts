@@ -11,10 +11,11 @@ import {FuncsService} from '../models/functions';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({ 
        templateUrl: 'user-settings.component.html',
-        imports: [MatInputModule, MatFormFieldModule],
+        imports: [MatInputModule, MatFormFieldModule, ReactiveFormsModule],
 })
 
 export class UserSettingsComponent implements OnInit {

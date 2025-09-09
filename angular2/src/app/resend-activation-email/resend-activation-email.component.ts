@@ -6,10 +6,11 @@ import { UserService} from '../services/user.service';
 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({ 
     templateUrl: 'resend-activation-email.component.html',
-    imports : [MatFormFieldModule, MatSelectModule]
+    imports : [MatFormFieldModule, MatSelectModule, ReactiveFormsModule]
  })
 
 export class ResendActivationEmailComponent implements OnInit {

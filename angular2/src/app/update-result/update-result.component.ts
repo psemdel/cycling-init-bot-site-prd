@@ -8,6 +8,7 @@ import {FuncsService} from '../models/functions';
 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { BotRequest, User} from '../models/models';
 import { race_types, yesnos,  gendersExtended,unknown} from '../models/lists';
@@ -16,7 +17,7 @@ import { race_types, yesnos,  gendersExtended,unknown} from '../models/lists';
   selector: 'update-result',
   templateUrl: './update-result.component.html',
   styleUrls: ['./update-result.component.css'],
-  imports: [MatFormFieldModule, MatSelectModule],
+  imports: [MatFormFieldModule, MatSelectModule, ReactiveFormsModule],
 })
 
 export class UpdateResultComponent implements OnInit {

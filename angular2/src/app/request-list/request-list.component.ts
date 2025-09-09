@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { BotRequestService} from '../services/bot-request.service';
 import { Observable, concat } from 'rxjs';
-import { IntervalObservable } from "rxjs/observable/IntervalObservable";
+import { interval } from 'rxjs';
 
 import {AuthenticationService } from '../services/authentication.service';
 import { BotRequest, User} from '../models/models';
 import {RequestDetailsComponent} from '../request-details/request-details.component'
 
+import {MatIconModule} from '@angular/material/icon';
+
 @Component({
   selector: 'app-request-list',
   templateUrl: './request-list.component.html',
   styleUrls: ['./request-list.component.css'],
-  imports: [RequestDetailsComponent]
+  imports: [RequestDetailsComponent, MatIconModule]
 })
 export class RequestListComponent implements OnInit {
   currentUser: User;
@@ -43,7 +45,7 @@ export class RequestListComponent implements OnInit {
 
   ngOnInit() {
     this.reloadData();
-    IntervalObservable.create(60000) //every minute
+    interval(60000) //every minute
     .subscribe(
         (data : any) => {
         this.reloadData(); //reload nb_started_routines

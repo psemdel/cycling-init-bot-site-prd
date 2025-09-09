@@ -7,7 +7,7 @@ import {AlertService } from './alert.service';
 
 import {BotRequest, User} from '../models/models';
 import {all_routines, dic_of_routines, dic_of_display_alert} from '../models/lists';
-import { IntervalObservable } from "rxjs/observable/IntervalObservable";
+import { interval } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -155,7 +155,7 @@ export class MonitoringService    {
       this.checking$.subscribe(
       (checking: boolean) => {
               if (checking){
-                 this.periodic=IntervalObservable.create(30000) //30 s
+                 this.periodic=interval(30000) //30 s
                       .subscribe(
                           (data: any) => {
                           this.check();

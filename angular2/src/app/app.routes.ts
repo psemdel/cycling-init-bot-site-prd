@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 import {App} from './app'
+import { HomeComponent } from './home/home.component';
 import { CreateRiderComponent } from './create-rider/create-rider.component';
 import { RequestListComponent } from './request-list/request-list.component';
 import { AllRequestListComponent } from './all-request-list/all-request-list.component';
@@ -33,7 +34,7 @@ import {AuthGuardStaff} from './guard/authstaff.guard';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
-    { path: 'home', component: App},
+    { path: 'home', component: HomeComponent},
     { path: 'national-all-champs', component: NationalAllChampsComponent, canActivate: [AuthGuardStaff] },
     { path: 'national-one-champ', component: NationalOneChampComponent, canActivate: [AuthGuard] },
     { path: 'create_rider', component: CreateRiderComponent, canActivate: [AuthGuard] },

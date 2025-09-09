@@ -7,10 +7,11 @@ import { AuthenticationService } from '../services/authentication.service';
 import { UserService} from '../services/user.service';
 
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({ 
     templateUrl: 'forgotten-pass.component.html',
-    imports : [MatFormFieldModule]
+    imports : [MatFormFieldModule, ReactiveFormsModule]
  })
 
 export class ForgottenPassComponent implements OnInit {

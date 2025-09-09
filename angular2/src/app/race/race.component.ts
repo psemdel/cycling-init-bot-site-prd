@@ -13,6 +13,9 @@ import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter} from '@angular/mater
 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'race',
@@ -24,7 +27,13 @@ import {MatSelectModule} from '@angular/material/select';
   {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
   ],
-  imports : [MatFormFieldModule, MatSelectModule]
+  imports : [
+    MatFormFieldModule, 
+    MatSelectModule,  
+    ReactiveFormsModule, 
+    MatDatepickerModule,
+    MatIconModule
+  ]
 })
 export class RaceComponent implements OnInit {
   currentUser: User;

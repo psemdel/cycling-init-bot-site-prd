@@ -17,6 +17,7 @@ import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter} from '@angular/mater
 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
 
 interface Moment {
   value: boolean;
@@ -33,7 +34,7 @@ interface Moment {
   {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
   ],
-  imports : [MatFormFieldModule, MatSelectModule]
+  imports : [MatFormFieldModule, MatSelectModule, ReactiveFormsModule]
 })
 
 export class TeamImporterComponent implements OnInit {

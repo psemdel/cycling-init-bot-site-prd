@@ -48,6 +48,9 @@ export class FuncsService {
  
         return year_begin <= year_end ? null : { notOk: false }   
       }
+     else{
+      return false;
+     }
     }
 
     checkPasswords(group: FormGroup) { // here we have the 'passwords' group

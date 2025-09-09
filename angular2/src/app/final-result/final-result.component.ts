@@ -11,12 +11,13 @@ import {FuncsService} from '../models/functions';
 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'final-result',
   templateUrl: './final-result.component.html',
   styleUrls: ['./final-result.component.css'],
-  imports : [MatFormFieldModule, MatSelectModule]
+  imports : [MatFormFieldModule, MatSelectModule, ReactiveFormsModule]
 })
 
 export class FinalResultComponent implements OnInit {

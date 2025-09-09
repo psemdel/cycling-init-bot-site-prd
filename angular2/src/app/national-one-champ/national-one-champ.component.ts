@@ -10,12 +10,13 @@ import { nationalities,  categories} from '../models/lists';
 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'national-one-champ',
   templateUrl: './national-one-champ.component.html',
   styleUrls: ['./national-one-champ.component.css'],
-  imports : [MatFormFieldModule, MatSelectModule]
+  imports : [MatFormFieldModule, MatSelectModule, ReactiveFormsModule]
 })
 
 export class NationalOneChampComponent implements OnInit {
@@ -81,7 +82,7 @@ export class NationalOneChampComponent implements OnInit {
         },
         error: (error : any) => {
             console.log(error);
-        };
+        }
       })
       this.botrequest = new BotRequest();
       }

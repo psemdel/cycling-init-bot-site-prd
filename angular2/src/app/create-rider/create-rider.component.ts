@@ -11,12 +11,14 @@ import {FuncsService} from '../models/functions';
 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-create-rider',
   templateUrl: './create-rider.component.html',
   styleUrls: ['./create-rider.component.css'],
-  imports : [MatFormFieldModule, MatSelectModule]
+  imports : [MatFormFieldModule, MatSelectModule, ReactiveFormsModule]
 })
 
 export class CreateRiderComponent implements OnInit {
