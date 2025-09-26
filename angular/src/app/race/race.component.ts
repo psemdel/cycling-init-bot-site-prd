@@ -72,10 +72,10 @@ export class RaceComponent implements OnInit {
         this.registerForm = this.formBuilder.group({
             name: this.formBuilder.control('', [Validators.required]),
             item_id: this.formBuilder.control('', [Validators.required, Validators.pattern(/^[Q].*$/)]),
-            nationalities: this.formBuilder.control('', [Validators.required]),
+            nationality: this.formBuilder.control('', [Validators.required]),
             time_of_race: this.formBuilder.control('', [Validators.required]),
             end_of_race: this.formBuilder.control(''),
-            race_types: this.formBuilder.control(false, [Validators.required]),
+            race_type: this.formBuilder.control(false, [Validators.required]),
             race_class1: this.formBuilder.control(''),
             race_class2: this.formBuilder.control(''),
             edition_nr: this.formBuilder.control(''),

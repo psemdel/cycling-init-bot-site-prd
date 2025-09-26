@@ -4,7 +4,7 @@
 </button>
 <mat-menu #menu="matMenu" class="menustyle">
   <button mat-menu-item>
-    Signed in as @if (currentUser.username) {
+    Signed in as @if (currentUser) {
     <b >{{currentUser.username}}</b>
   }
 </button>

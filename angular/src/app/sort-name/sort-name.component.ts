@@ -13,6 +13,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {MatButtonModule} from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
 
 interface Property {
   value: string;
@@ -28,7 +29,8 @@ interface Property {
     MatSelectModule, 
     ReactiveFormsModule, 
     RouterLink,
-    MatButtonModule
+    MatButtonModule,
+    MatInputModule
 ]
 })
 

@@ -13,6 +13,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
 
 import {RouterLink} from '@angular/router';
 
@@ -25,7 +26,9 @@ import {RouterLink} from '@angular/router';
     MatSelectModule, 
     ReactiveFormsModule, 
     RouterLink,
-    MatButtonModule]
+    MatButtonModule,
+    MatInputModule
+  ]
 })
 
 export class CreateRiderComponent implements OnInit {

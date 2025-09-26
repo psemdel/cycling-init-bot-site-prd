@@ -12,6 +12,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {MatButtonModule} from '@angular/material/button';
+import {MatInputModule} from '@angular/material/input';
 
 @Component({ templateUrl: 'register.component.html' ,
              styleUrls: ['./register.component.css'],
@@ -20,7 +21,8 @@ import {MatButtonModule} from '@angular/material/button';
                 MatSelectModule, 
                 ReactiveFormsModule, 
                 RouterLink,
-                MatButtonModule
+                MatButtonModule,
+                MatInputModule
             ]         
 })
 
