@@ -1,21 +1,35 @@
 import { Component, OnInit } from '@angular/core';
-import { BotRequestService} from '@ser/bot-request.service';
+import { BotRequestService} from '../services/bot-request.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import {AuthenticationService } from '@ser/authentication.service';
-import {MonitoringService } from '@ser/monitoring.service';
-import {AlertService} from '@ser/alert.service';
-import { BotRequest, User} from '@app/models/models';
-import { nationalities, genders} from '@app/models/lists';
+import {AuthenticationService } from '../services/authentication.service';
+import {MonitoringService } from '../services/monitoring.service';
+import {AlertService} from '../services/alert.service';
+import { BotRequest, User} from '../models/models';
+import { nationalities, genders} from '../models/lists';
+import {FuncsService} from '../models/functions';
+
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
+import {MatButtonModule} from '@angular/material/button';
+
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-create-rider',
   templateUrl: './create-rider.component.html',
-  styleUrls: ['./create-rider.component.css']
+  styleUrls: ['./create-rider.component.css'],
+  imports : [
+    MatFormFieldModule, 
+    MatSelectModule, 
+    ReactiveFormsModule, 
+    RouterLink,
+    MatButtonModule]
 })
 
 export class CreateRiderComponent implements OnInit {
-  currentUser: User;
+  currentUser: User | null;
   registerForm: FormGroup;
   botrequest: BotRequest = new BotRequest();
   submitted = false;
@@ -28,9 +42,10 @@ export class CreateRiderComponent implements OnInit {
               private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
               private alertService: AlertService,
-              private monitoringService: MonitoringService
+              private monitoringService: MonitoringService,
+              private funcs: FuncsService
     ) { 
-              this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+              this.authenticationService.currentUser.subscribe((x : any) => this.currentUser = x);
    }
 
   ngOnInit() {
@@ -49,33 +64,26 @@ export class CreateRiderComponent implements OnInit {
     this.submitted = true;
     // stop here if form is invalid
     if (this.registerForm.invalid) {
-        console.log("input not valid")
-        error => {
-                console.log(error);
-        }
+       console.log("input not valid")
        return;
     }
     //display in the interface
     this.lastname=this.f.name.value;  
-    
-    Object.keys(this.registerForm.controls).forEach(key => {
-      this.botrequest[key]=this.registerForm.controls[key].value;
-    });
-    
-    this.botrequest.author=this.currentUser.id;
+    this.botrequest=this.funcs.copy_from_to_bot_request(this.registerForm,this.botrequest, this.currentUser)
     this.save();
   }
 
   save() {
     this.botRequestService.createRq('create_rider',this.botrequest)
-      .subscribe(
-        data => {
-          console.log('creater rider request success');
-          this.success = true;
-          this.monitoringService.start('create_rider');
-        },
-        error => {
-            console.log(error);
+      .subscribe({
+          next: (data : any) => {
+              console.log('creater rider request success');
+              this.success = true;
+              this.monitoringService.start('create_rider');
+            },
+          error: (error : any) => {
+                console.log(error);
+            }
         });
      this.botrequest = new BotRequest();
         

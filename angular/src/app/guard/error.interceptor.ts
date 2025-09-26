@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable, throwError, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { catchError, filter, take, switchMap, map  } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 
-import {AuthenticationService } from '@ser/authentication.service';
-import {AlertService } from '@ser/alert.service';
-//import {MonitoringService } from '@ser/monitoring.service';
+import {AuthenticationService } from '../services/authentication.service';
+import {AlertService } from '../services/alert.service';
 
 @Injectable()
 
@@ -23,7 +22,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     ) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return next.handle(request).pipe(catchError(err => {
+        return next.handle(request).pipe(catchError((err: any) => {
             if (err.status === 401) {
                 // auto logout if 401 response returned from api
                 //this.authenticationService.logout();
@@ -33,7 +32,8 @@ export class ErrorInterceptor implements HttpInterceptor {
                     this.isRefreshing = false;
                     this.authenticationService.logout();
                     this.router.navigate(['/login']);
-                    return throwError(err.error || err.error.message || err.statusText);
+                    throw new Error(err.error || err.error.message || err.statusText);
+
                 } else {   
                     
                     if (!this.isRefreshing) {
@@ -59,20 +59,20 @@ export class ErrorInterceptor implements HttpInterceptor {
             }
             else if (err.status===400){ //for register
                // this.authenticationService.logout(); //invalid refresh token send 400
-                return throwError(err.error || err.error.message || err.statusText);
+                throw new Error(err.error || err.error.message || err.statusText);
             }
             else if  (err.status===403){
                 this.alertService.error("maximum number of requests per hour reached, wait a bit or contact the webmaster for extended rights");
-                return throwError(err.error || err.error.message || err.statusText);
+                throw new Error(err.error || err.error.message || err.statusText);
             }            
             else if(err.status===404){
                 console.log("error 404");
-                return throwError(err.error || err.error.message || err.statusText);
+                throw new Error(err.error || err.error.message || err.statusText);
             }else
             {
             //if err.status === 403 --> alert Rate limit
                 const error = err.error.message || err.statusText;
-                return throwError(err.error || err.error.message || err.statusText);
+                throw new Error(err.error || err.error.message || err.statusText);
             }
         }))
     }

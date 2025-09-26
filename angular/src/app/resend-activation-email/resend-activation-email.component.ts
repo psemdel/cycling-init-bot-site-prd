@@ -2,9 +2,24 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { first  } from 'rxjs/operators';
 
-import { UserService} from '@ser/user.service';
+import { UserService} from '../services/user.service';
 
-@Component({ templateUrl: 'resend-activation-email.component.html' })
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
+import {RouterLink} from '@angular/router';
+import {MatButtonModule} from '@angular/material/button';
+
+@Component({ 
+    templateUrl: 'resend-activation-email.component.html',
+    imports : [
+        MatFormFieldModule, 
+        MatSelectModule, 
+        ReactiveFormsModule, 
+        RouterLink,
+        MatButtonModule
+    ]
+ })
 
 export class ResendActivationEmailComponent implements OnInit {
     forgottenForm: FormGroup;
@@ -20,7 +35,7 @@ export class ResendActivationEmailComponent implements OnInit {
 
     ngOnInit() {
         this.forgottenForm = this.formBuilder.group({
-            email: ['', [Validators.required, Validators.email]],
+            email: this.formBuilder.control('', [Validators.required, Validators.email]),
             }
            );
     }
@@ -33,9 +48,6 @@ export class ResendActivationEmailComponent implements OnInit {
         // stop here if form is invalid
         if (this.forgottenForm.invalid) {
             console.log("input not valid")
-            error => {
-                    console.log(error);
-            }
            return;
         }
         
@@ -46,10 +58,10 @@ export class ResendActivationEmailComponent implements OnInit {
            // catchError(this.handleerror)              
             )
             .subscribe(
-                data => {
+                (data : any) => {
                     this.success = true;
                 },
-                error => {
+                (error : any) => {
                     console.log(error); 
                     this.loading = false;
                 }

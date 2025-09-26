@@ -29,7 +29,7 @@ describe('User service', () => {
          ];
          
          service.getAll().subscribe(
-            rqs => {
+            (rqs : any) => {
                 rqs.forEach( rq => {
                     expect(rq.id).toEqual(1)
                 })  
@@ -52,7 +52,7 @@ describe('User service', () => {
          currentUser["password"]
     
          service.register(currentUser).subscribe(
-            ans => {expect(resp['status']).toEqual('ok');
+            (ans : any) => {expect(resp['status']).toEqual('ok');
         })
 
         const req=httpMock.expectOne(`${authUrl}users/`);
@@ -64,7 +64,7 @@ describe('User service', () => {
          const resp={'status':'ok'};
 
          service.delete().subscribe(
-            ans => {expect(resp['status']).toEqual('ok');
+            (ans : any) => {expect(resp['status']).toEqual('ok');
         })
 
         const req=httpMock.expectOne(`${authUrl}users/me/`);
@@ -76,7 +76,7 @@ describe('User service', () => {
          const resp={'status':'ok'};
 
          service.forgotten("tester@gmail.com").subscribe(
-            ans => {expect(resp['status']).toEqual('ok');
+            (ans : any) => {expect(resp['status']).toEqual('ok');
         })
 
         const req=httpMock.expectOne(`${authUrl}users/reset_password/`);
@@ -88,7 +88,7 @@ describe('User service', () => {
          const resp={'status':'ok'};
 
          service.resendEmail("tester@gmail.com").subscribe(
-            ans => {expect(resp['status']).toEqual('ok');
+            (ans : any) => {expect(resp['status']).toEqual('ok');
         })
 
         const req=httpMock.expectOne(`${authUrl}users/resend_activation/`);
@@ -106,7 +106,7 @@ describe('User service', () => {
          }
 
          service.changePass(pass).subscribe(
-            ans => {expect(resp['status']).toEqual('ok');
+            (ans : any) => {expect(resp['status']).toEqual('ok');
         })
 
         const req=httpMock.expectOne(`${authUrl}users/set_password/`);

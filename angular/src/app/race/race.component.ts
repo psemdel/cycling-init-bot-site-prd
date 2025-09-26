@@ -1,15 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { BotRequestService} from '@ser/bot-request.service';
+import { BotRequestService} from '../services/bot-request.service';
 import { FormGroup, FormBuilder, Validators, FormControl} from '@angular/forms';
 
-import {AuthenticationService } from '@ser/authentication.service';
-import {MonitoringService } from '@ser/monitoring.service';
-import { BotRequest, User} from '@app/models/models';
+import {AuthenticationService } from '../services/authentication.service';
+import {MonitoringService } from '../services/monitoring.service';
+import { BotRequest, User} from '../models/models';
 import { race_types, nationalities,yesnos,
-race_1x_classes, race_2x_classes,  genders} from '@app/models/lists';
-import { MY_FORMATS} from '@app/models/date-format';
+race_1x_classes, race_2x_classes,  genders} from '../models/lists';
+import { MY_FORMATS} from '../models/date-format';
 import {DateAdapter,MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter} from '@angular/material-moment-adapter';
+
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatIconModule} from '@angular/material/icon';
+import {RouterLink} from '@angular/router';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'race',
@@ -21,6 +30,16 @@ import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter} from '@angular/mater
   {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
   ],
+  imports : [
+    MatFormFieldModule, 
+    MatSelectModule,  
+    ReactiveFormsModule, 
+    MatDatepickerModule,
+    MatIconModule,
+    RouterLink,
+    MatInputModule,
+    MatButtonModule
+  ]
 })
 export class RaceComponent implements OnInit {
   currentUser: User;
@@ -37,42 +56,49 @@ export class RaceComponent implements OnInit {
   yesnos=yesnos;
   temp1: boolean;
   temp2: string;
-  datetemp;
-  datetemp2;
+  datetemp :any;
+  datetemp2 :any;
   
   constructor(private botRequestService: BotRequestService,
               private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
               private monitoringService: MonitoringService
     ) { 
-              this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+              this.authenticationService.currentUser.subscribe((x : any) => this.currentUser = x);
    }
 
   ngOnInit() {
         this.lastname="";
         this.registerForm = this.formBuilder.group({
-            name: ['', Validators.required],
-            item_id: ['', [Validators.required, Validators.pattern(/^[Q].*$/)]],
-            nationality: ['', Validators.required],
-            time_of_race: ['', Validators.required],
-            end_of_race: [''],
-            race_type: [false, Validators.required],
-            race_class1: [''],
-            race_class2: [''],
-            edition_nr: [''],
-            create_stages: [true],
-            prologue: [true],
-            last_stage: [0],
-            gender: ['',Validators.required],
+            name: this.formBuilder.control('', [Validators.required]),
+            item_id: this.formBuilder.control('', [Validators.required, Validators.pattern(/^[Q].*$/)]),
+            nationalities: this.formBuilder.control('', [Validators.required]),
+            time_of_race: this.formBuilder.control('', [Validators.required]),
+            end_of_race: this.formBuilder.control(''),
+            race_types: this.formBuilder.control(false, [Validators.required]),
+            race_class1: this.formBuilder.control(''),
+            race_class2: this.formBuilder.control(''),
+            edition_nr: this.formBuilder.control(''),
+            create_stages: this.formBuilder.control(true),
+            prologue: this.formBuilder.control(true),
+            last_stage: this.formBuilder.control(0),
+            gender: this.formBuilder.control('',[Validators.required]),
     
             });
-            
-        this.registerForm.get('race_type').valueChanges
-            .subscribe(value => this.onRaceTypeChanged());    
-            
-        this.registerForm.get('create_stages').valueChanges
-            .subscribe(value => this.onCreateStageChanged());        
-            
+
+        let race_type=this.registerForm.get('race_type')
+        if (race_type!== null){
+          race_type.valueChanges
+            .subscribe((value : any) => this.onRaceTypeChanged()); 
+
+        }
+        
+        let create_stage=this.registerForm.get('create_stages')
+        if (create_stage!==null){
+          create_stage.valueChanges
+            .subscribe((value : any) => this.onCreateStageChanged()); 
+        }
+
   }
   
   onRaceTypeChanged()
@@ -156,15 +182,17 @@ export class RaceComponent implements OnInit {
 
   save() {
     this.botRequestService.createRq('race',this.botrequest)
-      .subscribe(
-        data => {
+      .subscribe({
+        next: (data : any) => {
           console.log('creater race request success');
           this.success = true;
           this.monitoringService.start('race');
         },
-        error => {
+        error: (error : any) => {
             console.log(error);
-        });
+        }
+      
+      });
      this.botrequest = new BotRequest();
         
   }

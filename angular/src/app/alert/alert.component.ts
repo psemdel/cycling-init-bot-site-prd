@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router, NavigationStart } from '@angular/router';
-import { AlertService } from '@ser/alert.service';
-import { Message } from '@app/models/lists';
+import { AlertService } from '../services/alert.service';
+import { Message } from '../models/lists';
 
 @Component({ 
 selector: 'alert', 
@@ -12,7 +12,7 @@ templateUrl: 'alert.component.html',
 
 export class AlertComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
-    message: Message ;
+    message: Message | null;
     success: boolean;
 
     constructor(private alertService: AlertService,
@@ -27,7 +27,7 @@ export class AlertComponent implements OnInit, OnDestroy {
     }
     ngOnInit() {
         this.subscription = this.alertService.getAlert()
-            .subscribe(message => {
+            .subscribe((message : any) => {
                if (message){
                 this.message = message;
                     if (message.type=='success'){

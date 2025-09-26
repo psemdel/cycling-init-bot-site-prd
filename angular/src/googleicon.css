@@ -1,10 +1,13 @@
-/* fallback */
+/* fallback
+src: url(/static/assets/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
+src: url(https://fonts.gstatic.com/s/materialicons/v144/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
+*/
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
   font-display: block;
-  src: url(/static/assets/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
+  src: url(../public/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2)  format('woff2');
 }
 
 .material-icons {

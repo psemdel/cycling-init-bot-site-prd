@@ -1,4 +1,11 @@
-<div *ngIf="message?.text">
-    <h1 style="background-color:lightgreen" *ngIf="success">{{message.text}}</h1>
-    <h1 *ngIf="!success">{{message.text}}</h1>
-</div>
+@if(message?.text){
+    <div>
+        @if(success){
+            <h1 style="background-color:lightgreen">{{message?.text}}</h1>
+        }
+        @else{
+            <h1>{{message?.text}}</h1>
+        }
+    </div>
+}
+

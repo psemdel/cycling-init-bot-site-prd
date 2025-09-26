@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 
-import {App} from './app'
 import { HomeComponent } from './home/home.component';
 import { CreateRiderComponent } from './create-rider/create-rider.component';
 import { RequestListComponent } from './request-list/request-list.component';
@@ -37,7 +36,7 @@ export const routes: Routes = [
     { path: 'home', component: HomeComponent},
     { path: 'national-all-champs', component: NationalAllChampsComponent, canActivate: [AuthGuardStaff] },
     { path: 'national-one-champ', component: NationalOneChampComponent, canActivate: [AuthGuard] },
-    { path: 'create_rider', component: CreateRiderComponent, canActivate: [AuthGuard] },
+    { path: 'create_rider', component: CreateRiderComponent }, //, canActivate: [AuthGuard]
     { path: 'race', component: RaceComponent, canActivate: [AuthGuard] },
     { path: 'stages', component: StagesComponent, canActivate: [AuthGuard] },
     { path: 'start_list', component: StartListComponent, canActivate: [AuthGuard] },
@@ -60,5 +59,3 @@ export const routes: Routes = [
     { path: 'resend_activation_email', component: ResendActivationEmailComponent, canActivate: [AuthGuardStaff] },
     { path: '**',component:  NotFoundComponent},
 ];
-
-export default routes;

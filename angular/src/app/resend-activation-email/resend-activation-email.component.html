@@ -1,26 +1,36 @@
 <div style="width: 600px;">
-<h2>Resend activation email</h2>
-    <div *ngIf="!success">
-        <form [formGroup]="forgottenForm" (ngSubmit)="onSubmit()">
-            <mat-form-field >
-            <mat-label matInput for="email">E-mail</mat-label>
-            <input matInput type="text" formControlName="email" email="true" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
-            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                <mat-error *ngIf="f.email.errors.required">E-mail address is required</mat-error>
-                <mat-error *ngIf="f.email.errors.email">Enter an E-mail address</mat-error>
+  <h2>Resend activation email</h2>
+  @if (!success) {
+    <div>
+      <form [formGroup]="forgottenForm" (ngSubmit)="onSubmit()">
+        <mat-form-field >
+          <mat-label matInput for="email">E-mail</mat-label>
+          <input matInput type="text" formControlName="email" email="true"  />
+          @if (submitted && f.email.errors) {
+            <div class="invalid-feedback">
+              @if (f.email.errors.required) {
+                <mat-error>E-mail address is required</mat-error>
+              }
+              @if (f.email.errors.email) {
+                <mat-error>Enter an E-mail address</mat-error>
+              }
             </div>
+          }
         </mat-form-field >
-        
         <div>
-            <button [disabled]="loading" mat-raised-button color="primary">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                Send
-            </button>
-            <a routerLink="/login" mat-raised-button color="primary" role="button">Cancel</a>
+          <button [disabled]="loading" mat-raised-button color="primary">
+            @if (loading) {
+              <span class="spinner-border spinner-border-sm mr-1"></span>
+            }
+            Send
+          </button>
+          <a routerLink="/login" mat-raised-button color="primary" role="button">Cancel</a>
         </div>
-             <div *ngIf="submitted && unknownerror" class="invalid-feedback">Unknown error, check your password</div>
-        </form>
+      </form>
     </div>
-<div *ngIf="success">
-  <p>E-mail sent successfully!</p>
-</div>  
+  }
+  @if (success) {
+    <div>
+      <p>E-mail sent successfully!</p>
+    </div>
+  }

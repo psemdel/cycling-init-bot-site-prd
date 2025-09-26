@@ -3,11 +3,25 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { first  } from 'rxjs/operators';
 
-import { AuthenticationService } from '@ser/authentication.service';
-import { UserService} from '@ser/user.service';
+import { AuthenticationService } from '../services/authentication.service';
+import { UserService} from '../services/user.service';
+import {FuncsService} from '../models/functions';
+
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
+import {RouterLink} from '@angular/router';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({ templateUrl: 'register.component.html' ,
-             styleUrls: ['./register.component.css']           
+             styleUrls: ['./register.component.css'],
+            imports : [
+                MatFormFieldModule, 
+                MatSelectModule, 
+                ReactiveFormsModule, 
+                RouterLink,
+                MatButtonModule
+            ]         
 })
 
 export class RegisterComponent implements OnInit {
@@ -23,6 +37,7 @@ export class RegisterComponent implements OnInit {
         private router: Router,
         private authenticationService: AuthenticationService,
         private userService: UserService,
+        private funcs: FuncsService
     ) {
         // redirect to home if already logged in
         if (this.authenticationService.currentUserValue) {
@@ -32,14 +47,14 @@ export class RegisterComponent implements OnInit {
 
     ngOnInit() {
         this.registerForm = this.formBuilder.group({
-            first_name: ['', Validators.required],
-            last_name: ['', Validators.required],
+            first_name: this.formBuilder.control('', [Validators.required]),
+            last_name: this.formBuilder.control('', [Validators.required]),
         //    wiki_name: ['', Validators.required],
-            email: ['', [Validators.required, Validators.email]],
-            username: ['', Validators.required],
-            password: ['', [Validators.required]],
-            confirmPass: ['']}
-           , { validator: this.checkPasswords 
+            email: this.formBuilder.control('', [Validators.required, Validators.email]),
+            username: this.formBuilder.control('', [Validators.required]),
+            password: this.formBuilder.control('', [Validators.required]),
+            confirmPass: this.formBuilder.control('')}
+           , { validator: this.funcs.checkPasswords 
            });
     }
 
@@ -61,27 +76,14 @@ export class RegisterComponent implements OnInit {
             .pipe(
             first(),
             )
-            .subscribe(
-                data => {
+            .subscribe({
+                next: (data : any) => {
                     this.success = true;
                 },
-                error => {
+                error: (error : any) => {
                     this.loading = false;
                     let keylist = Object.keys(error);
                     this.backenderror = error[keylist[0]]; 
                 }
-                );
+            })};
     }
-
-    
-    checkPasswords(group: FormGroup) { // here we have the 'passwords' group
-      let pass = group.get('password').value;
-      let confirmPass = group.get('confirmPass').value;
-    
-      if (pass === confirmPass){
-          return null;
-      }else{
-          return { notSame: true };
-      }
-    }
-}

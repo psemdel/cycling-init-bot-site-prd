@@ -1,16 +1,27 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { BotRequestService} from '@ser/bot-request.service';
-import {MonitoringService } from '@ser/monitoring.service';
+import { BotRequestService} from '../services/bot-request.service';
+import {MonitoringService } from '../services/monitoring.service';
+import {LogComponent} from '../log/log.component'
+import {MatButtonModule} from '@angular/material/button';
 
 import { Observable } from 'rxjs';
 
-import { BotRequest} from '@app/models/models';
-import {dic_of_display} from '@app/models/lists';
+import { BotRequest} from '../models/models';
+import {dic_of_display} from '../models/lists';
+
+import {MatIconModule} from '@angular/material/icon';
+import {AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'request-details',
   templateUrl: './request-details.component.html',
-  styleUrls: ['./request-details.component.css']  
+  styleUrls: ['./request-details.component.css'],
+  imports: [
+    MatIconModule, 
+    LogComponent, 
+    AsyncPipe,
+    MatButtonModule
+  ]
 })
 export class RequestDetailsComponent implements OnInit {
    @Input() tbotrequests: Observable<BotRequest[]>;
@@ -45,23 +56,29 @@ export class RequestDetailsComponent implements OnInit {
 
   run(botrequest : BotRequest) {
     this.botRequestService.runRq(botrequest)
-      .subscribe(
-        data => {
+      .subscribe({
+        next: (data : any) => {
           console.log(data);
           botrequest.status="run requested";
           this.monitoringService.start(botrequest.routine);
           this.reload();
         },
-        error => console.log(error));
+        error: (error : any) => {
+          console.log(error);
+        }
+      })
   }
 
   delete_rq(botrequest: BotRequest){
        this.botRequestService.deleteRq(botrequest.routine,botrequest.id)
-          .subscribe(
-            data => {
+          .subscribe({
+            next: (data : any) => {
                   console.log("request deleted")
                   this.reload();
             },
-            error => console.log(error));
+            error: (error : any) => {
+              console.log(error);
+            }
+          })
   }
 }

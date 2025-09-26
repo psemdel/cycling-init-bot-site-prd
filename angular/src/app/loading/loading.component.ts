@@ -1,10 +1,12 @@
 import { Component, ElementRef, ChangeDetectorRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { LoadingService } from '@ser/loading.service';
+import { LoadingService } from '../services/loading.service';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-loading',
   templateUrl: './loading.component.html',
+  imports: [MatProgressSpinnerModule]
 })
 export class LoadingComponent implements AfterViewInit, OnDestroy {
   loadingSubscription: Subscription;

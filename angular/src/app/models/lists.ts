@@ -83,7 +83,7 @@ export const nationalities: Nationality[] = [
     {value: 'ISL', viewValue: 'Iceland'},
     {value: 'ISR', viewValue: 'Israel'},
     {value: 'ITA', viewValue: 'Italy'},
-    {value: 'JAP', viewValue: 'Japan'},
+    {value: 'JPN', viewValue: 'Japan'},
     {value: 'KAZ', viewValue: 'Kazakhstan'},
     {value: 'LAT', viewValue: 'Latvia'},
     {value: "LTU", viewValue: 'Lithuania'},

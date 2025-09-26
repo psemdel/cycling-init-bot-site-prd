@@ -3,10 +3,22 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import {AuthenticationService } from '@ser/authentication.service';
+import {AuthenticationService } from '../services/authentication.service';
+import { ReactiveFormsModule } from '@angular/forms';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {RouterLink} from '@angular/router';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({ templateUrl: 'login.component.html',
-             styleUrls: ['./login.component.css']   
+             styleUrls: ['./login.component.css'],
+             imports: [
+                ReactiveFormsModule, 
+                MatFormFieldModule, 
+                RouterLink,
+                MatInputModule,
+                MatButtonModule
+            ]
 })
 
 export class LoginComponent implements OnInit {
@@ -52,18 +64,18 @@ export class LoginComponent implements OnInit {
         this.loading = true;
         this.authenticationService.login(this.f.username.value, this.f.password.value)
             .pipe(first())
-            .subscribe(
-                data => {
+            .subscribe({
+                next: (data : any) => {
                     this.loading = false;
                     this.loggedfail=false;
                     this.router.navigate(['home']);
                 },
-                error => {
+                error: (error : any) => {
                     this.loading = false;
                     this.loggedfail=true;
                     console.log(error);
                 },
-            );
+            });
          
     }
 }

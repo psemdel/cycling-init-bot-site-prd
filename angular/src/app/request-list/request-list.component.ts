@@ -1,15 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { BotRequestService} from '@ser/bot-request.service';
+import { BotRequestService} from '../services/bot-request.service';
 import { Observable, concat } from 'rxjs';
-import { IntervalObservable } from "rxjs/observable/IntervalObservable";
+import { interval } from 'rxjs';
 
-import {AuthenticationService } from '@ser/authentication.service';
-import { BotRequest, User} from '@app/models/models';
+import {AuthenticationService } from '../services/authentication.service';
+import { BotRequest, User} from '../models/models';
+import {RequestDetailsComponent} from '../request-details/request-details.component'
+
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-request-list',
   templateUrl: './request-list.component.html',
-  styleUrls: ['./request-list.component.css']
+  styleUrls: ['./request-list.component.css'],
+  imports: [
+    RequestDetailsComponent, 
+    MatIconModule,
+    MatButtonModule
+  ]
 })
 export class RequestListComponent implements OnInit {
   currentUser: User;
@@ -29,20 +38,21 @@ export class RequestListComponent implements OnInit {
   sort_name_botrequests: Observable<BotRequest[]>; 
   team_importer_botrequests: Observable<BotRequest[]>; 
   final_result_botrequests: Observable<BotRequest[]>; 
+  update_result_botrequests: Observable<BotRequest[]>; 
   all_botrequests: Observable<BotRequest[]>; 
   total_length:number;
  
    constructor(private botRequestService: BotRequestService,
                private authenticationService: AuthenticationService,
    ) {
-   this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+   this.authenticationService.currentUser.subscribe((x: any) => this.currentUser = x);
     }
 
   ngOnInit() {
     this.reloadData();
-    IntervalObservable.create(60000) //every minute
+    interval(60000) //every minute
     .subscribe(
-        data => {
+        (data : any) => {
         this.reloadData(); //reload nb_started_routines
         })
   }
@@ -67,6 +77,14 @@ export class RequestListComponent implements OnInit {
   else if(routine=='start_list'){
     this.start_list_botrequests =
     this.botRequestService.getRq('start_list',this.currentUser.id);
+  }
+  else if(routine=='final_result'){
+    this.final_result_botrequests =
+    this.botRequestService.getRq('final_result',this.currentUser.id);
+  }
+  else if(routine=='update_result'){
+    this.update_result_botrequests =
+    this.botRequestService.getRq('update_result',this.currentUser.id);
   }
   else if(routine=='race'){
     this.race_botrequests =
@@ -104,7 +122,7 @@ export class RequestListComponent implements OnInit {
     this.team_importer_botrequests =
     this.botRequestService.getRq('team_importer',this.currentUser.id); 
   }
-  else{
+  else{ //load all
     this.create_rider_botrequests=
       this.botRequestService.getRq('create_rider',this.currentUser.id);
 
@@ -122,7 +140,10 @@ export class RequestListComponent implements OnInit {
 
     this.final_result_botrequests =
       this.botRequestService.getRq('final_result',this.currentUser.id); 
-      
+    
+    this.update_result_botrequests =
+      this.botRequestService.getRq('update_result',this.currentUser.id); 
+
     this.race_botrequests =
       this.botRequestService.getRq('race',this.currentUser.id);
           
@@ -149,7 +170,8 @@ export class RequestListComponent implements OnInit {
 
     this.team_importer_botrequests =
     this.botRequestService.getRq('team_importer',this.currentUser.id); 
-  }
+  } 
+    //to count the number of requests
     this.all_botrequests=concat(
          this.create_rider_botrequests,
          this.import_classification_botrequests,
@@ -165,7 +187,8 @@ export class RequestListComponent implements OnInit {
          this.sort_date_botrequests,
          this.sort_name_botrequests,
          this.team_importer_botrequests,
-         this.final_result_botrequests
+         this.final_result_botrequests,
+         this.update_result_botrequests
          );
         
     this.total_length=0;    
@@ -177,13 +200,13 @@ export class RequestListComponent implements OnInit {
   delete_rq(routine: string, botrequest: BotRequest){
        this.botRequestService.deleteRq(routine,botrequest.id)
       .subscribe(
-        data => {},
-        error => console.log(error));
+        (data : any) => {},
+        (error : any) => console.log(error));
   }
   
   delete_rq_all(){
      this.all_botrequests.subscribe(rqs=> {
-         rqs.forEach( rq => {
+         rqs.forEach( (rq : any) => {
              this.delete_rq(rq.routine, rq);
          })
          this.reloadData()

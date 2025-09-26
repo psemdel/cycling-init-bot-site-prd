@@ -3,10 +3,16 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { first  } from 'rxjs/operators';
 
-import { AuthenticationService } from '@ser/authentication.service';
-import { UserService} from '@ser/user.service';
+import { AuthenticationService } from '../services/authentication.service';
+import { UserService} from '../services/user.service';
 
-@Component({ templateUrl: 'forgotten-pass.component.html' })
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { ReactiveFormsModule } from '@angular/forms';
+
+@Component({ 
+    templateUrl: 'forgotten-pass.component.html',
+    imports : [MatFormFieldModule, ReactiveFormsModule]
+ })
 
 export class ForgottenPassComponent implements OnInit {
     forgottenForm: FormGroup;
@@ -40,10 +46,7 @@ export class ForgottenPassComponent implements OnInit {
         this.submitted = true;
         // stop here if form is invalid
         if (this.forgottenForm.invalid) {
-            console.log("input not valid")
-            error => {
-                    console.log(error);
-            }
+           console.log("input not valid")
            return;
         }
         
@@ -53,15 +56,15 @@ export class ForgottenPassComponent implements OnInit {
             first(),
            // catchError(this.handleerror)              
             )
-            .subscribe(
-                data => {
+            .subscribe({
+                next: (data : any) => {
                     this.success = true;
                 },
-                error => {
+                error: (error : any) => {
                     console.log(error); 
                     this.loading = false;
                 }
-                );
+            });
     }
 
 }
