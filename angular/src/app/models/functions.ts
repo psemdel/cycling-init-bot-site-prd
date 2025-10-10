@@ -12,11 +12,11 @@ export class FuncsService {
   copy_from_to_bot_request(rf : FormGroup, botrequest: BotRequest, currentUser: User | null){
 
       Object.keys(rf.controls).forEach((key : string) => {
-        if (key in BotRequest){       
+        if (key in botrequest){       
           (botrequest as any)[key]=rf.controls[key].value;
         }
         else{
-          throw Error('invalid key by botrequest'); 
+          throw Error('invalid key by botrequest: ' + key); 
         }
       });
 

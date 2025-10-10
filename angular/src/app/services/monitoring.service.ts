@@ -68,7 +68,7 @@ export class MonitoringService    {
                 rqs.forEach(rq =>{
                     if (rq.status =="started" || rq.status =="pending"){ 
                         this.running_rq.push(rq.id);
-                        console.log("this.running_rq inside the for "+ this.running_rq)
+                        console.log("this.running_rq is "+ this.running_rq)
                         this.running_routine.push(rq.routine);
                         if (resetted){
                             this.nb_started_routines+=1;

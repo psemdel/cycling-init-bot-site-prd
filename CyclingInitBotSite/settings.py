@@ -11,11 +11,13 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import sentry_sdk
+
 import configparser
 
 from datetime import timedelta
-from sentry_sdk.integrations.django import DjangoIntegration
+
+#import sentry_sdk
+#from sentry_sdk.integrations.django import DjangoIntegration
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
-DEBUG=False
+DEBUG=True
 
 #if DEBUG:
 with open('CyclingInitBotSite/etc/secret_key.txt') as f:
@@ -69,7 +71,7 @@ if DEBUG:
           # Django REST framework 
         'rest_framework',
         'rest_framework.authtoken',
-        #'djoser',
+        'djoser',
         'bot_requests.apps.BotRequestsConfig',
         'users.apps.UsersConfig',
         'home_infos.apps.HomeInfosConfig',
@@ -87,7 +89,7 @@ else:
           # Django REST framework 
         'rest_framework',
         'rest_framework.authtoken',
-        'djoser_local.apps.DjoserInfosConfig',
+        'djoser',
         'bot_requests.apps.BotRequestsConfig',
         'email_manager.apps.EmailManagerConfig',
         'users.apps.UsersConfig',
@@ -141,7 +143,7 @@ SIMPLE_JWT = {
    'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
-DJOSER_LOCAL = {
+DJOSER = {
     'SEND_ACTIVATION_EMAIL': False,
     'ACTIVATION_URL': 'api/email/activate/{uid}/{token}',
     'PASSWORD_RESET_CONFIRM_URL': 'api/email/password-reset/{uid}/{token}',
@@ -163,15 +165,7 @@ if DEBUG:
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'mydatabase',
-    }
-   # 'default': {
-  #       'ENGINE': 'django.db.backends.mysql',
-  #       'NAME': 'cyclingdb', 
-  #       'USER': DB_USER,
-  #       'PASSWORD': DB_SECRET_KEY,
-  #       'HOST': 'localhost',
-  #       'PORT': '',
-  #   }
+     }
     }
 else:
     replica_path=HOME + '/replica.my.cnf'
@@ -285,15 +279,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 MEDIA_URL = DJANGO_STATIC_HOST + '/uploads/'
 
 #sentry
-if DEBUG==False:
-    sentry_sdk.init(
-        dsn="https://5ef588d52c64406da19b637880d0c3b3@o455109.ingest.sentry.io/5447219",
-        integrations=[DjangoIntegration()],
-        traces_sample_rate=0.01,
-    
-        # If you wish to associate users to errors (assuming you are using
-        # django.contrib.auth) you may enable sending PII data.
-        send_default_pii=True
-    )
+#if DEBUG==False:
+#    sentry_sdk.init(
+#        dsn="https://5ef588d52c64406da19b637880d0c3b3@o455109.ingest.sentry.io/5447219",
+#        integrations=[DjangoIntegration()],
+#        traces_sample_rate=0.01,
+#    
+#        # If you wish to associate users to errors (assuming you are using
+#        # django.contrib.auth) you may enable sending PII data.
+#        send_default_pii=True
+#    )
     
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

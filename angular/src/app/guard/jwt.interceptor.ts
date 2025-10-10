@@ -19,11 +19,11 @@ export class JwtInterceptor implements HttpInterceptor {
         }
     
     private addToken(request: HttpRequest<any>, token: string | null) {
-    return request.clone({
-      setHeaders: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
+      return request.clone({
+        setHeaders: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
     }
 
 }

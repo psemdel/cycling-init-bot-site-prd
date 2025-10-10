@@ -27,7 +27,6 @@ export class ErrorInterceptor implements HttpInterceptor {
                 // auto logout if 401 response returned from api
                 //this.authenticationService.logout();
                 //location.reload(true);
-                
                 if (err.url.indexOf("jwt/refresh") !=-1){ //detect refresh token rejected
                     this.isRefreshing = false;
                     this.authenticationService.logout();

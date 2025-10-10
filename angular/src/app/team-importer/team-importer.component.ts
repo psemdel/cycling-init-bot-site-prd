@@ -19,7 +19,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
-import {RouterLink, RouterLinkActive} from '@angular/router';
+import {RouterLink} from '@angular/router';
 import {MatButtonModule} from '@angular/material/button';
 
 interface Moment {
@@ -42,7 +42,6 @@ interface Moment {
     MatSelectModule, 
     ReactiveFormsModule, 
     RouterLink, 
-    RouterLinkActive,
     MatInputModule,
     MatButtonModule
   ]

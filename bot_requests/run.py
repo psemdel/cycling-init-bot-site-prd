@@ -9,7 +9,7 @@ import pywikibot #avoid confusion
 import os
 
 from django.utils import timezone
-from sentry_sdk import capture_message
+#from sentry_sdk import capture_message
 from .dic import routine_to_model
 from .log import save_log #log to the user
 from bot_src.src.base import Log
@@ -328,7 +328,7 @@ def run_bot(rq_id, rq_routine):
                 status, log=f.main()
  
         else:
-            capture_message("rq_id: "+ rq_id + "rq_routine: "+ rq_routine + " routine not managed", level="info")
+            #capture_message("rq_id: "+ rq_id + "rq_routine: "+ rq_routine + " routine not managed", level="info")
             save_log(rq_id, rq_routine,"routine not managed")
             return 1
         
@@ -352,7 +352,7 @@ def run_bot(rq_id, rq_routine):
             return 0
         else:
             save_log(rq_id, rq_routine, "request failed")
-            capture_message("rq_id: "+ str(rq_id) + "rq_routine: "+ str(rq_routine) + " failed", level="info")
+            #capture_message("rq_id: "+ str(rq_id) + "rq_routine: "+ str(rq_routine) + " failed", level="info")
             rq.status = "failed"
             rq.save() 
             return 10

@@ -1,6 +1,6 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection} from '@angular/core';
 import { provideRouter } from '@angular/router';
-import {provideHttpClient} from  '@angular/common/http';
+import {provideHttpClient, withInterceptorsFromDi} from  '@angular/common/http';
 
 import { routes } from './app.routes';
 
@@ -16,12 +16,11 @@ import {LoadingInterceptorService } from './guard/loading.interceptor';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideZoneChangeDetection({ eventCoalescing: true }),
-    provideHttpClient(),
+    provideZonelessChangeDetection(),
+    provideHttpClient(withInterceptorsFromDi()),
     provideRouter(routes),
     {provide: APP_BASE_HREF, useValue: '/'},
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {  appearance: 'fill'} },
-   // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptorService, multi: true },
