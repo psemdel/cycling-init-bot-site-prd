@@ -1,20 +1,14 @@
 #!/bin/bash
-ng build --prod="true"
+ng build --configuration "production"
 
-for file in "main" "polyfills-es5" "runtime"
+for file in "main"
 do
-    main=`(find "dist/demo/" -name "$file*")`
-    cp $main "../bot_requests/static/$file.cycling.js"
-done
-
-for file in "polyfills."
-do
-    main=`(find "dist/demo/" -name "$file*")`
+    main=`(find "dist/app/" -name "$file*")`
     cp $main "../bot_requests/static/$file.cycling.js"
 done
 
 file="styles"
-main=`(find "dist/demo/" -name "$file*")`
+main=`(find "dist/app/" -name "$file*")`
 cp $main "../bot_requests/static/$file.cycling.css"
 
 

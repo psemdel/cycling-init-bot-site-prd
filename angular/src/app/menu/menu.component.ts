@@ -1,18 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthenticationService } from '@ser/authentication.service';
-import { User} from '@app/models/models';
+import {AuthenticationService } from '../services/authentication.service';
+import { User} from '../models/models';
+import {RouterLink, RouterLinkActive} from '@angular/router';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {MatMenuModule} from '@angular/material/menu';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
+  styleUrls: ['./menu.component.css'],
+  imports: [
+    MatIconModule, 
+    MatMenuModule, 
+    RouterLink, 
+    RouterLinkActive,
+    MatButtonModule
+  ]
 })
 export class MenuComponent implements OnInit {
   currentUser: User;
     
   constructor(private authenticationService: AuthenticationService,
   ) { 
-   this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+   this.authenticationService.currentUser.subscribe({next: (x :any) => this.currentUser =  x});
   }
 
   ngOnInit() {

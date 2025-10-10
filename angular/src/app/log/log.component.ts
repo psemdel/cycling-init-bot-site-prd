@@ -1,10 +1,13 @@
 import {Component, Input, OnInit } from '@angular/core';
-import {LogContentComponent } from '@app/logcontent/logcontent.component'
+import {LogContentComponent } from '../logcontent/logcontent.component'
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'log',
   templateUrl: 'log.component.html',
+  imports: [MatIconModule, MatButtonModule]
 })
 export class LogComponent implements OnInit {
   @Input() txt: string;

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { Subject } from 'rxjs';
-import { Message } from '@app/models/lists';
+import { Message } from '../models/lists';
 
 @Injectable({ providedIn: 'root' })
 
 export class AlertService {
-    private subject = new Subject<Message>();
+    private subject = new Subject<Message | null>();
     private keepAfterRouteChange = false;
 
     constructor(private router: Router) {
@@ -40,6 +40,6 @@ export class AlertService {
 
     clear() {
         // clear by calling subject.next() without parameters
-        this.subject.next();
+        this.subject.next(null);
     }
 }

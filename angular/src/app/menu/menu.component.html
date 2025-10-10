@@ -1,58 +1,60 @@
-<button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" id="main_menu">
-      <mat-icon>more_vert</mat-icon>
+<button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" id="main_menu" style="background-color: transparent;">
+  <mat-icon>more_vert</mat-icon>
 </button>
-<mat-menu #menu="matMenu">
-  <button mat-menu-item  *ngIf="currentUser?.level">
+<mat-menu #menu="matMenu" class="menustyle">
+  @if (currentUser && currentUser.level ) {
+    <button mat-menu-item >
       <mat-icon>create</mat-icon>
       <a routerLink="national-all-champs" role="button" routerLinkActive="active">National championship/year</a>
+    </button>
+  }
+  <button mat-menu-item>
+    <mat-icon>create</mat-icon>
+    <a routerLink="national-one-champ" role="button" routerLinkActive="active">National championship/nation</a>
   </button>
   <button mat-menu-item>
-      <mat-icon>create</mat-icon>
-      <a routerLink="national-one-champ" role="button" routerLinkActive="active">National championship/nation</a>
+    <mat-icon>create</mat-icon>
+    <a routerLink="race" role="button" routerLinkActive="active">Create race</a>
   </button>
   <button mat-menu-item>
-      <mat-icon>create</mat-icon>
-      <a routerLink="race" role="button" routerLinkActive="active">Create race</a>
+    <mat-icon>create</mat-icon>
+    <a routerLink="stages" role="button" routerLinkActive="active">Race stages</a>
   </button>
   <button mat-menu-item>
-      <mat-icon>create</mat-icon>
-      <a routerLink="stages" role="button" routerLinkActive="active">Race stages</a>
+    <mat-icon>create</mat-icon>
+    <a routerLink="team" role="button" routerLinkActive="active">Team season</a>
   </button>
   <button mat-menu-item>
-      <mat-icon>create</mat-icon>
-      <a routerLink="team" role="button" routerLinkActive="active">Team season</a>
-  </button>
-  <button mat-menu-item>
-      <mat-icon>create</mat-icon>
-      <a routerLink="national_team" role="button" routerLinkActive="active">National team season</a>
+    <mat-icon>create</mat-icon>
+    <a routerLink="national_team" role="button" routerLinkActive="active">National team season</a>
   </button>
   <button mat-menu-item>
     <mat-icon>create</mat-icon>
     <a routerLink="national_team_all" role="button" routerLinkActive="active">National team seasons/year</a>
-</button>
- <button mat-menu-item>
-      <mat-icon>create</mat-icon>
-      <a routerLink="create_rider" role="button" routerLinkActive="active">Rider</a>
   </button>
   <button mat-menu-item>
-      <mat-icon>import_export</mat-icon>
-       <a routerLink="import_classification" role="button" routerLinkActive="active">Race results</a>
+    <mat-icon>create</mat-icon>
+    <a routerLink="create_rider" role="button" routerLinkActive="active">Rider</a>
   </button>
   <button mat-menu-item>
-      <mat-icon>import_export</mat-icon>
-      <a routerLink="start_list" role="button" routerLinkActive="active">Start list</a>
+    <mat-icon>import_export</mat-icon>
+    <a routerLink="import_classification" role="button" routerLinkActive="active">Race results</a>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>import_export</mat-icon>
+    <a routerLink="start_list" role="button" routerLinkActive="active">Start list</a>
   </button>
   <button mat-menu-item>
     <mat-icon>import_export</mat-icon>
     <a routerLink="update_result" role="button" routerLinkActive="active">Update result</a>
-</button>
+  </button>
   <button mat-menu-item>
     <mat-icon>import_export</mat-icon>
     <a routerLink="team_importer" role="button" routerLinkActive="active">Team importer</a>
- </button>
+  </button>
   <button mat-menu-item>
-      <mat-icon>import_export</mat-icon>
-      <a routerLink="UCIranking" role="button" routerLinkActive="active">UCI ranking</a>
+    <mat-icon>import_export</mat-icon>
+    <a routerLink="UCIranking" role="button" routerLinkActive="active">UCI ranking</a>
   </button>
   <!--
   <button mat-menu-item>
@@ -61,11 +63,11 @@
   </button>
   -->
   <button mat-menu-item>
-      <mat-icon>sort</mat-icon>
-      <a routerLink="sort_date" role="button" routerLinkActive="active">Sort by date</a>
+    <mat-icon>sort</mat-icon>
+    <a routerLink="sort_date" role="button" routerLinkActive="active">Sort by date</a>
   </button>
   <button mat-menu-item>
-      <mat-icon>sort</mat-icon>
-      <a routerLink="sort_name" role="button" routerLinkActive="active">Sort by name</a>
+    <mat-icon>sort</mat-icon>
+    <a routerLink="sort_name" role="button" routerLinkActive="active">Sort by name</a>
   </button>
 </mat-menu>

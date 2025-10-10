@@ -2,87 +2,96 @@
 <p>The ranking - it can be UCI ranking, World Tour or continental ranking - will be added to the corresponding calendar, to the corresponding teams and riders</p>
 
 <div >
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <mat-form-field >
-            <mat-label for=" item_id">Id of the UCI calendar</mat-label>
-            <mat-hint>for instance Q57267790 for 2019 in women's road cycling</mat-hint>
-            <input matInput type="text"  id="item_id" formControlName="item_id"
-                  [ngClass]="{ 'is-invalid': submitted && f.item_id.errors }" />
-                  <div *ngIf="submitted && f.item_id.errors" >
-                        <mat-error *ngIf="f.item_id.errors.required">Field required</mat-error>
-                        <mat-error *ngIf="f.item_id.errors.pattern">Item id should start with "Q"</mat-error>
-                  </div>
-            </mat-form-field >
-      <br/>
-      <mat-form-field >
-            <mat-label for="name">Year </mat-label>
-            <mat-hint>Used to fill the team ranking</mat-hint>
-            <mat-select disableOptionCentering id="year" formControlName="year"
-                  [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
-                  <mat-option *ngFor="let year of years" [value]="year">
-                              {{year}}
-                  </mat-option>
-            </mat-select>
-                  <div *ngIf="submitted && f.year.errors" >
-                  <mat-error *ngIf="f.year.errors.required">Field required</mat-error>
-                  </div>
-            </mat-form-field >
-       <br><br>
-       <mat-form-field >
-            <mat-label for="gender">Man or woman ranking?</mat-label>
-            <mat-hint>Used to fill the team ranking</mat-hint>
-            <mat-select  disableOptionCentering  formControlName="gender"
-            [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
-                <mat-option *ngFor="let gender of genders" [value]="gender.value">
-                  {{gender.viewValue}}
-                </mat-option>
-              </mat-select>
-              <div *ngIf="submitted && f.gender.errors" >
-                  <mat-error *ngIf="f.gender.errors.required">Field required</mat-error>
-              </div>
-       </mat-form-field >
-        <br>
-          <mat-form-field> 
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <mat-form-field >
+      <mat-label for=" item_id">Id of the UCI calendar</mat-label>
+      <mat-hint>for instance Q57267790 for 2019 in women's road cycling</mat-hint>
+      <input matInput type="text"  id="item_id" formControlName="item_id"/>
+      @if (submitted && f.item_id.errors) {
+        <div >
+          @if (f.item_id.errors.required) {
+            <mat-error>Field required</mat-error>
+          }
+          @if (f.item_id.errors.pattern) {
+            <mat-error>Item id should start with "Q"</mat-error>
+          }
+        </div>
+      }
+    </mat-form-field >
+    <br/>
+    <mat-form-field >
+      <mat-label for="name">Year </mat-label>
+      <mat-hint>Used to fill the team ranking</mat-hint>
+      <mat-select disableOptionCentering id="year" formControlName="year">
+        @for (year of years; track year) {
+          <mat-option [value]="year">
+            {{year}}
+          </mat-option>
+        }
+      </mat-select>
+      @if (submitted && f.year.errors) {
+        <div >
+          @if (f.year.errors.required) {
+            <mat-error>Field required</mat-error>
+          }
+        </div>
+      }
+    </mat-form-field >
+    <br><br>
+    <mat-form-field >
+      <mat-label for="gender">Man or woman ranking?</mat-label>
+      <mat-hint>Used to fill the team ranking</mat-hint>
+      <mat-select  disableOptionCentering  formControlName="gender">
+        @for (gender of genders; track gender) {
+          <mat-option [value]="gender.value">
+            {{gender.viewValue}}
+          </mat-option>
+        }
+      </mat-select>
+      @if (submitted && f.gender.errors) {
+        <div >
+          @if (f.gender.errors.required) {
+            <mat-error>Field required</mat-error>
+          }
+        </div>
+      }
+    </mat-form-field >
+    <br>
+      <mat-form-field>
         <mat-label for="UCIranking">Is it the UCI ranking?</mat-label>
         <mat-hint>
-            Will fill the property P3494 of the teams</mat-hint>
-        <mat-select disableOptionCentering formControlName="UCIranking"
-          [ngClass]="{ 'is-invalid': submitted && f.create_stages.errors }">
-          <mat-option *ngFor="let yesno of yesnos" [value]="yesno.value">
-            {{yesno.viewValue}}
-          </mat-option>
+        Will fill the property P3494 of the teams</mat-hint>
+        <mat-select disableOptionCentering formControlName="UCIranking">
+          @for (yesno of yesnos; track yesno) {
+            <mat-option [value]="yesno.value">
+              {{yesno.viewValue}}
+            </mat-option>
+          }
         </mat-select>
       </mat-form-field >
       <br>
-      <p>As this function modify many pages and a correction afterwards is difficult, by default, it is mandatory that ALL riders and ALL teams of the ranking are found before wikidata is modified. So create and adapt the necessary elements to use this function</p>
-      <p>As it is not always possible, as too many unimportant riders are present in the ranking, then it is possible to bypass this check.</p>
-      <p>My piece of advice: perform once without bypass, look at the log file and correct the obvious mistake. When it is done, and only then, run with bypass.</p>
-      <mat-form-field> 
-    <mat-label for="bypass">Bypass the obligation to have all riders and teams?</mat-label>
-    <mat-select disableOptionCentering formControlName="bypass"
-      [ngClass]="{ 'is-invalid': submitted && f.bypass.errors }">
-      <mat-option *ngFor="let yesno of yesnos" [value]="yesno.value">
-        {{yesno.viewValue}}
-      </mat-option>
-    </mat-select>
-      </mat-form-field >
-      <br/><br/>
+        <p>As this function modify many pages and a correction afterwards is difficult, by default, it is mandatory that ALL riders and ALL teams of the ranking are found before wikidata is modified. So create and adapt the necessary elements to use this function</p>
+        <p>As it is not always possible, as too many unimportant riders are present in the ranking, then it is possible to bypass this check.</p>
+        <p>My piece of advice: perform once without bypass, look at the log file and correct the obvious mistake. When it is done, and only then, run with bypass.</p>
+        <mat-form-field>
+          <mat-label for="bypass">Bypass the obligation to have all riders and teams?</mat-label>
+          <mat-select disableOptionCentering formControlName="bypass">
+            @for (yesno of yesnos; track yesno) {
+              <mat-option [value]="yesno.value">
+                {{yesno.viewValue}}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field >
+        <br/><br/>
 
-      <label>Excel or csv file from UCI web site</label>
-      <br/>
-      <input type="file" id="fileUpload" name="fileUpload" formControlName="file"  multiple="multiple" 
-            accept=".xlsx, .csv" />
-      <br>
-      <li *ngFor="let file of files" [@fadeInOut]="file.state">
-            <mat-progress-bar [value]="file.progress"></mat-progress-bar>
-      </li>
-      <div *ngIf="submitted && sizeerror" >Maximum size exceeded</div>
-      <div *ngIf="submitted && exterror" >Wrong file type</div>
-      <br>
-      <button mat-raised-button color="primary" type="submit">Submit</button>
-      </form>
-</div>
-<div *ngIf="success">
-      <h4>You submitted successfully {{lastname}}!</h4>
-      <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
-</div>
+          <br>
+            <button mat-raised-button color="primary" type="submit">Submit</button>
+          </form>
+        </div>
+        @if (success) {
+          <div>
+            <h4>You submitted successfully {{lastname}}!</h4>
+            <a mat-button routerLink="/request_list" color="secondary">See progress: my requests</a>
+          </div>
+        }

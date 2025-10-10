@@ -3,3 +3,4 @@
 cd ..
 git pull https://github.com/psemdel/cycling-init-bot-site-prd.git
 git submodule foreach git pull origin master
+git submodule foreach git pull origin main

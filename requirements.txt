@@ -1,85 +1,90 @@
-####Cycling init site
-django>=3.2.7
-djangorestframework>=3.12
-pandas
-
-## FC
-beautifulsoup4
-lxml
-numpy
-python-dateutil
-pytz
-slumber
-soupsieve
-urllib3
-
-
-##djoser>=2.1 ###problem
-#For djoser_local
-django-templated-mail
-social-auth-app-django
-djangorestframework_simplejwt>=4.8
-
-#supposition coreapi, asgiref not needed here
-
-#whitenoise
-openpyxl>=3.0.7
-django-ratelimit==3.0
-django-cors-headers>=3.8
-celery[redis]>=5.1
-uwsgi
-sentry-sdk>=1.4.2
-pywikibot==8.1.0
-gevent>=21.1
-mysqlclient>=2.0.2
-
-
-# This is a PIP 6+ requirements file for using Pywikibot and scripts
-#
-# All dependencies can be installed using:
-# $ sudo pip install -r requirements.txt
-#
-# It is organised so that simple requirements
-# are processed first, and more difficult packages
-# are last.
-#
-# It is good practise to install packages using the system
-# package manager if it has a packaged version.  If you are
-# unsure, please use pip as described at the top of the file.
-#
-# To get a list of potential matches, use
-#
-# $ awk -F '[#>=]' '{print $1}' requirements.txt | xargs yum search
-#     or
-# $ awk -F '[#>=]' '{print $1}' requirements.txt | xargs apt-cache search
-# mandatory dependencies, others are optional
-mwparserfromhell>=0.5.2
-requests>=2.21.0, < 2.28.0; python_version < '3.7'
-requests>=2.21.0; python_version >= '3.7'
-setuptools>=48.0.0 ; python_version >= '3.10'
-setuptools==50.0.0 ; python_version >= '3.7' and python_version < '3.10'
-setuptools>=40.8.0, <59.7.0 ; python_version < '3.7'
-# MediaWiki markup parser
-# mwparserfromhell is mandatory but wikitextparser can be used instead
-# mwparserfromhell is still required for commons_information.py and patrol.py
-# wikitextparser>=0.47.5
-# OAuth support
-# mwoauth 0.2.4 is needed because it supports getting identity information
-# about the user
-mwoauth>=0.2.4,!=0.3.1
-# interwiki_graph.py module and category_graph.py script:
-pydot >= 1.4.1
-# cosmetic_changes
-python-stdnum >= 1.18
-# GUI
-Pillow >= 8.1.1
-# core pagegenerators
-google >= 1.7
-sseclient >= 0.0.18,< 0.0.23
-# The mysql generator in pagegenerators depends on PyMySQL
-# toolforge uses 0.9.3
-PyMySQL >= 0.9.3
-# core HTML comparison parser in diff module
-beautifulsoup4>=4.7.1
-# scripts/weblinkchecker.py
-memento_client==0.6.1
+amqp==5.3.1
+asgiref==3.8.1
+asttokens==3.0.0
+beautifulsoup4==4.13.5
+billiard==4.2.1
+Bottleneck==1.4.2
+Brotli==1.0.9
+brotlicffi==1.0.9.2
+celery==5.5.3
+certifi==2025.8.3
+cffi==1.17.1
+charset-normalizer==3.3.2
+click==8.1.8
+click-didyoumean==0.3.1
+click-plugins==1.1.1
+click-repl==0.3.0
+cloudpickle==3.0.0
+comm==0.2.1
+cryptography==45.0.7
+debugpy==1.8.11
+decorator==5.1.1
+defusedxml==0.7.1
+Django==5.2
+django-cors-headers==4.8.0
+djangorestframework==3.16.1
+djangorestframework_simplejwt==5.5.1
+djoser==2.3.3
+executing==0.8.3
+gevent==25.8.2
+greenlet==3.2.4
+idna==3.7
+ipykernel==6.29.5
+ipython==8.30.0
+jedi==0.19.2
+jupyter_client==8.6.3
+jupyter_core==5.7.2
+kombu==5.5.4
+lxml==5.3.0
+matplotlib-inline==0.1.6
+mkl_fft==1.3.11
+mkl_random==1.2.8
+mkl-service==2.4.0
+mwparserfromhell==0.6.6
+nest-asyncio==1.6.0
+numexpr==2.10.1
+numpy==2.2.4
+oauthlib==3.3.1
+packaging==24.2
+pandas==2.2.3
+parso==0.8.4
+pexpect==4.8.0
+pip==25.1
+platformdirs==4.3.7
+prompt-toolkit==3.0.43
+psutil==5.9.0
+ptyprocess==0.7.0
+pure-eval==0.2.2
+pycparser==2.21
+Pygments==2.19.1
+PyJWT==2.10.1
+PySocks==1.7.1
+python-dateutil==2.9.0.post0
+python3-openid==3.2.0
+pytz==2024.1
+pywikibot==10.0.0
+pyxdg==0.27
+pyzmq==26.2.0
+redis==6.4.0
+requests==2.32.5
+requests-oauthlib==2.0.0
+setuptools==72.1.0
+six==1.17.0
+slumber==0.7.1
+social-auth-app-django==5.5.1
+social-auth-core==4.7.0
+soupsieve==2.5
+spyder-kernels==3.0.5
+sqlparse==0.5.2
+stack-data==0.2.0
+tornado==6.4.2
+traitlets==5.14.3
+typing_extensions==4.15.0
+tzdata==2025.2
+urllib3==2.5.0
+vine==5.1.0
+wcwidth==0.2.5
+wheel==0.45.1
+wurlitzer==3.0.2
+zope.event==5.0
+zope.interface==7.1.1

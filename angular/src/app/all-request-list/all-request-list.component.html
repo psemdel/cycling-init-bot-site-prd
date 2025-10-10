@@ -36,6 +36,12 @@
                  [admin]="true" 
                  (refresh)="reloadData('final_result')">
 </request-details >
+<request-details [tbotrequests]="update_result_botrequests" 
+                 [routine]="'update_result'" 
+                 [title]="'Update result'" 
+                 [admin]="true" 
+                 (refresh)="reloadData('update_result')">
+</request-details >
 <request-details [tbotrequests]="race_botrequests"  
                  [routine]="'race'" 
                  [title]="'Race creation'"  

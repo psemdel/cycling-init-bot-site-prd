@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import (CreateRiderRequest, ImportClassificationRequest,StagesRequest, RaceRequest,
                     StartListRequest,NationalAllChampsRequest,NationalOneChampRequest, 
                     UCIrankingRequest, TeamRequest, SortDateRequest, SortNameRequest,
-                    NationalTeamRequest, NationalTeamAllRequest
+                    NationalTeamRequest, NationalTeamAllRequest, UpdateResultRequest
                     )
 from home_infos.models import HomeInfo
 
@@ -21,3 +21,4 @@ admin.site.register(SortNameRequest)
 admin.site.register(HomeInfo)
 admin.site.register(NationalTeamRequest)
 admin.site.register(NationalTeamAllRequest)
+admin.site.register(UpdateResultRequest)

@@ -24,7 +24,7 @@ from . import views
 from users.views import CustomTokenObtainPairView 
 
 #djoser
-import djoser_local
+import djoser
 
 def trigger_error(request):
     division_by_zero = 1 / 0
@@ -38,8 +38,8 @@ urlpatterns = [
     path('api/email/', include('email_manager.urls')),
     path('api/home/', include('home_infos.urls')),
     path('auth/jwt/create/', CustomTokenObtainPairView.as_view(), name='custom_token_obtain_pair'),
-    path('auth/', include('djoser_local.urls'), name='djoser_root'),
-    path('auth/', include('djoser_local.urls.jwt')),
+    path('auth/', include('djoser.urls'), name='djoser_root'),
+    path('auth/', include('djoser.urls.jwt')),
     path('sentry-debug/', trigger_error),
 ]
 

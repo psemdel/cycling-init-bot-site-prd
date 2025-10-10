@@ -4,16 +4,16 @@ from django.http.response import JsonResponse
 from django.utils import timezone
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.models import User
-from django.conf import settings
+#from django.conf import settings
 #rest
 from rest_framework.parsers import JSONParser 
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAdminUser
 from rest_framework.decorators import permission_classes, api_view
 from rest_framework import generics
 
 #other
-from ratelimit.decorators import ratelimit
+#from ratelimit.decorators import ratelimit
 import json
 from celery import shared_task
 import time
@@ -27,10 +27,10 @@ from .log import save_log
 
 from django.db import connection
 
-if settings.DEBUG:
-    RATELIMRQ='200000/h'
-else:
-    RATELIMRQ='100/h' #not needed for "not autocheck" as the requests are then pending
+#if settings.DEBUG:
+#    RATELIMRQ='200000/h'
+#else:
+#    RATELIMRQ='100/h' #not needed for "not autocheck" as the requests are then pending
 
 def index(request):
    return HttpResponse("<p>bot_requests index</p>")
@@ -53,7 +53,7 @@ def serial_save(request_serializer, request, rq_data):
         print(request_serializer.errors)
         return JsonResponse(request_serializer.errors, status=status.HTTP_400_BAD_REQUEST)   
 
-@ratelimit(key='ip', rate=RATELIMRQ)
+#@ratelimit(key='ip', rate=RATELIMRQ)
 @api_view(['POST'])  
 def create_rq(request,routine):
     try:
@@ -80,7 +80,7 @@ def create_rq(request,routine):
     except:
         return JsonResponse({'status create':'failed'}, status=status.HTTP_417_EXPECTATION_FAILED)    
 
-@ratelimit(key='ip', rate=RATELIMRQ)     
+#@ratelimit(key='ip', rate=RATELIMRQ)     
 @api_view(['POST'])       
 def create_file_rq(request,routine):  
      if request.method == 'POST' and request.FILES:

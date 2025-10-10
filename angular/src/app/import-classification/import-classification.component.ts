@@ -1,20 +1,22 @@
 import { Component, OnInit} from '@angular/core';
-import { BotRequestService} from '@ser/bot-request.service';
+import { BotRequestService} from '../services/bot-request.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { ReactiveFormsModule } from '@angular/forms';
+import {MatSelectModule} from '@angular/material/select';
+import {MatButtonModule} from '@angular/material/button';
 
-import { HttpClient, HttpRequest, 
-         HttpEventType, HttpErrorResponse } from '@angular/common/http';
-import { of } from 'rxjs/observable/of';
-import { catchError, last, map, tap } from 'rxjs/operators';
+import {RouterLink} from '@angular/router';
 
-//import {FileUploadService} from '@ser/file-upload.service';
-import {AuthenticationService } from '@ser/authentication.service';
-import {MonitoringService } from '@ser/monitoring.service';
+import { HttpClient} from '@angular/common/http';
 
-import { BotRequest, User, FileUploadModel} from '@app/models/models';
+//import {FileUploadService} from '../services/file-upload.service';
+import {AuthenticationService } from '../services/authentication.service';
+import {MonitoringService } from '../services/monitoring.service';
 
-import { environment } from '@env/environment';
+import { BotRequest, User, FileUploadModel} from '../models/models';
+import {FuncsService} from '../models/functions';
 
 interface ClassificationType {
   value: number;
@@ -25,18 +27,18 @@ interface ClassificationType {
   selector: 'import-classification',
   templateUrl: './import-classification.component.html',
   styleUrls: ['./import-classification.component.css'],
-  animations: [
-            trigger('fadeInOut', [
-                  state('in', style({ opacity: 100 })),
-                  transition('* => void', [
-                        animate(300, style({ opacity: 0 }))
-                  ])
-           ])
-      ]
+  imports: [
+    MatInputModule, 
+    MatSelectModule, 
+    MatFormFieldModule, 
+    ReactiveFormsModule, 
+    RouterLink,
+    MatButtonModule
+  ],
 })
 
 export class ImportClassificationComponent implements OnInit {
-  currentUser: User;
+  currentUser: User | null;
   registerForm: FormGroup;
   submitted = false;
   success = false;
@@ -46,7 +48,6 @@ export class ImportClassificationComponent implements OnInit {
 
   botrequest: BotRequest = new BotRequest();
   files: Array<FileUploadModel> = [];
-  private baseUrl = environment.apiUrl +'bot_requests';
 
   exterror=false;
   sizeerror=false;
@@ -68,9 +69,10 @@ export class ImportClassificationComponent implements OnInit {
               private formBuilder: FormBuilder, 
               private authenticationService: AuthenticationService,
               private http: HttpClient,
-              private monitoringService: MonitoringService
+              private monitoringService: MonitoringService,
+              private funcs: FuncsService
   ) { 
-              this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+              this.authenticationService.currentUser.subscribe((x : any) => this.currentUser = x);
               this.years = Array(80).fill(0).map((x,i)=>1950+i);
    }
    
@@ -103,110 +105,16 @@ export class ImportClassificationComponent implements OnInit {
     this.files=[]; //new
     // stop here if form is invalid
     if (this.registerForm.invalid) {
-        console.log("input not valid")
-        error => {
-                console.log(error);
-        }
+       console.log("input not valid")
        return;
     }
-    
-     const fileUpload = document.getElementById('fileUpload') as HTMLInputElement;
-     if (this.files[0]){
-            if (!this.validateFile(fileUpload.files[0].name)) { //name
-                  console.log('Selected file format is not supported');
-                  this.exterror=true;
-                  return;
-            }
-            
-            if (fileUpload.files[0].size>2000000) { //2 mb
-                  console.log('File size exceeded');
-                  this.sizeerror=true;
-                  return;
-            }
-            
-            for (let index = 0; index < fileUpload.files.length; index++) {
-                        const file = fileUpload.files[index];
-                        this.files.push({ data: file, state: 'in', 
-                        inProgress: false, progress: 0, canRetry: false, canCancel: true,
-                        author: this.currentUser.id
-                        });
-            }
-    }
+       
     //display in the interface
     this.lastname=this.f.item_id.value;  
-    this.botrequest.author=this.currentUser.id;
-
-    Object.keys(this.registerForm.controls).forEach(key => {
-      this.botrequest[key]=this.registerForm.controls[key].value;
-    });
-    
-    if (this.files[0]){
-      this.uploadFile(this.files[0], this.botrequest);
-    } else {
-
-      this.botRequestService.createRq('import_classification',this.botrequest)
-      .subscribe(
-        data => {
-          console.log('import_classification without file request success');
-          this.success = true;
-          this.monitoringService.start('import_classification');
-        },
-        error => {
-            console.log(error);
-        });
-    }
-
+    this.botrequest=this.funcs.copy_from_to_bot_request(this.registerForm,this.botrequest, this.currentUser)
     this.botrequest = new BotRequest();
 
  //   this.save();
   }
-
-   private uploadFile(file: FileUploadModel, botrequest: BotRequest) {
-            const fd = new FormData();
-            fd.append('file', file.data);
-            fd.append('botrequest',JSON.stringify(botrequest))
-
-            const req = new HttpRequest('POST',  `${this.baseUrl}/create_file/import_classification/`, fd, {
-                  reportProgress: true
-            });
-
-            file.inProgress = true;
-            file.sub = this.http.request(req).pipe(
-                  map(event => {
-                        switch (event.type) {
-                              case HttpEventType.UploadProgress:
-                                    file.progress = Math.round(event.loaded * 100 / event.total);
-                                    break;
-                              case HttpEventType.Response:
-                                    return event;
-                        }
-                  }),
-                  tap(message => { }),
-                  last(),
-                  catchError((error: HttpErrorResponse) => {
-                        file.inProgress = false;
-                        file.canRetry = true;
-                        return of(`${file.data.name} upload failed.`);
-                  })
-            ).subscribe(
-                  (event: any) => {
-                        if (typeof (event) === 'object') {
-                            console.log("upload successful!")
-                            this.success=true;
-                            this.monitoringService.start('import_classification');
-                        }
-                  }
-            );
-      }
-      
-    private validateFile(name: String) {
-    var ext = name.substring(name.lastIndexOf('.') + 1);
-    if (ext.toLowerCase() == 'csv' || ext.toLowerCase() == 'xlsx') {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
 }
 
