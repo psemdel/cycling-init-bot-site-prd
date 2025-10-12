@@ -41,6 +41,7 @@ mkl_fft==2.0.0
 mkl_random==1.2.11
 mkl-service==2.5.2
 mwparserfromhell==0.6.6
+mysqlclient       #For Toolforge DB
 nest-asyncio==1.6.0
 numexpr==2.10.1
 numpy==2.2.6

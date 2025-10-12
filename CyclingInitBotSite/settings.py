@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
-DEBUG=True
+DEBUG=False
 
 #if DEBUG:
 with open('CyclingInitBotSite/etc/secret_key.txt') as f:
@@ -181,7 +181,7 @@ else:
          'NAME': 's54511__maria_cyclingdb',
          'USER': config['client']['user'],
          'PASSWORD': config['client']['password'],
-         'HOST': 'tools.db.svc.eqiad.wmflabs',
+         'HOST': 'tools.db.svc.wikimedia.cloud',
          'PORT': '',
          'OPTIONS': {
             'sql_mode': 'traditional',
@@ -244,7 +244,7 @@ REDIS_PASSWORD=""
 if DEBUG:
     REDIS_HOST="localhost"
 else:
-    REDIS_HOST="tools-redis.svc.eqiad.wmflabs"
+    REDIS_HOST="redis.svc.tools.eqiad1.wikimedia.cloud" 
 
 REDIS_PORT="6379"
 REDIS_DB=0

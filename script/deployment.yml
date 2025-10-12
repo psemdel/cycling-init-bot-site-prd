@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: celery
-          image: docker-registry.tools.wmflabs.org/toolforge-python39-sssd-base:latest
+          image: docker-registry.tools.wmflabs.org/toolforge-python311-sssd-base:latest
           command: [ "/data/project/cycling-init-bot/www/python/src/script/celery.sh" ]
           workingDir: /data/project/cycling-init-bot/www/python/src
           env:
