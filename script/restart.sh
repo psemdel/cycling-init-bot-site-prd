@@ -13,5 +13,5 @@ echo "permission should be 600"
 echo ls -l $HOME/www/python/src/user-config.py
 echo ls -l $HOME/www/python/src/user-password.py
 
-kubectl delete deployment cycling-init-bot.worker
+kubectl delete deployment cycling-init-bot-worker
 kubectl create --validate=true -f $HOME/www/python/src/script/deployment.yml

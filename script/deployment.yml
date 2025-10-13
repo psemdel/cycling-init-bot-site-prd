@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cycling-init-bot.worker
+  name: cycling-init-bot-worker
   namespace: tool-cycling-init-bot
   labels:
-    name: cycling-init-bot.worker
+    name: cycling-init-bot-worker
     toolforge: tool
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: cycling-init-bot.worker
+      name: cycling-init-bot-worker
       toolforge: tool
   template:
     metadata:
       labels:
-        name: cycling-init-bot.worker
+        name: cycling-init-bot-worker
         toolforge: tool
     spec:
       containers:
