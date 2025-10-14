@@ -74,7 +74,6 @@ export class ErrorInterceptor implements HttpInterceptor {
             }else
             {
             //if err.status === 403 --> alert Rate limit
-                const error = err.error.message || err.statusText;
                 throw err;
             }
         }))
