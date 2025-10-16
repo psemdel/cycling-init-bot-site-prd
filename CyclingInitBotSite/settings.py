@@ -215,8 +215,6 @@ if DEBUG:
     )
 else:
     CORS_ORIGIN_WHITELIST = (
-        'https://cycling-init-bot-site.herokuapp.com',
-        'http://www.cycling-init-bot.site',
         'https://cycling-init-bot.toolforge.org/',
         'toolforge.org',
     ) 
@@ -293,3 +291,35 @@ MEDIA_URL = DJANGO_STATIC_HOST + '/uploads/'
 #    )
     
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'default': {
+            'format': '[%(asctime)s] %(levelname)s %(lineno)d %(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S'
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',# INFO
+            'class': 'logging.FileHandler',
+            'filename': 'all.log',
+             'formatter': 'default',
+             },
+        'console': {
+               'level': 'INFO',
+               'class': 'logging.StreamHandler',
+               'stream': sys.stdout,
+               'formatter': 'default',
+               },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['info_file','console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
