@@ -317,9 +317,11 @@ LOGGING = {
     },
     'loggers': {
         '': {
-            'handlers': ['info_file','console'],
+            'handlers': ['file','console'],
             'level': 'INFO',
             'propagate': True,
         },
     },
 }
+
+APPEND_SLASH=True
